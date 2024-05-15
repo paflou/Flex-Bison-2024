@@ -1,0 +1,12 @@
+PUBLIC CLASS Test {
+    PUBLIC INT ADD(INT a, INT b) {
+        RETURN a + b;
+    }
+
+    PUBLIC VOID MAIN() {
+        INT x = 10;
+        INT y = 20;
+        INT z = ADD(x, y);
+        out.print("The sum of " + x + " and " + y + " is: " + z);
+    }
+}
