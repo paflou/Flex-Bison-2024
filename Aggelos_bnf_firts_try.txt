@@ -10,12 +10,14 @@
 <reserved_identifiers> ::= "int" | "char" | "double" | "boolean" | "String" | "class" | "new" | "return" | "void" | "if" | "else" | "while" | "do" | "for" | "switch" | "case" | "default" | "break" | "true" | "false" | "public" | "private"
 
 <primitive_data_type> ::= <int> | <char> | <double> | <boolean>
-<int> ::= "0" | ("1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ) {"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" }         @@int = 0|[1-9][0-9]*
-<char> ::= "'" (<letter> | "\n") "'"
+<int> ::= ("0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ) {"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" }         @@int = 0|[1-9][0-9]*
+<char> ::= "'" (<letter> | <special_character> | <escape_sequence> ) "'"
 <double> ::= <int> "." <int> "d"
 <boolean> ::= "true" | "false"
 
-<non_primitive_data_type> ::= <String>
+<escape_sequence> ::= "\n" | "\t" | "\r" | "\b" | "\f" | "\"" | "\'" | "\\"
+
+<non_primitive_data_type> ::= <String>  // XREIAZETAI?
 <String> ::= """ { <letter> | <digit> | <special_character> } """
 <special_character> ::= "!" | "#" | "$" | "%" | "&" | "(" | ")" | "*" | "+" | "," | "-" | "." | "/" | ":" | ";" | "<" | "=" | ">" | "?" | "@" | "[" | "]" | "^" | "_" | "`" | "{" | "|" | "}" | "~"
 
@@ -23,15 +25,16 @@
 <data_type> ::= <primitive_data_type> | <non_primitive_data_type>
 <modifier> ::= "public" | "private"
 <secondary_modifier> :== "static" | "abstract" |  "final" |  "native" | "synchronized"
-<variable_declaration> ::= "[" <modifier> "]" <data_type> <identifier> ";"
+<variable_declaration> ::= [<modifier>] <data_type> <identifier> ";"
 
 <creating_an_object> ::= <class_name> <identifier> "=" "new" <class_name> "(" ")" ";"
 
 <name_of_member_of_class> ::= <identifier> | <name_of_method>
 <name_of_method> ::= <identifier>
+
 <access_to_members> ::=  <identifier> "." <name_of_member_of_class> ";"
 
-
+-- methods --
 <return_type> ::= <type> | "void" 
 <type> ::= <data_type> | <class_name> ;
 <parameter_list ::= (<parameter> {"," <parameter>}) | ""
@@ -40,26 +43,37 @@
 <method_body> ::= {variable_declaration} <instructions>
 
 <basic_instructions> ::= <assignment> | <loop> | <control> | <print> | <return> | <break>
-<instructions> ::= <basic_instructions> | <variable_declaration> | <creating_an_object> | <method_declaration> 
+<instructions> ::= <basic_instructions> | <variable_declaration> | <creating_an_object> | <method_declaration> | ""
 
 <assignment> ::= <identifier> "=" <expression> ";"
-<expression> ::= <kiriolektiko> | <suntheti_parastasi>
+<expression> ::= <literal> | <suntheti_parastasi>
 <call_method> ::= <identifier> "."<identifier> "(" {<identifier>} ")"
-<kiriolektiko> ::= <identifier> | <call_method> | <creating_an_object>
-<suntheti_parastasi> ::= {<kiriolektiko> | <identifier> | "(" | ")"} | <arithmitiki_parastasi>
-<arithmitiki_parastasi ::= "+" | "-" | "*" | "/"
+
+---
+<literal> ::= <data_type>
+<suntheti_parastasi> ::= <suntheti_parastasi> <arithmitiki_parastasi> <suntheti_parastasi> 
+                       | <literal> 
+                       | <identifier>
+                       | "(" <suntheti_parastasi> ")" 
+                       | <call_method> 
+                       | <creating_an_object>
+
+<arithmitiki_parastasi> ::= "+" | "-" | "*" | "/"
+---
 
 <loop> ::= <loop1> | <loop2>
 <loop1> ::= "do" "{" <instructions> {<instructions} "}" "while" "(" <condition> ")" ";"
 <condition> ::= (<identifier> | <letter> | <digit>) (">" | "<" | "==" | "!=" | "&&" | "||") (<identifier> | <letter> | <digit>)
+
 <loop2> ::= "for" "(" <expression1> ";" <expression2> ";" <expression3> ")" "{" <instructions> "}"
-<expression1 ::= <data_type> <identifier> "=" <int>
-<expression2 ::= <identifier> (">" | "<" | "==" | "!=") <int>
-<expression3 ::= <identifier> "=" <identifier> "+" <int>
+<expression1> ::= <data_type> <identifier> "=" <int>
+<expression2> ::= <identifier> (">" | "<" | "==" | "!=") <int>
+<expression3> ::= <identifier> "=" <identifier> <arithmitiki_parastasi> <int>
+
 
 <control> :: = <control1> | <control2>
 <control1> ::= "if" "(" <condition> ")" "{" <instructions> "}" [{"else if" "{" <instructions> "}"} "else" "{" <instructions> "}"]
-<control2> ::= "switch" "(" <expression> ")"
+
 <control2> ::= "switch" "(" <expression> ")" "{" {"case" <expression> ":" <instructions>} "default" ":" <instructions> "}"
 
 <print> ::= "out.print" "(" <String> [","<identifier>]")" ";"
@@ -69,5 +83,5 @@
 <break> ::= "break;"
 
 <comment> ::= <line_comment> | <multiple_lines_comment>
-<line_comment> ::= "//" { <letter> | <digit> | <special_character> }
+<line_comment> ::= "//" { <letter> | <digit> | <special_character> } "\n"
 <multiple_lines_comment> ::= "/*" { <letter> | <digit> | <special_character> } "*\"
