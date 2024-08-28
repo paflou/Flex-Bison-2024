@@ -1,6 +1,5 @@
 Terminals unused in grammar
 
-    DATATYPE
     NEW
     RETURN
     VOID
@@ -15,12 +14,11 @@ Terminals unused in grammar
     BREAK
     TRUE
     FALSE
-    PRIVATE
     INT
     CHAR
     BOOL
+    STRING
     DOUBLE
-    IDENT
 
 
 Grammar
@@ -30,14 +28,19 @@ Grammar
     1 program: ε
     2        | program class
 
-    3 class: PUBLIC CLASS CLASS_NAME LPAR STRING RPAR
+    3 class: PUBLIC CLASS CLASS_NAME LPAR variable_declaration RPAR
+
+    4 variable_declaration: ε
+    5                     | variable_declaration DATATYPE IDENT
+    6                     | variable_declaration PRIVATE DATATYPE IDENT
+    7                     | variable_declaration PUBLIC DATATYPE IDENT
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     error (256)
-    DATATYPE (258)
+    DATATYPE (258) 5 6 7
     NEW (259)
     RETURN (260)
     VOID (261)
@@ -52,14 +55,14 @@ Terminals, with rules where they appear
     BREAK (270)
     TRUE (271)
     FALSE (272)
-    PRIVATE (273)
-    INT (274)
-    CHAR (275)
-    BOOL (276)
-    STRING (277) 3
-    DOUBLE (278)
-    IDENT (279)
-    PUBLIC (280) 3
+    INT (273)
+    CHAR (274)
+    BOOL (275)
+    STRING (276)
+    DOUBLE (277)
+    PRIVATE (278) 6
+    PUBLIC (279) 3 7
+    IDENT (280) 5 6 7
     LPAR (281) 3
     RPAR (282) 3
     CLASS (283) 3
@@ -76,6 +79,9 @@ Nonterminals, with rules where they appear
     class (32)
         on left: 3
         on right: 2
+    variable_declaration (33)
+        on left: 4 5 6 7
+        on right: 3 5 6 7
 
 
 State 0
@@ -107,7 +113,7 @@ State 2
 
 State 3
 
-    3 class: PUBLIC • CLASS CLASS_NAME LPAR STRING RPAR
+    3 class: PUBLIC • CLASS CLASS_NAME LPAR variable_declaration RPAR
 
     CLASS  shift, and go to state 5
 
@@ -121,34 +127,98 @@ State 4
 
 State 5
 
-    3 class: PUBLIC CLASS • CLASS_NAME LPAR STRING RPAR
+    3 class: PUBLIC CLASS • CLASS_NAME LPAR variable_declaration RPAR
 
     CLASS_NAME  shift, and go to state 6
 
 
 State 6
 
-    3 class: PUBLIC CLASS CLASS_NAME • LPAR STRING RPAR
+    3 class: PUBLIC CLASS CLASS_NAME • LPAR variable_declaration RPAR
 
     LPAR  shift, and go to state 7
 
 
 State 7
 
-    3 class: PUBLIC CLASS CLASS_NAME LPAR • STRING RPAR
+    3 class: PUBLIC CLASS CLASS_NAME LPAR • variable_declaration RPAR
 
-    STRING  shift, and go to state 8
+    $default  reduce using rule 4 (variable_declaration)
+
+    variable_declaration  go to state 8
 
 
 State 8
 
-    3 class: PUBLIC CLASS CLASS_NAME LPAR STRING • RPAR
+    3 class: PUBLIC CLASS CLASS_NAME LPAR variable_declaration • RPAR
+    5 variable_declaration: variable_declaration • DATATYPE IDENT
+    6                     | variable_declaration • PRIVATE DATATYPE IDENT
+    7                     | variable_declaration • PUBLIC DATATYPE IDENT
 
-    RPAR  shift, and go to state 9
+    DATATYPE  shift, and go to state 9
+    PRIVATE   shift, and go to state 10
+    PUBLIC    shift, and go to state 11
+    RPAR      shift, and go to state 12
 
 
 State 9
 
-    3 class: PUBLIC CLASS CLASS_NAME LPAR STRING RPAR •
+    5 variable_declaration: variable_declaration DATATYPE • IDENT
+
+    IDENT  shift, and go to state 13
+
+
+State 10
+
+    6 variable_declaration: variable_declaration PRIVATE • DATATYPE IDENT
+
+    DATATYPE  shift, and go to state 14
+
+
+State 11
+
+    7 variable_declaration: variable_declaration PUBLIC • DATATYPE IDENT
+
+    DATATYPE  shift, and go to state 15
+
+
+State 12
+
+    3 class: PUBLIC CLASS CLASS_NAME LPAR variable_declaration RPAR •
 
     $default  reduce using rule 3 (class)
+
+
+State 13
+
+    5 variable_declaration: variable_declaration DATATYPE IDENT •
+
+    $default  reduce using rule 5 (variable_declaration)
+
+
+State 14
+
+    6 variable_declaration: variable_declaration PRIVATE DATATYPE • IDENT
+
+    IDENT  shift, and go to state 16
+
+
+State 15
+
+    7 variable_declaration: variable_declaration PUBLIC DATATYPE • IDENT
+
+    IDENT  shift, and go to state 17
+
+
+State 16
+
+    6 variable_declaration: variable_declaration PRIVATE DATATYPE IDENT •
+
+    $default  reduce using rule 6 (variable_declaration)
+
+
+State 17
+
+    7 variable_declaration: variable_declaration PUBLIC DATATYPE IDENT •
+
+    $default  reduce using rule 7 (variable_declaration)

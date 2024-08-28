@@ -26,11 +26,12 @@ IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 "case"      { return CASE; }
 "default"   { return DEFAULT; }
 "break"     { return BREAK; }
+
 "private"   { return PRIVATE; }
+"public"    { return PUBLIC; }
 
 [A-Z][a-zA-Z0-9_]*              { return CLASS_NAME; }
 
-"public"                        { return PUBLIC; }
 "class"                         { return CLASS; }
 "{"                             { return LPAR; }
 "}"                             { return RPAR; }
