@@ -10,5 +10,5 @@ lexer: lex.yy.c parser.tab.c parser.tab.h
 	gcc parser.tab.c lex.yy.c -lfl
 
 clean:
-	rm a.out parser.tab.c parser.tab.h lex.yy.c
+	rm a.exe parser.tab.c parser.tab.h lex.yy.c
 	rm parser output

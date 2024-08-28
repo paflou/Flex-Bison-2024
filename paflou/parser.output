@@ -1,0 +1,154 @@
+Terminals unused in grammar
+
+    DATATYPE
+    NEW
+    RETURN
+    VOID
+    IF
+    ELSE
+    WHILE
+    DO
+    FOR
+    SWITCH
+    CASE
+    DEFAULT
+    BREAK
+    TRUE
+    FALSE
+    PRIVATE
+    INT
+    CHAR
+    BOOL
+    DOUBLE
+    IDENT
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: ε
+    2        | program class
+
+    3 class: PUBLIC CLASS CLASS_NAME LPAR STRING RPAR
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    DATATYPE (258)
+    NEW (259)
+    RETURN (260)
+    VOID (261)
+    IF (262)
+    ELSE (263)
+    WHILE (264)
+    DO (265)
+    FOR (266)
+    SWITCH (267)
+    CASE (268)
+    DEFAULT (269)
+    BREAK (270)
+    TRUE (271)
+    FALSE (272)
+    PRIVATE (273)
+    INT (274)
+    CHAR (275)
+    BOOL (276)
+    STRING (277) 3
+    DOUBLE (278)
+    IDENT (279)
+    PUBLIC (280) 3
+    LPAR (281) 3
+    RPAR (282) 3
+    CLASS (283) 3
+    CLASS_NAME (284) 3
+
+
+Nonterminals, with rules where they appear
+
+    $accept (30)
+        on left: 0
+    program (31)
+        on left: 1 2
+        on right: 0 2
+    class (32)
+        on left: 3
+        on right: 2
+
+
+State 0
+
+    0 $accept: • program $end
+
+    $default  reduce using rule 1 (program)
+
+    program  go to state 1
+
+
+State 1
+
+    0 $accept: program • $end
+    2 program: program • class
+
+    $end    shift, and go to state 2
+    PUBLIC  shift, and go to state 3
+
+    class  go to state 4
+
+
+State 2
+
+    0 $accept: program $end •
+
+    $default  accept
+
+
+State 3
+
+    3 class: PUBLIC • CLASS CLASS_NAME LPAR STRING RPAR
+
+    CLASS  shift, and go to state 5
+
+
+State 4
+
+    2 program: program class •
+
+    $default  reduce using rule 2 (program)
+
+
+State 5
+
+    3 class: PUBLIC CLASS • CLASS_NAME LPAR STRING RPAR
+
+    CLASS_NAME  shift, and go to state 6
+
+
+State 6
+
+    3 class: PUBLIC CLASS CLASS_NAME • LPAR STRING RPAR
+
+    LPAR  shift, and go to state 7
+
+
+State 7
+
+    3 class: PUBLIC CLASS CLASS_NAME LPAR • STRING RPAR
+
+    STRING  shift, and go to state 8
+
+
+State 8
+
+    3 class: PUBLIC CLASS CLASS_NAME LPAR STRING • RPAR
+
+    RPAR  shift, and go to state 9
+
+
+State 9
+
+    3 class: PUBLIC CLASS CLASS_NAME LPAR STRING RPAR •
+
+    $default  reduce using rule 3 (class)

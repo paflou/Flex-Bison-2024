@@ -10,7 +10,7 @@
 <reserved_identifiers> ::= "int" | "char" | "double" | "boolean" | "String" | "class" | "new" | "return" | "void" | "if" | "else" | "while" | "do" | "for" | "switch" | "case" | "default" | "break" | "true" | "false" | "public" | "private"
 
 <primitive_data_type> ::= <int> | <char> | <double> | <boolean>
-<int> ::= ("0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ) {"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" }         @@int = 0|[1-9][0-9]*
+<int> ::= <digit> {<digit>}
 <char> ::= "'" (<letter> | <special_character> | <escape_sequence> ) "'"
 <double> ::= <int> "." <int> "d"
 <boolean> ::= "true" | "false"
@@ -18,7 +18,7 @@
 <escape_sequence> ::= "\n" | "\t" | "\r" | "\b" | "\f" | "\"" | "\'" | "\\"
 
 <non_primitive_data_type> ::= <String>  // XREIAZETAI?
-<String> ::= """ { <letter> | <digit> | <special_character> } """
+<String> ::= """ { <letter> | <digit> | <special_character> | <escape_sequence> } """
 <special_character> ::= "!" | "#" | "$" | "%" | "&" | "(" | ")" | "*" | "+" | "," | "-" | "." | "/" | ":" | ";" | "<" | "=" | ">" | "?" | "@" | "[" | "]" | "^" | "_" | "`" | "{" | "|" | "}" | "~"
 
 
