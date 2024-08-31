@@ -8,6 +8,9 @@ LETTER          [a-zA-Z]
 IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 %%
 
+";"         { return SEMICOLON; }
+"."         { return DOT; }
+
 "int"       { return DATATYPE; }
 "char"      { return DATATYPE; }
 "double"    { return DATATYPE; }
@@ -33,8 +36,8 @@ IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 [A-Z][a-zA-Z0-9_]*              { return CLASS_NAME; }
 
 "class"                         { return CLASS; }
-"{"                             { return LPAR; }
-"}"                             { return RPAR; }
+"{"                             { return LCURLY; }
+"}"                             { return RCURLY; }
 
 
 {INT}                           {return INT;}
@@ -56,6 +59,11 @@ IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 "false"                         { return BOOL; }
 
 \"(\\.|[^"])*\"                 { return STRING; }
+
+
+"="                             { return EQUALS; }
+"("                             { return LPAR; }
+")"                             { return RPAR; }
 
 {IDENT}                         {return IDENT;}
 

@@ -77,10 +77,15 @@ extern int yydebug;
     PRIVATE = 278,                 /* PRIVATE  */
     PUBLIC = 279,                  /* PUBLIC  */
     IDENT = 280,                   /* IDENT  */
-    LPAR = 281,                    /* LPAR  */
-    RPAR = 282,                    /* RPAR  */
+    LCURLY = 281,                  /* LCURLY  */
+    RCURLY = 282,                  /* RCURLY  */
     CLASS = 283,                   /* CLASS  */
-    CLASS_NAME = 284               /* CLASS_NAME  */
+    CLASS_NAME = 284,              /* CLASS_NAME  */
+    LPAR = 285,                    /* LPAR  */
+    RPAR = 286,                    /* RPAR  */
+    DOT = 287,                     /* DOT  */
+    SEMICOLON = 288,               /* SEMICOLON  */
+    EQUALS = 289                   /* EQUALS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

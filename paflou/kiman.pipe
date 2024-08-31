@@ -1,3 +1,3 @@
 public class K1c {
-    int var; private double var2;
+    public Kiman iman = new Kiman ();
 }

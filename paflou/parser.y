@@ -16,22 +16,63 @@
 %token PUBLIC
 
 %token IDENT
-%token LPAR
-%token RPAR 
+%token LCURLY
+%token RCURLY 
 %token CLASS
 %token CLASS_NAME
 
+%token LPAR
+%token RPAR
+
+%token DOT
+%token SEMICOLON
+%token EQUALS
 %%
 program:                 {printf("class");}
         | program class  {printf("class2");}
 
-class: PUBLIC CLASS CLASS_NAME LPAR variable_declaration RPAR {printf("success");}
+class: 
+        PUBLIC CLASS CLASS_NAME LCURLY variable_declaration method_declaration RCURLY {printf("success");}
 
 variable_declaration: 
-                    | variable_declaration DATATYPE IDENT                {printf("alright");}
-                    | variable_declaration PRIVATE DATATYPE IDENT        {printf("alright");}
-                    | variable_declaration PUBLIC DATATYPE IDENT         {printf("alright");}
+                    | variable_declaration DATATYPE IDENT SEMICOLON                {printf("alright");}
+                    | variable_declaration PRIVATE DATATYPE IDENT SEMICOLON        {printf("alright");}
+                    | variable_declaration PUBLIC DATATYPE IDENT SEMICOLON         {printf("alright");}
+                    | variable_declaration object_creation                         {printf("alright");}
 
+modifier:
+         PUBLIC
+        | PRIVATE
+
+secondary_modifier:
+                     DATATYPE
+                    | VOID
+
+object_creation:
+                 modifier CLASS_NAME IDENT EQUALS NEW CLASS_NAME LPAR RPAR SEMICOLON     {printf("object");}
+                 CLASS_NAME IDENT EQUALS NEW CLASS_NAME LPAR RPAR SEMICOLON              {printf("object");}
+
+
+object_access:
+                    IDENT DOT IDENT  {printf("access");}
+
+method_declaration:
+                    modifier secondary_modifier IDENT LPAR parameter_list RPAR LCURLY variable_declaration commands RCURLY
+
+parameter_list:
+                | DATATYPE IDENT
+                | parameter_list ',' DATATYPE IDENT
+
+commands:
+        | commands assignment
+        | commands loop
+        | commands control
+        | commands print
+        | commands return
+        | commands break
+
+assignment:
+            IDENT
 
 %%
 
