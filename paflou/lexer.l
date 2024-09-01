@@ -3,16 +3,16 @@
 #include "parser.tab.h"
 %}
 
---------------------------
-INT             0 | [1-9][0-9]*
----------------------------
+INT             [0-9]+
+
 LETTER          [a-zA-Z]
 IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 %%
 
 ";"         { return SEMICOLON; }
 "."         { return DOT; }
-
+","         { return COMMA; }
+":"         { return COLON; }
 "int"       { return DATATYPE; }
 "char"      { return DATATYPE; }
 "double"    { return DATATYPE; }
@@ -34,13 +34,15 @@ IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 
 "private"   { return PRIVATE; }
 "public"    { return PUBLIC; }
--------------
+
 "static"    { return STATIC; }
 "abstract"  { return ABSTRACT; }
 "final"     { return FINAL; }
 "native"    { return NATIVE; }
-"synchronized"{ return SYNCHRONIZED; }
--------------
+"synchronized" { return SYNCHRONIZED; }
+
+"//".*                  { /* Ignore single-line comments */ }
+"/*"([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*"*"+"/"  { /* Ignore multi-line comments */ }
 
 
 [A-Z][a-zA-Z0-9_]*              { return CLASS_NAME; }
@@ -75,13 +77,8 @@ IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 "("                             { return LPAR; }
 ")"                             { return RPAR; }
 
-{IDENT}                         {return IDENT;}
-
----------
 "out.print"                     { return OUTPRINT; }
-"return"                        { return RETURN; }
-"break"                         { return BREAK; }
----------
+{IDENT}                         {return IDENT;}
 
 .                               { /* Ignore other characters */ }
 %%

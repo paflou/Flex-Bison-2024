@@ -1,244 +1,94 @@
 %{
-    #define __USE_C99_MATH
-    #include <stdbool.h>
     #include <stdio.h>
-    #include <stdlib.h>
-    #include <string.h>
-    #include <stdbool.h>
-
-    extern FILE *yyin;
-    extern int yylex();
-    extern void yyerror(const char* err);
+    int yylex();
+    void yyerror(const char *s);
 %}
+%token DATATYPE
+%token NEW RETURN VOID IF ELSE WHILE DO FOR SWITCH CASE DEFAULT BREAK TRUE FALSE
 
-%union {
-    int intval;
-    float doubleval;
-    char charval;
-    _Bool boolval;
-    char* strval;
-}
+%token INT
+%token CHAR
+%token BOOL
+%token STRING
+%token DOUBLE
 
-%define parse.error verbose
-
+%token PRIVATE
 %token PUBLIC
-%token PRIVATE 
-%token CLASS 
-%token MAIN
-%token INT 
-%token CHAR 
-%token DOUBLE 
-%token BOOLEAN 
-%token STRING 
-%token NEW 
-%token RETURN 
-%token VOID 
-%token IF 
-%token ELSE 
-%token WHILE 
-%token DO 
-%token FOR 
-%token SWITCH 
-%token CASE 
-%token DEFAULT 
-%token BREAK 
-%token TRUE 
-%token FALSE 
-%token STRING_LITERAL 
-%token INTEGER_LITERAL
 
-%token <strval>     ID        
+%token STATIC
+%token ABSTRACT
+%token FINAL
+%token NATIVE
+%token SYNCHRONIZED
 
-%token <intval>     ICONST    
-%token <doubleval>  DCONST   
-%token <charval>    CCONST    
-%token <boolval>    BCONST    
+%token OUTPRINT
 
-%token OROP      
-%token ANDOP     
-%token EQUOP     
-%token RELOP     
-%token ADDOP     
-%token MULOP     
-%token NOTOP     
-%token INCDEC    
+%token IDENT
+%token LCURLY
+%token RCURLY 
+%token CLASS
+%token CLASS_NAME
 
-%token LPAREN    
-%token RPAREN    
-%token SEMI      
-%token COMMA     
-%token ASSIGN    
-%token LBRACK    
-%token RBRACK    
-%token REFER     
-%token LBRACE    
-%token RBRACE   
-%token T_EOF   0
+%token LPAR
+%token RPAR
 
-%type <strval> program class_declaration_list class_declaration class_body class_member_list class_member variable_declaration type method_declaration parameter_list block statement_list statement assignment_statement method_call_statement return_statement if_statement while_statement do_while_statement for_statement switch_statement case_list case_statement default_case break_statement expression constant
-
-%left COMMA
-%right ASSIGN
-%left OROP
-%left ANDOP
-%left EQUOP
-%left RELOP
-%left ADDOP
-%left MULOP
-%left NOTOP REFER INCDEC 
-%left LPAREN RPAREN LBRACK RBRACK 
-
-%nonassoc LOWER_THAN_ELSE
-%nonassoc ELSE 
-
-%start program
+%token COLON
+%token DOT
+%token COMMA
+%token SEMICOLON
+%token EQUALS
 
 %%
 
-program: class_declaration_list
-    ;
+program:                 {printf("class");}
+        | program class  {printf("class2");}
 
-class_declaration_list: class_declaration
-    | class_declaration_list class_declaration
-    ;
 
-class_declaration: PUBLIC CLASS ID LBRACE class_body RBRACE
-    ;
+class: 
+        PUBLIC CLASS CLASS_NAME LCURLY declarations method_declaration RCURLY {printf("success");}
 
-class_body: class_member_list
-    ;
+declarations:
+            | declarations object_creation
+            | declarations variable_declaration
+        
+variable_declaration: 
+                    modifier DATATYPE IDENT SEMICOLON        {printf("alright");}
 
-class_member_list: /* Empty */
-    | class_member_list class_member
-    ;
+object_creation:
+                    modifier CLASS_NAME IDENT EQUALS NEW CLASS_NAME LPAR RPAR SEMICOLON     {printf("object");}
 
-class_member: variable_declaration
-    | method_declaration
-    ;
 
-variable_declaration: type ID SEMI
-    ;
+modifier:
+        | PUBLIC
+        | PRIVATE
 
-type: INT
-    | CHAR
-    | DOUBLE
-    | BOOLEAN
-    | STRING
-    | VOID
-    ;
+return_type:
+                     VOID
+                    | CLASS_NAME
 
-method_declaration: PUBLIC type ID LPAREN parameter_list RPAREN block
-    | PUBLIC VOID ID LPAREN parameter_list RPAREN block
-    | PRIVATE type ID LPAREN parameter_list RPAREN block
-    | PRIVATE VOID ID LPAREN parameter_list RPAREN block
-    ;
 
-parameter_list: /* Empty */
-    | type ID
-    | parameter_list COMMA type ID
-    ;
+secondary_modifier:
+                        | secondary_modifier STATIC
+                        | secondary_modifier ABSTRACT
+                        | secondary_modifier FINAL
+                        | secondary_modifier NATIVE
+                        | secondary_modifier SYNCHRONIZED
 
-block: LBRACE statement_list RBRACE
-    ;
 
-statement_list: /* Empty */
-    | statement_list statement
-    ;
+method_declaration:
+                    | method_declaration modifier secondary_modifier return_type IDENT LPAR parameter_list RPAR LCURLY declarations RCURLY
+                    | method_declaration modifier secondary_modifier DATATYPE IDENT LPAR parameter_list RPAR LCURLY declarations RCURLY 
 
-statement: variable_declaration
-    | assignment_statement
-    | method_call_statement
-    | return_statement
-    | if_statement
-    | while_statement
-    | do_while_statement
-    | for_statement
-    | switch_statement
-    | break_statement
-    ;
-
-assignment_statement: ID ASSIGN expression SEMI
-    ;
-
-method_call_statement: expression SEMI
-    ;
-
-return_statement: RETURN expression SEMI
-    | RETURN SEMI
-    ;
-
-if_statement: IF LPAREN expression RPAREN block
-    | IF LPAREN expression RPAREN block ELSE block
-    ;
-
-while_statement: WHILE LPAREN expression RPAREN block
-    ;
-
-do_while_statement: DO block WHILE LPAREN expression RPAREN SEMI
-    ;
-
-for_statement: FOR LPAREN expression SEMI expression SEMI expression RPAREN block
-    ;
-
-switch_statement: SWITCH LPAREN expression RPAREN LBRACE case_list default_case RBRACE
-    ;
-
-case_list: /* Empty */
-    | case_list case_statement
-    ;
-
-case_statement: CASE expression ':' statement_list
-    ;
-
-default_case: DEFAULT ':' statement_list
-    ;
-
-break_statement: BREAK SEMI
-    ;
-
-expression:   INTEGER_LITERAL
-            | ID
-            | STRING_LITERAL
-            | expression ADDOP expression
-            | expression MULOP expression
-            | expression ANDOP expression
-            | expression OROP expression
-            | expression EQUOP expression
-            | expression NOTOP expression
-            | expression RELOP expression
-            | NOTOP expression 
-            | ADDOP expression 
-            | INCDEC type
-            | type INCDEC
-            | type
-            | type ID LPAREN expression RPAREN
-            | constant
-            | LBRACE expression RBRACE
-            | LPAREN expression RPAREN
-            ;
-constant:     CCONST
-            | ICONST
-            | DCONST
-            | BCONST
-            ;
+parameter_list:
+                | DATATYPE IDENT
+                | parameter_list COMMA DATATYPE IDENT
 
 %%
-
 void yyerror(const char *s) {
-    printf("Parse error: %s\n", s);
+    fprintf(stderr, "Error: %s\n", s);
 }
 
-int main(int argc, char* argv[]) {
-
-    int token; 
-    yyin = fopen(argv[1], "r"); 
-                                
-    if (yyin == NULL) {
-        printf("%s: File not found\n", argv[1]);
-        return 1;
-    }
-
+int main(void) {
     yyparse();
-    fclose(yyin);
     return 0;
 }

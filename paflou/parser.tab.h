@@ -76,16 +76,24 @@ extern int yydebug;
     DOUBLE = 277,                  /* DOUBLE  */
     PRIVATE = 278,                 /* PRIVATE  */
     PUBLIC = 279,                  /* PUBLIC  */
-    IDENT = 280,                   /* IDENT  */
-    LCURLY = 281,                  /* LCURLY  */
-    RCURLY = 282,                  /* RCURLY  */
-    CLASS = 283,                   /* CLASS  */
-    CLASS_NAME = 284,              /* CLASS_NAME  */
-    LPAR = 285,                    /* LPAR  */
-    RPAR = 286,                    /* RPAR  */
-    DOT = 287,                     /* DOT  */
-    SEMICOLON = 288,               /* SEMICOLON  */
-    EQUALS = 289                   /* EQUALS  */
+    STATIC = 280,                  /* STATIC  */
+    ABSTRACT = 281,                /* ABSTRACT  */
+    FINAL = 282,                   /* FINAL  */
+    NATIVE = 283,                  /* NATIVE  */
+    SYNCHRONIZED = 284,            /* SYNCHRONIZED  */
+    OUTPRINT = 285,                /* OUTPRINT  */
+    IDENT = 286,                   /* IDENT  */
+    LCURLY = 287,                  /* LCURLY  */
+    RCURLY = 288,                  /* RCURLY  */
+    CLASS = 289,                   /* CLASS  */
+    CLASS_NAME = 290,              /* CLASS_NAME  */
+    LPAR = 291,                    /* LPAR  */
+    RPAR = 292,                    /* RPAR  */
+    COLON = 293,                   /* COLON  */
+    DOT = 294,                     /* DOT  */
+    COMMA = 295,                   /* COMMA  */
+    SEMICOLON = 296,               /* SEMICOLON  */
+    EQUALS = 297                   /* EQUALS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

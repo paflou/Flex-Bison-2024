@@ -14,7 +14,7 @@
 
 %token PRIVATE
 %token PUBLIC
---------------
+
 %token STATIC
 %token ABSTRACT
 %token FINAL
@@ -22,9 +22,6 @@
 %token SYNCHRONIZED
 
 %token OUTPRINT
-%token RETURN
-%token BREAK
---------------
 
 %token IDENT
 %token LCURLY
@@ -35,83 +32,64 @@
 %token LPAR
 %token RPAR
 
+%token COLON
 %token DOT
+%token COMMA
 %token SEMICOLON
 %token EQUALS
 %%
 program:                 {printf("class");}
         | program class  {printf("class2");}
---------------
-program:
-    class+
-    ;
--------------
+
 
 class: 
         PUBLIC CLASS CLASS_NAME LCURLY variable_declaration method_declaration RCURLY {printf("success");}
 
 variable_declaration: 
                     | variable_declaration DATATYPE IDENT SEMICOLON                {printf("alright");}
-                    | variable_declaration PRIVATE DATATYPE IDENT SEMICOLON        {printf("alright");}
-                    | variable_declaration PUBLIC DATATYPE IDENT SEMICOLON         {printf("alright");}
+                    | variable_declaration modifier DATATYPE IDENT SEMICOLON        {printf("alright");}
                     | variable_declaration object_creation                         {printf("alright");}
----------------------
-variable_declaration: 
-                    | variable_declaration (PRIVATE | PUBLIC)? DATATYPE IDENT SEMICOLON                     {printf("alright");}
-                    | variable_declaration object_creation    
----------------------
+
 
 modifier:
          PUBLIC
         | PRIVATE
 
-secondary_modifier:
-                     DATATYPE
+return_type:
+                      DATATYPE
+                    | CLASS_NAME
                     | VOID
--------------------
+
 secondary_modifier:
-                        STATIC
-                        | ABSTRACT
-                        | FINAL
-                        | NATIVE
-                        | SYNCHRONIZED
----------------------
+                        | secondary_modifier STATIC
+                        | secondary_modifier ABSTRACT
+                        | secondary_modifier FINAL
+                        | secondary_modifier NATIVE
+                        | secondary_modifier SYNCHRONIZED
+
 
 object_creation:
                  modifier CLASS_NAME IDENT EQUALS NEW CLASS_NAME LPAR RPAR SEMICOLON     {printf("object");}
                  CLASS_NAME IDENT EQUALS NEW CLASS_NAME LPAR RPAR SEMICOLON              {printf("object");}
-----------------
-object_creation:
-                 modifier? CLASS_NAME IDENT EQUALS NEW CLASS_NAME LPAR RPAR SEMICOLON     {printf("object");}
------------------
 
-
+*********************
 object_access:
                     IDENT DOT IDENT  {printf("access");}
-
-
+*********************************************
 
 method_declaration:
                     modifier secondary_modifier IDENT LPAR parameter_list RPAR LCURLY variable_declaration commands RCURLY
 
 parameter_list:
                 | DATATYPE IDENT
-                | parameter_list ',' DATATYPE IDENT
------------------
-return_type:
-                type
-                | VOID
-type:
-                DATATYPE
-                | CLASS_NAME
-parameter_list:
-                | DATATYPE IDENT
-                | parameter_list ',' DATATYPE IDENT
+                | parameter_list COMMA DATATYPE IDENT
+
+
 method_declaration:
-                modifier secondary_modifier DATATYPE IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
+                modifier secondary_modifier return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
+
 method_body:
-                variable_declaration* commands
-------------
+                variable_declaration commands
 
 
 commands:
@@ -122,21 +100,38 @@ commands:
         | commands return
         | commands break
 
-----------
+
 assignment:
                 IDENT EQUALS expression SEMICOLON
+
+literal:
+                  INT
+                | CHAR
+                | STRING
+                | BOOL
+                | DOUBLE   
+
 expression:
-                DATATYPE   
-                | suntheti_parastash  
+                  literal
+                | suntheti_parastash 
+
+
 suntheti_parastash:
-                suntheti_parastasi arithmitiki_parastasi suntheti_parastasi 
-                       | DATATYPE
-                       | IDENT
-                       | LPAR suntheti_parastasi RPAR 
-                       | call_method
-                       | object_creation
+                | suntheti_parastash literal
+                | suntheti_parastash IDENT
+                | suntheti_parastash LPAR suntheti_parastash RPAR
+                | suntheti_parastash call_method
+                | suntheti_parastash object_creation
+                | suntheti_parastash arithmitiki_parastasi
+
 call_method:
-                        IDENT DOT IDENT LPAR IDENT* RPAR
+                IDENT DOT IDENT LPAR argument_list RPAR
+
+argument_list:
+              | IDENT                 
+              | argument_list COMMA IDENT
+
+
 arithmitiki_parastasi:
                         '+'
                         | '-'
@@ -144,50 +139,69 @@ arithmitiki_parastasi:
                         | '/'
 
 instructions:
-                        commands
-                        | variable_declaration
-                        | object_creation
-                        | method_declaration
+                        | instructions commands
+                        | instructions variable_declaration
+                        | instructions object_creation
+                        | instructions method_declaration
+                    
 loop:
-                        loop1
-                        |loop2
+                        while
+                        |for
 
-loop1:
-                        DO LCURLY instructions* RCURLY WHILE LPAR condition RPAR SEMICOLON
+while:
+                        DO LCURLY instructions RCURLY WHILE LPAR condition RPAR SEMICOLON
+
 condition:
-                        con1 con2 xon1
+                        con1 con2 con1
 con1:
                         IDENT
-                        | LETTER
-                        | INT
+                        | DATATYPE
 con2:
                         '>'
                         | '<'
-                        | '=='
-                        | '!='  
-                        | '&&'
-                        | '||'          
+                        | "=="
+                        | "!="  
+                        | "&&"
+                        | "||"          
 
-loop2:
-                        FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY instructions* RCURLY                 
+for:
+                        FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY instructions RCURLY                 
 exp1:
-                        DATATYPE IDENT EQUALS INT
+                        DATATYPE IDENT EQUALS DATATYPE
+
 exp2:
-                        IDENT con2 INT
+                        IDENT con2 DATATYPE
 exp3:
-                        IDENT EQUALS IDENT arithmitiki_parastasi INT
+                        IDENT EQUALS expression
 
 
 control:
-                        control1
-                        | control2
-control1:
-                        IF LPAR condition LPAR LCURLY instructions RCURLY (ELSE IF LCURLY instructions RCURLY)*  (ELSE LCURLY instructions RCURLY)?
-control2:
-                        SWITCH LPAR expression RPAR  LCURLY (CASE expression ':' instructions)* (DEFAULT ':' instructions)?
+                        if
+                        | switch
+
+if:
+     IF LPAR condition RPAR LCURLY instructions RCURLY elseif else
+
+elseif:
+        | elseif ELSE IF LPAR condition RPAR LCURLY instructions RCURLY
+
+else:
+        | ELSE LCURLY instructions RCURLY
+                    
+
+switch:
+                        SWITCH LPAR expression RPAR  LCURLY case default RCURLY
+
+case:           
+                          expression COLON instructions
+                        | case expression COLON instructions
+
+default:
+                        | COLON instructions
 
 print:
-                        OUTPRINT LPAR STRING ( ',' IDENT)* RPAR SEMICOLON
+                          OUTPRINT LPAR STRING RPAR SEMICOLON
+                        | OUTPRINT LPAR STRING COMMA IDENT RPAR SEMICOLON 
                         
 return:
                         RETURN expression SEMICOLON
@@ -195,9 +209,6 @@ return:
 break:
                         BREAK SEMICOLON                      
 
-comment:
-                        CHAR (LETTER | INT | CHAR)* CHAR
--------------------
 
 %%
 

@@ -51,78 +51,56 @@ extern int yydebug;
   enum yytokentype
   {
     YYEMPTY = -2,
-    T_EOF = 0,                     /* T_EOF  */
+    YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    PUBLIC = 258,                  /* PUBLIC  */
-    PRIVATE = 259,                 /* PRIVATE  */
-    CLASS = 260,                   /* CLASS  */
-    MAIN = 261,                    /* MAIN  */
-    INT = 262,                     /* INT  */
-    CHAR = 263,                    /* CHAR  */
-    DOUBLE = 264,                  /* DOUBLE  */
-    BOOLEAN = 265,                 /* BOOLEAN  */
-    STRING = 266,                  /* STRING  */
-    NEW = 267,                     /* NEW  */
-    RETURN = 268,                  /* RETURN  */
-    VOID = 269,                    /* VOID  */
-    IF = 270,                      /* IF  */
-    ELSE = 271,                    /* ELSE  */
-    WHILE = 272,                   /* WHILE  */
-    DO = 273,                      /* DO  */
-    FOR = 274,                     /* FOR  */
-    SWITCH = 275,                  /* SWITCH  */
-    CASE = 276,                    /* CASE  */
-    DEFAULT = 277,                 /* DEFAULT  */
-    BREAK = 278,                   /* BREAK  */
-    TRUE = 279,                    /* TRUE  */
-    FALSE = 280,                   /* FALSE  */
-    STRING_LITERAL = 281,          /* STRING_LITERAL  */
-    INTEGER_LITERAL = 282,         /* INTEGER_LITERAL  */
-    ID = 283,                      /* ID  */
-    ICONST = 284,                  /* ICONST  */
-    DCONST = 285,                  /* DCONST  */
-    CCONST = 286,                  /* CCONST  */
-    BCONST = 287,                  /* BCONST  */
-    OROP = 288,                    /* OROP  */
-    ANDOP = 289,                   /* ANDOP  */
-    EQUOP = 290,                   /* EQUOP  */
-    RELOP = 291,                   /* RELOP  */
-    ADDOP = 292,                   /* ADDOP  */
-    MULOP = 293,                   /* MULOP  */
-    NOTOP = 294,                   /* NOTOP  */
-    INCDEC = 295,                  /* INCDEC  */
-    LPAREN = 296,                  /* LPAREN  */
-    RPAREN = 297,                  /* RPAREN  */
-    SEMI = 298,                    /* SEMI  */
-    COMMA = 299,                   /* COMMA  */
-    ASSIGN = 300,                  /* ASSIGN  */
-    LBRACK = 301,                  /* LBRACK  */
-    RBRACK = 302,                  /* RBRACK  */
-    REFER = 303,                   /* REFER  */
-    LBRACE = 304,                  /* LBRACE  */
-    RBRACE = 305,                  /* RBRACE  */
-    LOWER_THAN_ELSE = 306          /* LOWER_THAN_ELSE  */
+    DATATYPE = 258,                /* DATATYPE  */
+    NEW = 259,                     /* NEW  */
+    RETURN = 260,                  /* RETURN  */
+    VOID = 261,                    /* VOID  */
+    IF = 262,                      /* IF  */
+    ELSE = 263,                    /* ELSE  */
+    WHILE = 264,                   /* WHILE  */
+    DO = 265,                      /* DO  */
+    FOR = 266,                     /* FOR  */
+    SWITCH = 267,                  /* SWITCH  */
+    CASE = 268,                    /* CASE  */
+    DEFAULT = 269,                 /* DEFAULT  */
+    BREAK = 270,                   /* BREAK  */
+    TRUE = 271,                    /* TRUE  */
+    FALSE = 272,                   /* FALSE  */
+    INT = 273,                     /* INT  */
+    CHAR = 274,                    /* CHAR  */
+    BOOL = 275,                    /* BOOL  */
+    STRING = 276,                  /* STRING  */
+    DOUBLE = 277,                  /* DOUBLE  */
+    PRIVATE = 278,                 /* PRIVATE  */
+    PUBLIC = 279,                  /* PUBLIC  */
+    STATIC = 280,                  /* STATIC  */
+    ABSTRACT = 281,                /* ABSTRACT  */
+    FINAL = 282,                   /* FINAL  */
+    NATIVE = 283,                  /* NATIVE  */
+    SYNCHRONIZED = 284,            /* SYNCHRONIZED  */
+    OUTPRINT = 285,                /* OUTPRINT  */
+    IDENT = 286,                   /* IDENT  */
+    LCURLY = 287,                  /* LCURLY  */
+    RCURLY = 288,                  /* RCURLY  */
+    CLASS = 289,                   /* CLASS  */
+    CLASS_NAME = 290,              /* CLASS_NAME  */
+    LPAR = 291,                    /* LPAR  */
+    RPAR = 292,                    /* RPAR  */
+    COLON = 293,                   /* COLON  */
+    DOT = 294,                     /* DOT  */
+    COMMA = 295,                   /* COMMA  */
+    SEMICOLON = 296,               /* SEMICOLON  */
+    EQUALS = 297                   /* EQUALS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-union YYSTYPE
-{
-#line 14 "parser.y"
-
-    int intval;
-    float doubleval;
-    char charval;
-    _Bool boolval;
-    char* strval;
-
-#line 123 "parser.tab.h"
-
-};
-typedef union YYSTYPE YYSTYPE;
+typedef int YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

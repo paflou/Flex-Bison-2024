@@ -1,12 +1,15 @@
-PUBLIC CLASS Test {
-    PUBLIC INT ADD(INT a, INT b) {
-        RETURN a + b;
+public class MyClass {
+    public int myVar;
+
+    public MyClass myObject = new MyClass();
+
+    public static void myMethod(int param1, char param2) {
+        int localVar;
+        char anotherVar;
     }
 
-    PUBLIC VOID MAIN() {
-        INT x = 10;
-        INT y = 20;
-        INT z = ADD(x, y);
-        out.print("The sum of " + x + " and " + y + " is: " + z);
+    public static void myMethod(int param1, char param2) {
+        int localVar;
+        char anotherVar;
     }
 }
