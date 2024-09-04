@@ -1,0 +1,38 @@
+public class MyClass {
+    int x;
+    double y;
+
+    public static void main() {
+        int a = 10;
+        double b = 20.5;
+        char c = 'A';
+        boolean d = true;
+
+        // Object creation
+        MyClass obj = new MyClass();
+
+        // Simple operation
+        x = a + 5;
+
+        // Print statement
+        out.print("Hello, World!");
+
+        // Control flow
+        if (x > 5) {
+            out.print("x is greater than 5");
+        } else {
+            out.print("x is less than or equal to 5");
+        }
+
+        // Switch-case
+        switch (a) {
+            case 10:
+                out.print("a is 10");
+                break;
+            default:
+                out.print("a is not 10");
+        }
+
+        return 0;
+    }
+}
