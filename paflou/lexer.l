@@ -1,13 +1,25 @@
 %{
-#include <stdio.h>
-#include "parser.tab.h"
+    #include "parser.tab.h"
+
+    char str_buf[256];
+    void yyerror(const char* err);
+    int line_number = 1;
 %}
+
+%option noyywrap
 
 INT             [0-9]+
 
 LETTER          [a-zA-Z]
 IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 %%
+
+\n          { line_number++; }
+
+"+"         { return PLUS; }
+"-"         { return MINUS; }
+"*"         { return TIMES; }
+"/"         { return DIV; }
 
 ";"         { return SEMICOLON; }
 "."         { return DOT; }
@@ -42,8 +54,7 @@ IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 "synchronized" { return SYNCHRONIZED; }
 
 "//".*                  { /* Ignore single-line comments */ }
-"/*"([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*"*"+"/"  { /* Ignore multi-line comments */ }
-
+"/*"([^*]|\*+[^*/])*"*"+"/"  { /* Ignore multi-line comments */ }
 
 [A-Z][a-zA-Z0-9_]*              { return CLASS_NAME; }
 
@@ -51,34 +62,27 @@ IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 "{"                             { return LCURLY; }
 "}"                             { return RCURLY; }
 
+{INT}                           { return INT; }
 
-{INT}                           {return INT;}
+\'([^\\]|\\[ntbrf'\\])\'        { return CHAR; }
 
-\'[a-zA-Z0-9]\'                         { return CHAR; }
-\'[!#$%&()*+,\-./:;<=>?@[\]^_`{|}~]\'   { return CHAR; }
-\'\\n\'                                  { return CHAR; }
-\'\\t\'                                  { return CHAR; }
-\'\\r\'                                  { return CHAR; }
-\'\\b\'                                  { return CHAR; }
-\'\\f\'                                  { return CHAR; }
-\'\\\\'                                  { return CHAR; }
-\'\\'\'                                  { return CHAR; }
-
-
-{INT}[.]{INT}[d]                { return DOUBLE; }
+{INT}"."{INT}([eE][+-]?{INT})?([fFdD])? { return DOUBLE; }
 
 "true"                          { return BOOL; }
 "false"                         { return BOOL; }
 
 \"(\\.|[^"])*\"                 { return STRING; }
 
-
 "="                             { return EQUALS; }
 "("                             { return LPAR; }
 ")"                             { return RPAR; }
+"||"                            { return OROP; }
+"&&"                            { return ANDOP; }
+"=="|"!="                       { return EQUOP; }
+">"|">="|"<"|"<="               { return RELOP; }
 
 "out.print"                     { return OUTPRINT; }
-{IDENT}                         {return IDENT;}
+{IDENT}                         { return IDENT; }
 
-.                               { /* Ignore other characters */ }
-%%
+[ \t]+                        { /* Ignore whitespace */ }
+.                               { fprintf(stderr, "Unexpected character: %s at line %d\n", yytext, yylineno); }

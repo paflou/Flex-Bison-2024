@@ -82,32 +82,68 @@ extern int yydebug;
     NATIVE = 283,                  /* NATIVE  */
     SYNCHRONIZED = 284,            /* SYNCHRONIZED  */
     OUTPRINT = 285,                /* OUTPRINT  */
-    IDENT = 286,                   /* IDENT  */
-    LCURLY = 287,                  /* LCURLY  */
-    RCURLY = 288,                  /* RCURLY  */
-    CLASS = 289,                   /* CLASS  */
-    CLASS_NAME = 290,              /* CLASS_NAME  */
-    LPAR = 291,                    /* LPAR  */
-    RPAR = 292,                    /* RPAR  */
-    COLON = 293,                   /* COLON  */
-    DOT = 294,                     /* DOT  */
-    COMMA = 295,                   /* COMMA  */
-    SEMICOLON = 296,               /* SEMICOLON  */
-    EQUALS = 297                   /* EQUALS  */
+    OROP = 286,                    /* OROP  */
+    ANDOP = 287,                   /* ANDOP  */
+    EQUOP = 288,                   /* EQUOP  */
+    NOTOP = 289,                   /* NOTOP  */
+    RELOP = 290,                   /* RELOP  */
+    IDENT = 291,                   /* IDENT  */
+    LCURLY = 292,                  /* LCURLY  */
+    RCURLY = 293,                  /* RCURLY  */
+    CLASS = 294,                   /* CLASS  */
+    CLASS_NAME = 295,              /* CLASS_NAME  */
+    LPAR = 296,                    /* LPAR  */
+    RPAR = 297,                    /* RPAR  */
+    COLON = 298,                   /* COLON  */
+    DOT = 299,                     /* DOT  */
+    SEMICOLON = 300,               /* SEMICOLON  */
+    EQUALS = 301,                  /* EQUALS  */
+    PLUS = 302,                    /* PLUS  */
+    MINUS = 303,                   /* MINUS  */
+    DIV = 304,                     /* DIV  */
+    TIMES = 305,                   /* TIMES  */
+    COMMA = 306                    /* COMMA  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 15 "parser.y"
+
+    int intval;
+    float doubleval;
+    char charval;
+    _Bool boolval;
+    char* strval;
+
+#line 123 "parser.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
+/* Location type.  */
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
+typedef struct YYLTYPE YYLTYPE;
+struct YYLTYPE
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+};
+# define YYLTYPE_IS_DECLARED 1
+# define YYLTYPE_IS_TRIVIAL 1
+#endif
+
 
 extern YYSTYPE yylval;
-
+extern YYLTYPE yylloc;
 
 int yyparse (void);
 

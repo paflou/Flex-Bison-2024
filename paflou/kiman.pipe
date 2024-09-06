@@ -1,2 +1,97 @@
 public class K1c {
+	private int y;
+	int x;
+	Myclass z;
+
+	public static void main(String args) {
+		private int y;
+		int x;
+
+		x = 10;
+		y = (10 /10)+ 10 - x;
+		y = sum(20, x,10, 1, true);
+		z = new Myclass();
+		y = kiman();
+
+		do {
+			//kiman
+			int x;
+		} while(y < x);
+
+		for(int i= 0; i < 10; i + 1) {
+			int x;
+			y = (10 /10)+ 10 - x;
+			y = sum(20, x,10, 1, true);
+			z = new Myclass();
+			y = kiman();
+		}
+
+		if(x == 0) {
+			int x;
+			y = (10 /10)+ 10 - x;
+			y = sum(20, x,10, 1, true);
+			z = new Myclass();
+			y = kiman();
+		} else if(x ==2 ) {
+			int x;
+			y = (10 /10)+ 10 - x;
+			y = sum(20, x,10, 1, true);
+			z = new Myclass();
+			y = kiman();
+		} else if(x ==3 ) {
+			int x;
+			y = (10 /10)+ 10 - x;
+			y = sum(20, x,10, 1, true);
+			z = new Myclass();
+			y = kiman();
+		}  else  {
+			int x;
+			y = (10 /10)+ 10 - x;
+			y = sum(20, x,10, 1, true);
+			z = new Myclass();
+			y = kiman();
+		} 
+
+		switch(x) {
+			case 0:
+				{
+					int x;
+					y = (10 / 10) + 10 - x;
+					y = sum(20, x, 10, 1, true);
+					z = new Myclass();
+					y = kiman();
+					break;
+				}
+			case 2:
+				{
+					int x;
+					y = (10 / 10) + 10 - x;
+					y = sum(20, x, 10, 1, true);
+					z = new Myclass();
+					y = kiman();
+					break;
+				}
+			case 3:
+				{
+					int x;
+					y = (10 / 10) + 10 - x;
+					y = sum(20, x, 10, 1, true);
+					z = new Myclass();
+					y = kiman();
+					break;
+				}
+			default:
+				{
+					int x;
+					y = (10 / 10) + 10 - x;
+					y = sum(20, x, 10, 1, true);
+					z = new Myclass();
+					y = kiman();
+					break;
+				}
+		}
+		/* MI BOMBOCLAAAT */
+		out.print("BOOOMBOCLAAAAT %d %x", x, y);
+		return 0;
+	}
 }
