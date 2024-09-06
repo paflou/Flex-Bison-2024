@@ -1,18 +1,7 @@
-Nonterminals useless in grammar
-
-    con1
-
-
 Terminals unused in grammar
 
     TRUE
     FALSE
-
-
-Rules useless in grammar
-
-  101 con1: IDENT
-  102     | literal
 
 
 Grammar
@@ -1559,10 +1548,6 @@ State 122
    57 division: expression • DIV expression
    58 subtraction: expression • MINUS expression
 
-    MINUS  shift, and go to state 102
-    DIV    shift, and go to state 103
-    TIMES  shift, and go to state 104
-
     $default  reduce using rule 55 (addition)
 
 
@@ -1574,9 +1559,6 @@ State 123
    58 subtraction: expression • MINUS expression
    58            | expression MINUS expression •
 
-    DIV    shift, and go to state 103
-    TIMES  shift, and go to state 104
-
     $default  reduce using rule 58 (subtraction)
 
 
@@ -1587,8 +1569,6 @@ State 124
    57 division: expression • DIV expression
    57         | expression DIV expression •
    58 subtraction: expression • MINUS expression
-
-    TIMES  shift, and go to state 104
 
     $default  reduce using rule 57 (division)
 

@@ -1,5 +1,4 @@
 %{
-    #define __USE_C99_MATH
     #include <stdbool.h>
     #include <stdio.h>
     #include <stdlib.h>
@@ -7,94 +6,49 @@
     #include <stdbool.h>
 
     extern FILE *yyin;
+    int yyparse();
+
+
     extern int yylex();
     extern int line_number;
     extern void yyerror(const char* err);
 %}
 
-%union {
-    int intval;
-    float doubleval;
-    char charval;
-    _Bool boolval;
-    char* strval;
-}
-
 %define parse.error verbose
 
-
-%token DATATYPE
-%token NEW RETURN VOID IF ELSE WHILE DO FOR SWITCH CASE DEFAULT BREAK TRUE FALSE
-
-%token INT
-%token CHAR
-%token BOOL
-%token STRING
-%token DOUBLE
-
-%token PRIVATE
-%token PUBLIC
-
-%token STATIC
-%token ABSTRACT
-%token FINAL
-%token NATIVE
-%token SYNCHRONIZED
-
-%token OUTPRINT
-
+%token DATATYPE NEW RETURN VOID IF ELSE WHILE DO FOR SWITCH CASE DEFAULT BREAK TRUE FALSE
+%token INT CHAR BOOL STRING DOUBLE PRIVATE PUBLIC STATIC ABSTRACT FINAL NATIVE SYNCHRONIZED OUTPRINT
 %left OROP      
 %left ANDOP     
 %left EQUOP     
 %left NOTOP
 %left RELOP
-
-%token IDENT
-%token LCURLY
-%token RCURLY 
-%token CLASS
-%token CLASS_NAME
-
-%token LPAR
-%token RPAR
-%token COLON
-%token DOT
-%token SEMICOLON
-%token EQUALS
-
-
-%left PLUS
-%left MINUS
-%left DIV
-%left TIMES
-
-
+%token IDENT LCURLY RCURLY CLASS CLASS_NAME LPAR RPAR COLON DOT SEMICOLON EQUALS
+%left PLUS MINUS DIV TIMES
 %token COMMA
 
-
-%locations
 %%
 
 
-program:                 {printf("program\n");}
-        | program class  {printf("program\n");}
+program:                 
+        | program class  
 
 class: 
-          PUBLIC CLASS CLASS_NAME LCURLY variable_declaration_list method_declaration RCURLY {printf("class \n");}
-        | PUBLIC CLASS CLASS_NAME LCURLY RCURLY                                         {printf("class \n");}
-        | PUBLIC CLASS CLASS_NAME LCURLY variable_declaration_list RCURLY                    {printf("class \n");}
+          PUBLIC CLASS CLASS_NAME LCURLY variable_declaration_list method_declaration RCURLY 
+        | PUBLIC CLASS CLASS_NAME LCURLY RCURLY                                         
+        | PUBLIC CLASS CLASS_NAME LCURLY variable_declaration_list RCURLY                    
 
 
 
 variable_declaration_list:
-          variable_declaration                                 { printf("variable_declaration_list\n"); }
-        | variable_declaration_list variable_declaration       { printf("variable_declaration_list\n"); }
+          variable_declaration                                 
+        | variable_declaration_list variable_declaration       
 
 
 
 variable_declaration: 
-                     DATATYPE IDENT SEMICOLON               { printf("variable_declaration\n"); }
-                    | modifier DATATYPE IDENT SEMICOLON     { printf("variable_declaration\n"); }
+                     DATATYPE IDENT SEMICOLON             
+                    | modifier DATATYPE IDENT SEMICOLON     
                     | CLASS_NAME IDENT SEMICOLON
                     |   modifier CLASS_NAME IDENT SEMICOLON
 
@@ -104,7 +58,7 @@ modifier:
 
 
 object_access:
-                    IDENT DOT IDENT  {printf("access");}
+                    IDENT DOT IDENT 
 
 
 method_declaration:
@@ -145,7 +99,7 @@ assignment:
                 |IDENT EQUALS object_creation SEMICOLON
 
 object_creation:
-                  NEW CLASS_NAME LPAR RPAR                    { printf("object_creation\n"); }
+                  NEW CLASS_NAME LPAR RPAR                   
 
 
 literal:
@@ -203,11 +157,6 @@ while:
 condition:
       expression conop expression
     | expression
-;
-
-con1:
-    IDENT
-    | literal
 ;
 
 conop:
@@ -277,22 +226,35 @@ break:
 
 
 %%
+int flag =0;
 
 void yyerror(const char *s) {
-    printf("Error: %s at line %d\n", s, line_number);
+    printf("\n\n\nError: %s at line %d\n", s, line_number);
+    printf("\nProgram terminated unsuccessfully.\n");
+    flag = 1;
 }
 
 int main(int argc, char* argv[]) {
 
-    //int token; 
-    //yyin = fopen(argv[1], "r"); 
+    int token; 
+    yyin = fopen(argv[1], "r"); 
                                 
-    //if (yyin == NULL) {
-      //  printf("%s: File not found\n", argv[1]);
-     //   return 1;
-    //}
+    if (yyin == NULL) {
+        printf("%s: File not found\n", argv[1]);
+        return 1;
+    }
+    
+    char ch;
+    while ((ch = fgetc(yyin)) != EOF) {
+        putchar(ch);
+    }
+
+    rewind(yyin);
 
     yyparse();
     fclose(yyin);
+
+    if(flag==0)
+        printf("\n\n\nProgram terminated successfully.\n");
     return 0;
 }
