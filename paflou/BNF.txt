@@ -53,6 +53,8 @@
 
 
 <method_declaration> ::= <modifier> <secondary_modifier> <return_type> <identifier> "(" "{" <parameter_list> ")" <method_body> "}"
+                        | <modifier> <secondary_modifier> <return_type> <identifier> "(" "{" <parameter_list> ")" <method_body> "}"
+
 
 <return_type> ::= <data_type> | <class_name> | "void" | e
 
