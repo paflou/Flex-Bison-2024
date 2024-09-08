@@ -1,0 +1,4 @@
+public class MyClass {
+    public int x;
+    private String name;
+}

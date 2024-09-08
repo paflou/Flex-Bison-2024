@@ -1,0 +1,9 @@
+public class MyClass {
+    public void checkCondition() {
+        if (x == 5) {
+            outprint("x is 5");
+        } else {
+            outprint("x is not 5");
+        }
+    }
+}

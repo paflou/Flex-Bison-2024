@@ -1,0 +1,14 @@
+public class MyClass {
+    public void testSwitch(int value) {
+        switch (value) {
+            case 1:
+                outprint("One");
+                break;
+            case 2:
+                outprint("Two");
+                break;
+            default:
+                outprint("Default");
+        }
+    }
+}

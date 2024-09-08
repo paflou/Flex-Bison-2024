@@ -16,7 +16,7 @@
 
 %define parse.error verbose
 
-%token DATATYPE NEW RETURN VOID IF ELSE WHILE DO FOR SWITCH CASE DEFAULT BREAK TRUE FALSE
+%token DATATYPE NEW RETURN VOID IF ELSE WHILE DO FOR SWITCH CASE DEFAULT BREAK
 %token INT CHAR BOOL STRING DOUBLE PRIVATE PUBLIC STATIC ABSTRACT FINAL NATIVE SYNCHRONIZED OUTPRINT
 %left OROP      
 %left ANDOP     
@@ -26,8 +26,6 @@
 %token IDENT LCURLY RCURLY CLASS CLASS_NAME LPAR RPAR COLON DOT SEMICOLON EQUALS
 %left PLUS MINUS DIV TIMES
 %token COMMA
-%precedence RETURN_TYPE_PREC
-%precedence TYPE_PREC
 
 %%
 
@@ -59,7 +57,6 @@ method_declaration:
 modifier:
          PUBLIC
         | PRIVATE
-
 
 method_access:
                     IDENT DOT IDENT 
@@ -127,21 +124,16 @@ division:
 subtraction:
         expression MINUS expression
 
-
-
-
 call_method:
-                 IDENT LPAR arguement_list RPAR
+                 IDENT LPAR argument_list RPAR
                | IDENT LPAR RPAR
 
-arguement_list:
+argument_list:
                IDENT                
-              | arguement_list COMMA literal
-              | arguement_list COMMA IDENT
+              | argument_list COMMA literal
+              | argument_list COMMA IDENT
               | literal
 
-
-                    
 loop:
                         while
                         |for

@@ -1,0 +1,9 @@
+public class MyClass {
+    public void callMethod() {
+        myMethod();
+    }
+
+    public void myMethod() {
+        outprint("Method called");
+    }
+}

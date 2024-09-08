@@ -1,11 +1,3 @@
-Terminals unused in grammar
-
-    TRUE
-    FALSE
-    RETURN_TYPE_PREC
-    TYPE_PREC
-
-
 Grammar
 
     0 $accept: program $end
@@ -86,13 +78,13 @@ Grammar
 
    55 subtraction: expression MINUS expression
 
-   56 call_method: IDENT LPAR arguement_list RPAR
+   56 call_method: IDENT LPAR argument_list RPAR
    57            | IDENT LPAR RPAR
 
-   58 arguement_list: IDENT
-   59               | arguement_list COMMA literal
-   60               | arguement_list COMMA IDENT
-   61               | literal
+   58 argument_list: IDENT
+   59              | argument_list COMMA literal
+   60              | argument_list COMMA IDENT
+   61              | literal
 
    62 loop: while
    63     | for
@@ -167,174 +159,170 @@ Terminals, with rules where they appear
     CASE (268) 89
     DEFAULT (269) 91
     BREAK (270) 97
-    TRUE (271)
-    FALSE (272)
-    INT (273) 37
-    CHAR (274) 38
-    BOOL (275) 40
-    STRING (276) 39 92 93
-    DOUBLE (277) 41
-    PRIVATE (278) 15
-    PUBLIC (279) 3 4 5 14
-    STATIC (280) 17
-    ABSTRACT (281) 18
-    FINAL (282) 19
-    NATIVE (283) 20
-    SYNCHRONIZED (284) 21
-    OUTPRINT (285) 92 93
-    OROP (286) 71
-    ANDOP (287) 70
-    EQUOP (288) 68
-    NOTOP (289) 69
-    RELOP (290) 67
-    IDENT (291) 11 12 13 16 23 24 34 35 45 56 57 58 60 73 74 75 76 77 78 79 87 94 95
-    LCURLY (292) 3 4 5 12 13 64 72 82 84 86 87 89 91
-    RCURLY (293) 3 4 5 12 13 64 72 82 84 86 87 89 91
-    CLASS (294) 3 4 5
-    CLASS_NAME (295) 3 4 5 9 36
-    LPAR (296) 12 13 36 49 56 57 64 72 82 84 87 92 93
-    RPAR (297) 12 13 36 49 56 57 64 72 82 84 87 92 93
-    COLON (298) 89 91
-    DOT (299) 16
-    SEMICOLON (300) 11 34 35 64 72 92 93 96 97
-    EQUALS (301) 34 35 73 74
-    PLUS (302) 52 76
-    MINUS (303) 55 77
-    DIV (304) 54 78
-    TIMES (305) 53 79
-    COMMA (306) 24 59 60 94 95
-    RETURN_TYPE_PREC (307)
-    TYPE_PREC (308)
+    INT (271) 37
+    CHAR (272) 38
+    BOOL (273) 40
+    STRING (274) 39 92 93
+    DOUBLE (275) 41
+    PRIVATE (276) 15
+    PUBLIC (277) 3 4 5 14
+    STATIC (278) 17
+    ABSTRACT (279) 18
+    FINAL (280) 19
+    NATIVE (281) 20
+    SYNCHRONIZED (282) 21
+    OUTPRINT (283) 92 93
+    OROP (284) 71
+    ANDOP (285) 70
+    EQUOP (286) 68
+    NOTOP (287) 69
+    RELOP (288) 67
+    IDENT (289) 11 12 13 16 23 24 34 35 45 56 57 58 60 73 74 75 76 77 78 79 87 94 95
+    LCURLY (290) 3 4 5 12 13 64 72 82 84 86 87 89 91
+    RCURLY (291) 3 4 5 12 13 64 72 82 84 86 87 89 91
+    CLASS (292) 3 4 5
+    CLASS_NAME (293) 3 4 5 9 36
+    LPAR (294) 12 13 36 49 56 57 64 72 82 84 87 92 93
+    RPAR (295) 12 13 36 49 56 57 64 72 82 84 87 92 93
+    COLON (296) 89 91
+    DOT (297) 16
+    SEMICOLON (298) 11 34 35 64 72 92 93 96 97
+    EQUALS (299) 34 35 73 74
+    PLUS (300) 52 76
+    MINUS (301) 55 77
+    DIV (302) 54 78
+    TIMES (303) 53 79
+    COMMA (304) 24 59 60 94 95
 
 
 Nonterminals, with rules where they appear
 
-    $accept (54)
+    $accept (50)
         on left: 0
-    program (55)
+    program (51)
         on left: 1 2
         on right: 0 2
-    class (56)
+    class (52)
         on left: 3 4 5
         on right: 2
-    variable_declaration_list (57)
+    variable_declaration_list (53)
         on left: 6 7
         on right: 3 5 7 25 64 72 82 84 86 89 91
-    type_or_return_type (58)
+    type_or_return_type (54)
         on left: 8 9 10
         on right: 11 12 13
-    variable_declaration (59)
+    variable_declaration (55)
         on left: 11
         on right: 6 7
-    method_declaration (60)
+    method_declaration (56)
         on left: 12 13
         on right: 3
-    modifier (61)
+    modifier (57)
         on left: 14 15
         on right: 11 12 13
-    method_access (62)
+    method_access (58)
         on left: 16
         on right: 51
-    secondary_modifier (63)
+    secondary_modifier (59)
         on left: 17 18 19 20 21
         on right: 12
-    parameter_list (64)
+    parameter_list (60)
         on left: 22 23 24
         on right: 12 13 24
-    method_body (65)
+    method_body (61)
         on left: 25 26
         on right: 12 13
-    commands (66)
+    commands (62)
         on left: 27 28 29 30 31 32 33
         on right: 25 26 28 29 30 31 32 33 64 72 82 84 86 89 91
-    assignment (67)
+    assignment (63)
         on left: 34 35
         on right: 28
-    object_creation (68)
+    object_creation (64)
         on left: 36
         on right: 35
-    literal (69)
+    literal (65)
         on left: 37 38 39 40 41
         on right: 42 59 61 73 74 75 89
-    expression (70)
+    expression (66)
         on left: 42 43
         on right: 34 49 52 53 54 55 65 66 76 77 78 79 96
-    suntheti_parastash (71)
+    suntheti_parastash (67)
         on left: 44 45 46 47 48 49 50 51
         on right: 43
-    addition (72)
+    addition (68)
         on left: 52
         on right: 44
-    multiplication (73)
+    multiplication (69)
         on left: 53
         on right: 46
-    division (74)
+    division (70)
         on left: 54
         on right: 47
-    subtraction (75)
+    subtraction (71)
         on left: 55
         on right: 48
-    call_method (76)
+    call_method (72)
         on left: 56 57
         on right: 50
-    arguement_list (77)
+    argument_list (73)
         on left: 58 59 60 61
         on right: 56 59 60
-    loop (78)
+    loop (74)
         on left: 62 63
         on right: 29
-    while (79)
+    while (75)
         on left: 64
         on right: 62
-    condition (80)
+    condition (76)
         on left: 65 66
         on right: 64 82 84
-    conop (81)
+    conop (77)
         on left: 67 68 69 70 71
         on right: 65 75
-    for (82)
+    for (78)
         on left: 72
         on right: 63
-    exp1 (83)
+    exp1 (79)
         on left: 73 74
         on right: 72
-    exp2 (84)
+    exp2 (80)
         on left: 75
         on right: 72
-    exp3 (85)
+    exp3 (81)
         on left: 76 77 78 79
         on right: 72
-    control (86)
+    control (82)
         on left: 80 81
         on right: 30
-    if (87)
+    if (83)
         on left: 82
         on right: 80
-    elseif (88)
+    elseif (84)
         on left: 83 84
         on right: 82 84
-    else (89)
+    else (85)
         on left: 85 86
         on right: 82
-    switch_statement (90)
+    switch_statement (86)
         on left: 87
         on right: 81
-    case (91)
+    case (87)
         on left: 88 89
         on right: 87 89
-    default_opt (92)
+    default_opt (88)
         on left: 90 91
         on right: 87
-    print (93)
+    print (89)
         on left: 92 93
         on right: 31
-    ident_list (94)
+    ident_list (90)
         on left: 94 95
         on right: 93 95
-    return (95)
+    return (91)
         on left: 96
         on right: 32
-    break (96)
+    break (92)
         on left: 97
         on right: 33
 
@@ -1041,7 +1029,7 @@ State 77
 
    16 method_access: IDENT • DOT IDENT
    45 suntheti_parastash: IDENT •
-   56 call_method: IDENT • LPAR arguement_list RPAR
+   56 call_method: IDENT • LPAR argument_list RPAR
    57            | IDENT • LPAR RPAR
 
     LPAR  shift, and go to state 96
@@ -1247,7 +1235,7 @@ State 95
 
 State 96
 
-   56 call_method: IDENT LPAR • arguement_list RPAR
+   56 call_method: IDENT LPAR • argument_list RPAR
    57            | IDENT LPAR • RPAR
 
     INT     shift, and go to state 72
@@ -1258,8 +1246,8 @@ State 96
     IDENT   shift, and go to state 115
     RPAR    shift, and go to state 116
 
-    literal         go to state 117
-    arguement_list  go to state 118
+    literal        go to state 117
+    argument_list  go to state 118
 
 
 State 97
@@ -1499,9 +1487,9 @@ State 114
 
 State 115
 
-   58 arguement_list: IDENT •
+   58 argument_list: IDENT •
 
-    $default  reduce using rule 58 (arguement_list)
+    $default  reduce using rule 58 (argument_list)
 
 
 State 116
@@ -1513,16 +1501,16 @@ State 116
 
 State 117
 
-   61 arguement_list: literal •
+   61 argument_list: literal •
 
-    $default  reduce using rule 61 (arguement_list)
+    $default  reduce using rule 61 (argument_list)
 
 
 State 118
 
-   56 call_method: IDENT LPAR arguement_list • RPAR
-   59 arguement_list: arguement_list • COMMA literal
-   60               | arguement_list • COMMA IDENT
+   56 call_method: IDENT LPAR argument_list • RPAR
+   59 argument_list: argument_list • COMMA literal
+   60              | argument_list • COMMA IDENT
 
     RPAR   shift, and go to state 143
     COMMA  shift, and go to state 144
@@ -1765,15 +1753,15 @@ State 142
 
 State 143
 
-   56 call_method: IDENT LPAR arguement_list RPAR •
+   56 call_method: IDENT LPAR argument_list RPAR •
 
     $default  reduce using rule 56 (call_method)
 
 
 State 144
 
-   59 arguement_list: arguement_list COMMA • literal
-   60               | arguement_list COMMA • IDENT
+   59 argument_list: argument_list COMMA • literal
+   60              | argument_list COMMA • IDENT
 
     INT     shift, and go to state 72
     CHAR    shift, and go to state 73
@@ -1906,16 +1894,16 @@ State 157
 
 State 158
 
-   60 arguement_list: arguement_list COMMA IDENT •
+   60 argument_list: argument_list COMMA IDENT •
 
-    $default  reduce using rule 60 (arguement_list)
+    $default  reduce using rule 60 (argument_list)
 
 
 State 159
 
-   59 arguement_list: arguement_list COMMA literal •
+   59 argument_list: argument_list COMMA literal •
 
-    $default  reduce using rule 59 (arguement_list)
+    $default  reduce using rule 59 (argument_list)
 
 
 State 160

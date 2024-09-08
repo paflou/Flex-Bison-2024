@@ -1,0 +1,7 @@
+public class MyClass {
+    public void testWhile() {
+        do {
+            x = x - 1;
+        } while (x > 0);
+    }
+}
