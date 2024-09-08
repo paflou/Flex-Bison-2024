@@ -1,100 +1,63 @@
-public class K1c {
-	private int y;
-	int x;
-	Myclass z;
+public class TestClass {
+	int a_a;
+    public int a;
+    String str;
+    char ch;
+    boolean flag;
+	double d;
 
-	public void kiman(){
-		
+	public void testClass(){
+	d = 3.14d;
+	a = 5;
+	str = "Hello, World!";
+	ch = 'a';
+	flag = true;
+    a_a = 10;
 	}
-	public static void main(String args) {
-		private int y;
-		int x;
 
-		x = 10;
-		y = (10 /10)+ 10 - x;
-		y = sum(20, x,10, 1, true);
-		z = new Myclass();
-		y = kiman();
 
-		do {
-			//kiman
-			int x;
-		} while(y < x);
+    private double add() {
+		    out.print("Hello World", 123, 3.14d, 'a', id, true, false);
 
-		for(int i= 0; i < 10; i + 1) {
-			int x;
-			y = (10 /10)+ 10 - x;
-			y = sum(20, x,10, 1, true);
-			z = new Myclass();
-			y = kiman();
-		}
+        return x;
+    }
 
-		if(x == 0) {
-			int x;
-			y = (10 /10)+ 10 - x;
-			y = sum(20, x,10, 1, true);
-			z = new Myclass();
-			y = kiman();
-		} else if(x ==2 ) {
-			int x;
-			y = (10 /10)+ 10 - x;
-			y = sum(20, x,10, 1, true);
-			z = new Myclass();
-			y = kiman();
-		} else if(x ==3 ) {
-			int x;
-			y = (10 /10)+ 10 - x;
-			y = sum(20, x,10, 1, true);
-			z = new Myclass();
-			y = kiman();
-		}  else  {
-			int x;
-			y = (10 /10)+ 10 - x;
-			y = sum(20, x,10, 1, true);
-			z = new Myclass();
-			y = kiman();
-		} 
+    public void printHello() {
+        out.print("Hello, World!");
+    }
 
-		switch(x) {
-			case 0:
-				{
-					int x;
-					y = (10 / 10) + 10 - x;
-					y = sum(20, x, 10, 1, true);
-					z = new Myclass();
-					y = kiman();
-					break;
-				}
-			case 2:
-				{
-					int x;
-					y = (10 / 10) + 10 - x;
-					y = sum(20, x, 10, 1, true);
-					z = new Myclass();
-					y = kiman();
-					break;
-				}
-			case 3:
-				{
-					int x;
-					y = (10 / 10) + 10 - x;
-					y = sum(20, x, 10, 1, true);
-					z = new Myclass();
-					y = kiman();
-					break;
-				}
-			default:
-				{
-					int x;
-					y = (10 / 10) + 10 - x;
-					y = sum(20, x, 10, 1, true);
-					z = new Myclass();
-					y = kiman();
-					break;
-				}
-		}
-		/* MI BOMBOCLAAAT */
-		out.print("BOOOMBOCLAAAAT %d %x", x, y);
-		return 0;
-	}
+
+    public void testControlFlow() {
+        if (a > b) {
+            out.print("a is greater than b");
+        } else if (a < b) {
+            out.print("a is less than b");
+        } else {
+            out.print("b is greater or equal to a");
+        }
+
+        do {
+            a = 1;
+        } while (a > 0);
+
+        switch(s) {
+            case 1: 
+                out.print("1");
+                break;
+            case 5:
+                out.print("5");
+                break;
+            default: 
+                out.print("default");
+                break;
+        }
+        
+        for (i = 0; i < 10; i + 1) {
+            out.print("i");
+        }
+    }
+
+    public class InnerClass {
+        private int x;
+    }
 }

@@ -20,22 +20,27 @@
 <string_character> ::= <letter> | <digit> | <special_character> | <escape_sequence> | " "
 
 
-<program> ::= <class> <program> | e
+<program> ::= <class_list>
 
-<class> ::= 'public' 'class' <class_name> '{' <variable_declaration_list> <method_declaration> '}'
-         | 'public' 'class' <class_name> '{' '}'
-         | 'public' 'class' <class_name> '{' <variable_declaration_list> '}'
+<class_list> ::= <class_list> <class> | <class>
+
+<class> ::= 'public' 'class' <class_name> '{' <class_body> '}'
+
+<class_body> ::=  <variable_declaration_list> <method_declaration>
+                | <variable_declaration_list>
+                | <methods>
+                | <variable_declaration_list> <methods> <class>
+                | <variable_declaration_list> <class>
+                | <methods> <class>
 
 <class_name> ::= <capital_letter> <class_identity>
 
 <class_identity> ::= <letter> <class_identity> | <digit> <class_identity> | '_' <class_identity> | e
 
-<variable_declaration_list> ::= <variable_declaration> | <variable_declaration_list> <variable_declaration> | e
+<variable_declaration_list> ::= <variable_declaration> | <variable_declaration_list> <variable_declaration>
 
-<variable_declaration> ::= <data_type> <identifier> ';'
-                        |  <modifier> <data_type> <identifier> ';'
-                        |  <class_name> <identifier> ';'
-                        |  <modifier> <class_name> <identifier> ';'
+<variable_declaration> ::= <modifier> <return_type> <identifier> ';'
+                        |  <return_type> <identifier> ';'   
 
 
 <data_type> ::= "int" | "char" | "String" | "double" | "boolean"
@@ -51,10 +56,11 @@
 
 <method_access> ::= <identifier> "." <identifier>
 
+<methods> ::= <method_declaration> | <methods> <method_declaration>
 
-<method_declaration> ::= <modifier> <secondary_modifier> <return_type> <identifier> "(" "{" <parameter_list> ")" <method_body> "}"
-                        | <modifier> <secondary_modifier> <return_type> <identifier> "(" "{" <parameter_list> ")" <method_body> "}"
-
+<method_declaration> ::= <modifier> <secondary_modifier> <return_type> <identifier> "("  <parameter_list> ")" "{" <method_body> "}"
+                         <modifier> <return_type> <identifer> '(' <parameter_list> ')' '{' <method_body '}'
+                         <modifier>  <identifer> '(' <parameter_list> ')' '{' <method_body '}'
 
 <return_type> ::= <data_type> | <class_name> | "void" | e
 
@@ -85,19 +91,21 @@
 
 <subtraction> ::= <expression> '-' <expression>
 
-<call_method> ::= <identifier> '(' <arguement_list> ')' | <identifier> "()"
+<call_method> ::= <identifier> '(' <arguement_list> ')' | <identifier> '(' ')'
 
 <arguement_list> ::= <identifier> | <arguement_list> ',' <literal> | <arguement_list> ',' <identifier> | <literal>
 
 <loop> ::= <while> | <for>
 
 <while> ::= "do" '{' <variable_declaration_list> <commands> '}' "while" '(' <condition> ')' ';'
+            | "do" '{' <commands> '}' "while" '(' <condition> ')' ';'
 
 <condition> ::= <expression> <conop> <expression> | <expression>
 
 <conop> ::= "||" | "&&" | "==" | "!=" | ">" | ">=" | "<" | "<="
 
 <for> ::= "for" '(' <exp1> ';' <exp2> ';' <exp3> ')' '{' <variable_declaration_list> <commands> '}'
+          | "for" '(' <exp1> ';' <exp2> ';' <exp3> ')' '{' <commands> '}'
 
 <exp1> ::= <data_type> <identifier> '=' <literal> | <identifier> '=' <literal>
 
@@ -111,20 +119,26 @@
 <control> ::= <if> | <switch_statement>
 
 <if> ::= "if" '(' <condition> ')' '{' <variable_declaration_list> <commands> '}' <elseif> <else>
+        |  "if" '(' <condition> ')' '{' <commands> '}' <elseif> <else>
 
 <esleif> ::= <elseif> "else if" '(' <condition> ')' '{' <variable_declaration_list> <commands> '}' | e
+             | <elseif> "else if" '(' <condition> ')' '{' <commands> '}' | e
+
 
 <else> ::= "else" '{' <variable_declaration_list> <commands> '}'
+          | "else" '{' <commands> '}'
 
 <switch_statement> ::= "switch" '(' <identifier> ')' '{' <case> <default_opt> '}'
 
-<case> ::= <case> "case" <literal> ':' '{' <variable_declaration_list> <commands> '}' | e
+<case> ::= <case> "case" <literal> ':'  <variable_declaration_list> <commands> <break> | e
+           | <case> "case" <literal> ':'  <commands>  <break> | e
 
-<default_opt> ::= "default" ':' '{' <variable_declaration_list> <commands> '}'
+<default_opt> ::= "default" ':'  <variable_declaration_list> <commands> 
+                 | "default" ':'  <commands>
 
 <print> ::= "out.print" '(' <String> ')' ';' | "out.print" '(' <String>  <ident_list>')' ';' 
 
-<ident_list> ::= ',' <identifier> | <ident_list> ',' <identifier>
+<list> ::= ',' <expression> | <ident_list> ',' <expression>
 
 <return> ::= "return" <expression> ';'
 

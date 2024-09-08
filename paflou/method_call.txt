@@ -4,6 +4,6 @@ public class MyClass {
     }
 
     public void myMethod() {
-        outprint("Method called");
+        out.print("Method called");
     }
 }

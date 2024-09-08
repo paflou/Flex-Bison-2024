@@ -1,7 +1,7 @@
 public class MyClass {
     public void testFor() {
-        for (int i = 0; i < 10; i++) {
-            outprint("i = " + i);
+        for (int i = 0; i < 10; i + 1) {
+            out.print("i = ", i);
         }
     }
 }

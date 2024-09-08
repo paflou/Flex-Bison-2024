@@ -31,28 +31,46 @@
 
 
 program:                 
-        | program class  
+        class_list
+
+class_list:
+            class_list class
+            | class
+
 
 class: 
-          PUBLIC CLASS CLASS_NAME LCURLY variable_declaration_list method_declaration RCURLY 
-        | PUBLIC CLASS CLASS_NAME LCURLY RCURLY                                         
-        | PUBLIC CLASS CLASS_NAME LCURLY variable_declaration_list RCURLY                    
+           PUBLIC CLASS CLASS_NAME LCURLY class_body RCURLY
+
+class_body:
+        | variable_declaration_list methods
+        | variable_declaration_list 
+        | methods
+        | variable_declaration_list methods class
+        | variable_declaration_list class
+        | methods class
+
 
 variable_declaration_list:
           variable_declaration                                 
         | variable_declaration_list variable_declaration       
 
-type_or_return_type:
+return_type:
     DATATYPE
     | CLASS_NAME
     | VOID;
 
 variable_declaration:
-    modifier type_or_return_type IDENT SEMICOLON;
+    modifier return_type IDENT SEMICOLON
+    | return_type IDENT SEMICOLON
 
+methods: 
+                     method_declaration
+                    | methods method_declaration
+                    
 method_declaration:
-    modifier secondary_modifier type_or_return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
-    | modifier type_or_return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY;
+    modifier secondary_modifier return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
+    | modifier return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY;
+    | modifier IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY;
 
 modifier:
          PUBLIC
@@ -139,7 +157,9 @@ loop:
                         |for
 
 while:
-                      DO LCURLY variable_declaration_list commands RCURLY WHILE LPAR condition RPAR SEMICOLON
+                        DO LCURLY variable_declaration_list commands RCURLY WHILE LPAR condition RPAR SEMICOLON
+                      | DO LCURLY commands RCURLY WHILE LPAR condition RPAR SEMICOLON
+
 
 condition:
       expression conop expression
@@ -155,7 +175,9 @@ conop:
 ;
 
 for:
-                        FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY                 
+                          FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY                 
+                        | FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY commands RCURLY                 
+
 exp1:
                         DATATYPE IDENT EQUALS literal
                     |   IDENT EQUALS literal
@@ -175,13 +197,16 @@ control:
                         | switch_statement
 
 if:
-     IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY elseif else
+       IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY elseif else
+     | IF LPAR condition RPAR LCURLY commands RCURLY elseif else
 
 elseif:
         | elseif ELSE IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY
+        | elseif ELSE IF LPAR condition RPAR LCURLY commands RCURLY
 
 else:
         | ELSE LCURLY variable_declaration_list commands RCURLY
+        | ELSE LCURLY commands RCURLY
                     
 
 switch_statement:
@@ -189,21 +214,23 @@ switch_statement:
 ;
 
 case:
-    | case CASE literal COLON LCURLY variable_declaration_list commands RCURLY
+    | case CASE literal COLON variable_declaration_list commands break
+    | case CASE literal COLON commands break
 ;
 
 default_opt:
     /* empty */
-    | DEFAULT COLON LCURLY variable_declaration_list commands RCURLY
+    | DEFAULT COLON variable_declaration_list commands
+    | DEFAULT COLON commands
 ;
 
 print:
                           OUTPRINT LPAR STRING RPAR SEMICOLON
-                        | OUTPRINT LPAR STRING ident_list RPAR SEMICOLON 
+                        | OUTPRINT LPAR STRING list RPAR SEMICOLON 
                         
-ident_list:
-             COMMA IDENT
-            | ident_list COMMA IDENT
+list:
+             COMMA expression
+            | list COMMA expression
 
 return:
                         RETURN expression SEMICOLON

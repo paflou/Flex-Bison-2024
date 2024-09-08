@@ -2,13 +2,13 @@ public class MyClass {
     public void testSwitch(int value) {
         switch (value) {
             case 1:
-                outprint("One");
+                out.print("One");
                 break;
             case 2:
-                outprint("Two");
+                out.print("Two");
                 break;
             default:
-                outprint("Default");
+                out.print("Default");
         }
     }
 }

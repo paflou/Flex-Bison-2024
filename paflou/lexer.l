@@ -66,7 +66,7 @@ IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 
 \'([^\\]|\\[ntbrf'\\])\'        { return CHAR; }
 
-{INT}"."{INT}([eE][+-]?{INT})?([fFdD])? { return DOUBLE; }
+{INT}"."{INT}"d"                { return DOUBLE; }
 
 "true"                          { return BOOL; }
 "false"                         { return BOOL; }
