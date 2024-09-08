@@ -102,7 +102,9 @@ extern int yydebug;
     MINUS = 303,                   /* MINUS  */
     DIV = 304,                     /* DIV  */
     TIMES = 305,                   /* TIMES  */
-    COMMA = 306                    /* COMMA  */
+    COMMA = 306,                   /* COMMA  */
+    RETURN_TYPE_PREC = 307,        /* RETURN_TYPE_PREC  */
+    TYPE_PREC = 308                /* TYPE_PREC  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

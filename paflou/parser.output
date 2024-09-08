@@ -2,10 +2,8 @@ Terminals unused in grammar
 
     TRUE
     FALSE
-
-
-State 26 conflicts: 1 shift/reduce
-State 33 conflicts: 1 shift/reduce
+    RETURN_TYPE_PREC
+    TYPE_PREC
 
 
 Grammar
@@ -22,325 +20,323 @@ Grammar
     6 variable_declaration_list: variable_declaration
     7                          | variable_declaration_list variable_declaration
 
-    8 variable_declaration: DATATYPE IDENT SEMICOLON
-    9                     | modifier DATATYPE IDENT SEMICOLON
-   10                     | CLASS_NAME IDENT SEMICOLON
-   11                     | modifier CLASS_NAME IDENT SEMICOLON
+    8 type_or_return_type: DATATYPE
+    9                    | CLASS_NAME
+   10                    | VOID
 
-   12 modifier: PUBLIC
-   13         | PRIVATE
+   11 variable_declaration: modifier type_or_return_type IDENT SEMICOLON
 
-   14 method_access: IDENT DOT IDENT
+   12 method_declaration: modifier secondary_modifier type_or_return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
+   13                   | modifier type_or_return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
 
-   15 method_declaration: modifier secondary_modifier return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
-   16                   | modifier return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
+   14 modifier: PUBLIC
+   15         | PRIVATE
 
-   17 return_type: ε
-   18            | DATATYPE
-   19            | CLASS_NAME
-   20            | VOID
+   16 method_access: IDENT DOT IDENT
 
-   21 secondary_modifier: STATIC
-   22                   | ABSTRACT
-   23                   | FINAL
-   24                   | NATIVE
-   25                   | SYNCHRONIZED
+   17 secondary_modifier: STATIC
+   18                   | ABSTRACT
+   19                   | FINAL
+   20                   | NATIVE
+   21                   | SYNCHRONIZED
 
-   26 parameter_list: ε
-   27               | DATATYPE IDENT
-   28               | parameter_list COMMA DATATYPE IDENT
+   22 parameter_list: ε
+   23               | DATATYPE IDENT
+   24               | parameter_list COMMA DATATYPE IDENT
 
-   29 method_body: variable_declaration_list commands
-   30            | commands
+   25 method_body: variable_declaration_list commands
+   26            | commands
 
-   31 commands: ε
-   32         | commands assignment
-   33         | commands loop
-   34         | commands control
-   35         | commands print
-   36         | commands return
-   37         | commands break
+   27 commands: ε
+   28         | commands assignment
+   29         | commands loop
+   30         | commands control
+   31         | commands print
+   32         | commands return
+   33         | commands break
 
-   38 assignment: IDENT EQUALS expression SEMICOLON
-   39           | IDENT EQUALS object_creation SEMICOLON
+   34 assignment: IDENT EQUALS expression SEMICOLON
+   35           | IDENT EQUALS object_creation SEMICOLON
 
-   40 object_creation: NEW CLASS_NAME LPAR RPAR
+   36 object_creation: NEW CLASS_NAME LPAR RPAR
 
-   41 literal: INT
-   42        | CHAR
-   43        | STRING
-   44        | BOOL
-   45        | DOUBLE
+   37 literal: INT
+   38        | CHAR
+   39        | STRING
+   40        | BOOL
+   41        | DOUBLE
 
-   46 expression: literal
-   47           | suntheti_parastash
+   42 expression: literal
+   43           | suntheti_parastash
 
-   48 suntheti_parastash: addition
-   49                   | IDENT
-   50                   | multiplication
-   51                   | division
-   52                   | subtraction
-   53                   | LPAR expression RPAR
-   54                   | call_method
-   55                   | method_access
+   44 suntheti_parastash: addition
+   45                   | IDENT
+   46                   | multiplication
+   47                   | division
+   48                   | subtraction
+   49                   | LPAR expression RPAR
+   50                   | call_method
+   51                   | method_access
 
-   56 addition: expression PLUS expression
+   52 addition: expression PLUS expression
 
-   57 multiplication: expression TIMES expression
+   53 multiplication: expression TIMES expression
 
-   58 division: expression DIV expression
+   54 division: expression DIV expression
 
-   59 subtraction: expression MINUS expression
+   55 subtraction: expression MINUS expression
 
-   60 call_method: IDENT LPAR arguement_list RPAR
-   61            | IDENT LPAR RPAR
+   56 call_method: IDENT LPAR arguement_list RPAR
+   57            | IDENT LPAR RPAR
 
-   62 arguement_list: IDENT
-   63               | arguement_list COMMA literal
-   64               | arguement_list COMMA IDENT
-   65               | literal
+   58 arguement_list: IDENT
+   59               | arguement_list COMMA literal
+   60               | arguement_list COMMA IDENT
+   61               | literal
 
-   66 loop: while
-   67     | for
+   62 loop: while
+   63     | for
 
-   68 while: DO LCURLY variable_declaration_list commands RCURLY WHILE LPAR condition RPAR SEMICOLON
+   64 while: DO LCURLY variable_declaration_list commands RCURLY WHILE LPAR condition RPAR SEMICOLON
 
-   69 condition: expression conop expression
-   70          | expression
+   65 condition: expression conop expression
+   66          | expression
 
-   71 conop: RELOP
-   72      | EQUOP
-   73      | NOTOP
-   74      | ANDOP
-   75      | OROP
+   67 conop: RELOP
+   68      | EQUOP
+   69      | NOTOP
+   70      | ANDOP
+   71      | OROP
 
-   76 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY
+   72 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY
 
-   77 exp1: DATATYPE IDENT EQUALS literal
-   78     | IDENT EQUALS literal
+   73 exp1: DATATYPE IDENT EQUALS literal
+   74     | IDENT EQUALS literal
 
-   79 exp2: IDENT conop literal
+   75 exp2: IDENT conop literal
 
-   80 exp3: IDENT PLUS expression
-   81     | IDENT MINUS expression
-   82     | IDENT DIV expression
-   83     | IDENT TIMES expression
+   76 exp3: IDENT PLUS expression
+   77     | IDENT MINUS expression
+   78     | IDENT DIV expression
+   79     | IDENT TIMES expression
 
-   84 control: if
-   85        | switch_statement
+   80 control: if
+   81        | switch_statement
 
-   86 if: IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY elseif else
+   82 if: IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY elseif else
 
-   87 elseif: ε
-   88       | elseif ELSE IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY
+   83 elseif: ε
+   84       | elseif ELSE IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY
 
-   89 else: ε
-   90     | ELSE LCURLY variable_declaration_list commands RCURLY
+   85 else: ε
+   86     | ELSE LCURLY variable_declaration_list commands RCURLY
 
-   91 switch_statement: SWITCH LPAR IDENT RPAR LCURLY case default_opt RCURLY
+   87 switch_statement: SWITCH LPAR IDENT RPAR LCURLY case default_opt RCURLY
 
-   92 case: ε
-   93     | case CASE literal COLON LCURLY variable_declaration_list commands RCURLY
+   88 case: ε
+   89     | case CASE literal COLON LCURLY variable_declaration_list commands RCURLY
 
-   94 default_opt: ε
-   95            | DEFAULT COLON LCURLY variable_declaration_list commands RCURLY
+   90 default_opt: ε
+   91            | DEFAULT COLON LCURLY variable_declaration_list commands RCURLY
 
-   96 print: OUTPRINT LPAR STRING RPAR SEMICOLON
-   97      | OUTPRINT LPAR STRING ident_list RPAR SEMICOLON
+   92 print: OUTPRINT LPAR STRING RPAR SEMICOLON
+   93      | OUTPRINT LPAR STRING ident_list RPAR SEMICOLON
 
-   98 ident_list: COMMA IDENT
-   99           | ident_list COMMA IDENT
+   94 ident_list: COMMA IDENT
+   95           | ident_list COMMA IDENT
 
-  100 return: RETURN expression SEMICOLON
+   96 return: RETURN expression SEMICOLON
 
-  101 break: BREAK SEMICOLON
+   97 break: BREAK SEMICOLON
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     error (256)
-    DATATYPE (258) 8 9 18 27 28 77
-    NEW (259) 40
-    RETURN (260) 100
-    VOID (261) 20
-    IF (262) 86 88
-    ELSE (263) 88 90
-    WHILE (264) 68
-    DO (265) 68
-    FOR (266) 76
-    SWITCH (267) 91
-    CASE (268) 93
-    DEFAULT (269) 95
-    BREAK (270) 101
+    DATATYPE (258) 8 23 24 73
+    NEW (259) 36
+    RETURN (260) 96
+    VOID (261) 10
+    IF (262) 82 84
+    ELSE (263) 84 86
+    WHILE (264) 64
+    DO (265) 64
+    FOR (266) 72
+    SWITCH (267) 87
+    CASE (268) 89
+    DEFAULT (269) 91
+    BREAK (270) 97
     TRUE (271)
     FALSE (272)
-    INT (273) 41
-    CHAR (274) 42
-    BOOL (275) 44
-    STRING (276) 43 96 97
-    DOUBLE (277) 45
-    PRIVATE (278) 13
-    PUBLIC (279) 3 4 5 12
-    STATIC (280) 21
-    ABSTRACT (281) 22
-    FINAL (282) 23
-    NATIVE (283) 24
-    SYNCHRONIZED (284) 25
-    OUTPRINT (285) 96 97
-    OROP (286) 75
-    ANDOP (287) 74
-    EQUOP (288) 72
-    NOTOP (289) 73
-    RELOP (290) 71
-    IDENT (291) 8 9 10 11 14 15 16 27 28 38 39 49 60 61 62 64 77 78 79 80 81 82 83 91 98 99
-    LCURLY (292) 3 4 5 15 16 68 76 86 88 90 91 93 95
-    RCURLY (293) 3 4 5 15 16 68 76 86 88 90 91 93 95
+    INT (273) 37
+    CHAR (274) 38
+    BOOL (275) 40
+    STRING (276) 39 92 93
+    DOUBLE (277) 41
+    PRIVATE (278) 15
+    PUBLIC (279) 3 4 5 14
+    STATIC (280) 17
+    ABSTRACT (281) 18
+    FINAL (282) 19
+    NATIVE (283) 20
+    SYNCHRONIZED (284) 21
+    OUTPRINT (285) 92 93
+    OROP (286) 71
+    ANDOP (287) 70
+    EQUOP (288) 68
+    NOTOP (289) 69
+    RELOP (290) 67
+    IDENT (291) 11 12 13 16 23 24 34 35 45 56 57 58 60 73 74 75 76 77 78 79 87 94 95
+    LCURLY (292) 3 4 5 12 13 64 72 82 84 86 87 89 91
+    RCURLY (293) 3 4 5 12 13 64 72 82 84 86 87 89 91
     CLASS (294) 3 4 5
-    CLASS_NAME (295) 3 4 5 10 11 19 40
-    LPAR (296) 15 16 40 53 60 61 68 76 86 88 91 96 97
-    RPAR (297) 15 16 40 53 60 61 68 76 86 88 91 96 97
-    COLON (298) 93 95
-    DOT (299) 14
-    SEMICOLON (300) 8 9 10 11 38 39 68 76 96 97 100 101
-    EQUALS (301) 38 39 77 78
-    PLUS (302) 56 80
-    MINUS (303) 59 81
-    DIV (304) 58 82
-    TIMES (305) 57 83
-    COMMA (306) 28 63 64 98 99
+    CLASS_NAME (295) 3 4 5 9 36
+    LPAR (296) 12 13 36 49 56 57 64 72 82 84 87 92 93
+    RPAR (297) 12 13 36 49 56 57 64 72 82 84 87 92 93
+    COLON (298) 89 91
+    DOT (299) 16
+    SEMICOLON (300) 11 34 35 64 72 92 93 96 97
+    EQUALS (301) 34 35 73 74
+    PLUS (302) 52 76
+    MINUS (303) 55 77
+    DIV (304) 54 78
+    TIMES (305) 53 79
+    COMMA (306) 24 59 60 94 95
+    RETURN_TYPE_PREC (307)
+    TYPE_PREC (308)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (52)
+    $accept (54)
         on left: 0
-    program (53)
+    program (55)
         on left: 1 2
         on right: 0 2
-    class (54)
+    class (56)
         on left: 3 4 5
         on right: 2
-    variable_declaration_list (55)
+    variable_declaration_list (57)
         on left: 6 7
-        on right: 3 5 7 29 68 76 86 88 90 93 95
-    variable_declaration (56)
-        on left: 8 9 10 11
+        on right: 3 5 7 25 64 72 82 84 86 89 91
+    type_or_return_type (58)
+        on left: 8 9 10
+        on right: 11 12 13
+    variable_declaration (59)
+        on left: 11
         on right: 6 7
-    modifier (57)
+    method_declaration (60)
         on left: 12 13
-        on right: 9 11 15 16
-    method_access (58)
-        on left: 14
-        on right: 55
-    method_declaration (59)
-        on left: 15 16
         on right: 3
-    return_type (60)
-        on left: 17 18 19 20
-        on right: 15 16
-    secondary_modifier (61)
-        on left: 21 22 23 24 25
-        on right: 15
-    parameter_list (62)
-        on left: 26 27 28
-        on right: 15 16 28
-    method_body (63)
-        on left: 29 30
-        on right: 15 16
-    commands (64)
-        on left: 31 32 33 34 35 36 37
-        on right: 29 30 32 33 34 35 36 37 68 76 86 88 90 93 95
-    assignment (65)
-        on left: 38 39
-        on right: 32
-    object_creation (66)
-        on left: 40
-        on right: 39
-    literal (67)
-        on left: 41 42 43 44 45
-        on right: 46 63 65 77 78 79 93
-    expression (68)
-        on left: 46 47
-        on right: 38 53 56 57 58 59 69 70 80 81 82 83 100
-    suntheti_parastash (69)
-        on left: 48 49 50 51 52 53 54 55
-        on right: 47
-    addition (70)
-        on left: 56
-        on right: 48
-    multiplication (71)
-        on left: 57
-        on right: 50
-    division (72)
-        on left: 58
+    modifier (61)
+        on left: 14 15
+        on right: 11 12 13
+    method_access (62)
+        on left: 16
         on right: 51
-    subtraction (73)
-        on left: 59
-        on right: 52
-    call_method (74)
-        on left: 60 61
-        on right: 54
-    arguement_list (75)
-        on left: 62 63 64 65
-        on right: 60 63 64
-    loop (76)
-        on left: 66 67
-        on right: 33
-    while (77)
-        on left: 68
-        on right: 66
-    condition (78)
-        on left: 69 70
-        on right: 68 86 88
-    conop (79)
-        on left: 71 72 73 74 75
-        on right: 69 79
-    for (80)
-        on left: 76
-        on right: 67
-    exp1 (81)
-        on left: 77 78
-        on right: 76
-    exp2 (82)
-        on left: 79
-        on right: 76
-    exp3 (83)
-        on left: 80 81 82 83
-        on right: 76
-    control (84)
-        on left: 84 85
-        on right: 34
-    if (85)
-        on left: 86
-        on right: 84
-    elseif (86)
-        on left: 87 88
-        on right: 86 88
-    else (87)
-        on left: 89 90
-        on right: 86
-    switch_statement (88)
-        on left: 91
-        on right: 85
-    case (89)
-        on left: 92 93
-        on right: 91 93
-    default_opt (90)
-        on left: 94 95
-        on right: 91
-    print (91)
-        on left: 96 97
+    secondary_modifier (63)
+        on left: 17 18 19 20 21
+        on right: 12
+    parameter_list (64)
+        on left: 22 23 24
+        on right: 12 13 24
+    method_body (65)
+        on left: 25 26
+        on right: 12 13
+    commands (66)
+        on left: 27 28 29 30 31 32 33
+        on right: 25 26 28 29 30 31 32 33 64 72 82 84 86 89 91
+    assignment (67)
+        on left: 34 35
+        on right: 28
+    object_creation (68)
+        on left: 36
         on right: 35
-    ident_list (92)
-        on left: 98 99
-        on right: 97 99
-    return (93)
-        on left: 100
-        on right: 36
-    break (94)
-        on left: 101
-        on right: 37
+    literal (69)
+        on left: 37 38 39 40 41
+        on right: 42 59 61 73 74 75 89
+    expression (70)
+        on left: 42 43
+        on right: 34 49 52 53 54 55 65 66 76 77 78 79 96
+    suntheti_parastash (71)
+        on left: 44 45 46 47 48 49 50 51
+        on right: 43
+    addition (72)
+        on left: 52
+        on right: 44
+    multiplication (73)
+        on left: 53
+        on right: 46
+    division (74)
+        on left: 54
+        on right: 47
+    subtraction (75)
+        on left: 55
+        on right: 48
+    call_method (76)
+        on left: 56 57
+        on right: 50
+    arguement_list (77)
+        on left: 58 59 60 61
+        on right: 56 59 60
+    loop (78)
+        on left: 62 63
+        on right: 29
+    while (79)
+        on left: 64
+        on right: 62
+    condition (80)
+        on left: 65 66
+        on right: 64 82 84
+    conop (81)
+        on left: 67 68 69 70 71
+        on right: 65 75
+    for (82)
+        on left: 72
+        on right: 63
+    exp1 (83)
+        on left: 73 74
+        on right: 72
+    exp2 (84)
+        on left: 75
+        on right: 72
+    exp3 (85)
+        on left: 76 77 78 79
+        on right: 72
+    control (86)
+        on left: 80 81
+        on right: 30
+    if (87)
+        on left: 82
+        on right: 80
+    elseif (88)
+        on left: 83 84
+        on right: 82 84
+    else (89)
+        on left: 85 86
+        on right: 82
+    switch_statement (90)
+        on left: 87
+        on right: 81
+    case (91)
+        on left: 88 89
+        on right: 87 89
+    default_opt (92)
+        on left: 90 91
+        on right: 87
+    print (93)
+        on left: 92 93
+        on right: 31
+    ident_list (94)
+        on left: 94 95
+        on right: 93 95
+    return (95)
+        on left: 96
+        on right: 32
+    break (96)
+        on left: 97
+        on right: 33
 
 
 State 0
@@ -410,2453 +406,2332 @@ State 7
     4      | PUBLIC CLASS CLASS_NAME LCURLY • RCURLY
     5      | PUBLIC CLASS CLASS_NAME LCURLY • variable_declaration_list RCURLY
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    RCURLY      shift, and go to state 11
-    CLASS_NAME  shift, and go to state 12
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
+    RCURLY   shift, and go to state 10
 
-    variable_declaration_list  go to state 13
-    variable_declaration       go to state 14
-    modifier                   go to state 15
+    variable_declaration_list  go to state 11
+    variable_declaration       go to state 12
+    modifier                   go to state 13
 
 
 State 8
 
-    8 variable_declaration: DATATYPE • IDENT SEMICOLON
+   15 modifier: PRIVATE •
 
-    IDENT  shift, and go to state 16
+    $default  reduce using rule 15 (modifier)
 
 
 State 9
 
-   13 modifier: PRIVATE •
+   14 modifier: PUBLIC •
 
-    $default  reduce using rule 13 (modifier)
+    $default  reduce using rule 14 (modifier)
 
 
 State 10
-
-   12 modifier: PUBLIC •
-
-    $default  reduce using rule 12 (modifier)
-
-
-State 11
 
     4 class: PUBLIC CLASS CLASS_NAME LCURLY RCURLY •
 
     $default  reduce using rule 4 (class)
 
 
-State 12
-
-   10 variable_declaration: CLASS_NAME • IDENT SEMICOLON
-
-    IDENT  shift, and go to state 17
-
-
-State 13
+State 11
 
     3 class: PUBLIC CLASS CLASS_NAME LCURLY variable_declaration_list • method_declaration RCURLY
     5      | PUBLIC CLASS CLASS_NAME LCURLY variable_declaration_list • RCURLY
     7 variable_declaration_list: variable_declaration_list • variable_declaration
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    RCURLY      shift, and go to state 18
-    CLASS_NAME  shift, and go to state 12
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
+    RCURLY   shift, and go to state 14
 
-    variable_declaration  go to state 19
-    modifier              go to state 20
-    method_declaration    go to state 21
+    variable_declaration  go to state 15
+    method_declaration    go to state 16
+    modifier              go to state 17
 
 
-State 14
+State 12
 
     6 variable_declaration_list: variable_declaration •
 
     $default  reduce using rule 6 (variable_declaration_list)
 
 
-State 15
+State 13
 
-    9 variable_declaration: modifier • DATATYPE IDENT SEMICOLON
-   11                     | modifier • CLASS_NAME IDENT SEMICOLON
+   11 variable_declaration: modifier • type_or_return_type IDENT SEMICOLON
 
-    DATATYPE    shift, and go to state 22
-    CLASS_NAME  shift, and go to state 23
+    DATATYPE    shift, and go to state 18
+    VOID        shift, and go to state 19
+    CLASS_NAME  shift, and go to state 20
 
-
-State 16
-
-    8 variable_declaration: DATATYPE IDENT • SEMICOLON
-
-    SEMICOLON  shift, and go to state 24
+    type_or_return_type  go to state 21
 
 
-State 17
-
-   10 variable_declaration: CLASS_NAME IDENT • SEMICOLON
-
-    SEMICOLON  shift, and go to state 25
-
-
-State 18
+State 14
 
     5 class: PUBLIC CLASS CLASS_NAME LCURLY variable_declaration_list RCURLY •
 
     $default  reduce using rule 5 (class)
 
 
-State 19
+State 15
 
     7 variable_declaration_list: variable_declaration_list variable_declaration •
 
     $default  reduce using rule 7 (variable_declaration_list)
 
 
+State 16
+
+    3 class: PUBLIC CLASS CLASS_NAME LCURLY variable_declaration_list method_declaration • RCURLY
+
+    RCURLY  shift, and go to state 22
+
+
+State 17
+
+   11 variable_declaration: modifier • type_or_return_type IDENT SEMICOLON
+   12 method_declaration: modifier • secondary_modifier type_or_return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
+   13                   | modifier • type_or_return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
+
+    DATATYPE      shift, and go to state 18
+    VOID          shift, and go to state 19
+    STATIC        shift, and go to state 23
+    ABSTRACT      shift, and go to state 24
+    FINAL         shift, and go to state 25
+    NATIVE        shift, and go to state 26
+    SYNCHRONIZED  shift, and go to state 27
+    CLASS_NAME    shift, and go to state 20
+
+    type_or_return_type  go to state 28
+    secondary_modifier   go to state 29
+
+
+State 18
+
+    8 type_or_return_type: DATATYPE •
+
+    $default  reduce using rule 8 (type_or_return_type)
+
+
+State 19
+
+   10 type_or_return_type: VOID •
+
+    $default  reduce using rule 10 (type_or_return_type)
+
+
 State 20
 
-    9 variable_declaration: modifier • DATATYPE IDENT SEMICOLON
-   11                     | modifier • CLASS_NAME IDENT SEMICOLON
-   15 method_declaration: modifier • secondary_modifier return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
-   16                   | modifier • return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
+    9 type_or_return_type: CLASS_NAME •
 
-    DATATYPE      shift, and go to state 26
-    VOID          shift, and go to state 27
-    STATIC        shift, and go to state 28
-    ABSTRACT      shift, and go to state 29
-    FINAL         shift, and go to state 30
-    NATIVE        shift, and go to state 31
-    SYNCHRONIZED  shift, and go to state 32
-    CLASS_NAME    shift, and go to state 33
-
-    $default  reduce using rule 17 (return_type)
-
-    return_type         go to state 34
-    secondary_modifier  go to state 35
+    $default  reduce using rule 9 (type_or_return_type)
 
 
 State 21
 
-    3 class: PUBLIC CLASS CLASS_NAME LCURLY variable_declaration_list method_declaration • RCURLY
+   11 variable_declaration: modifier type_or_return_type • IDENT SEMICOLON
 
-    RCURLY  shift, and go to state 36
+    IDENT  shift, and go to state 30
 
 
 State 22
-
-    9 variable_declaration: modifier DATATYPE • IDENT SEMICOLON
-
-    IDENT  shift, and go to state 37
-
-
-State 23
-
-   11 variable_declaration: modifier CLASS_NAME • IDENT SEMICOLON
-
-    IDENT  shift, and go to state 38
-
-
-State 24
-
-    8 variable_declaration: DATATYPE IDENT SEMICOLON •
-
-    $default  reduce using rule 8 (variable_declaration)
-
-
-State 25
-
-   10 variable_declaration: CLASS_NAME IDENT SEMICOLON •
-
-    $default  reduce using rule 10 (variable_declaration)
-
-
-State 26
-
-    9 variable_declaration: modifier DATATYPE • IDENT SEMICOLON
-   18 return_type: DATATYPE •
-
-    IDENT  shift, and go to state 37
-
-    IDENT  [reduce using rule 18 (return_type)]
-
-
-State 27
-
-   20 return_type: VOID •
-
-    $default  reduce using rule 20 (return_type)
-
-
-State 28
-
-   21 secondary_modifier: STATIC •
-
-    $default  reduce using rule 21 (secondary_modifier)
-
-
-State 29
-
-   22 secondary_modifier: ABSTRACT •
-
-    $default  reduce using rule 22 (secondary_modifier)
-
-
-State 30
-
-   23 secondary_modifier: FINAL •
-
-    $default  reduce using rule 23 (secondary_modifier)
-
-
-State 31
-
-   24 secondary_modifier: NATIVE •
-
-    $default  reduce using rule 24 (secondary_modifier)
-
-
-State 32
-
-   25 secondary_modifier: SYNCHRONIZED •
-
-    $default  reduce using rule 25 (secondary_modifier)
-
-
-State 33
-
-   11 variable_declaration: modifier CLASS_NAME • IDENT SEMICOLON
-   19 return_type: CLASS_NAME •
-
-    IDENT  shift, and go to state 38
-
-    IDENT  [reduce using rule 19 (return_type)]
-
-
-State 34
-
-   16 method_declaration: modifier return_type • IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
-
-    IDENT  shift, and go to state 39
-
-
-State 35
-
-   15 method_declaration: modifier secondary_modifier • return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
-
-    DATATYPE    shift, and go to state 40
-    VOID        shift, and go to state 27
-    CLASS_NAME  shift, and go to state 41
-
-    $default  reduce using rule 17 (return_type)
-
-    return_type  go to state 42
-
-
-State 36
 
     3 class: PUBLIC CLASS CLASS_NAME LCURLY variable_declaration_list method_declaration RCURLY •
 
     $default  reduce using rule 3 (class)
 
 
-State 37
+State 23
 
-    9 variable_declaration: modifier DATATYPE IDENT • SEMICOLON
+   17 secondary_modifier: STATIC •
 
-    SEMICOLON  shift, and go to state 43
-
-
-State 38
-
-   11 variable_declaration: modifier CLASS_NAME IDENT • SEMICOLON
-
-    SEMICOLON  shift, and go to state 44
+    $default  reduce using rule 17 (secondary_modifier)
 
 
-State 39
+State 24
 
-   16 method_declaration: modifier return_type IDENT • LPAR parameter_list RPAR LCURLY method_body RCURLY
+   18 secondary_modifier: ABSTRACT •
 
-    LPAR  shift, and go to state 45
-
-
-State 40
-
-   18 return_type: DATATYPE •
-
-    $default  reduce using rule 18 (return_type)
+    $default  reduce using rule 18 (secondary_modifier)
 
 
-State 41
+State 25
 
-   19 return_type: CLASS_NAME •
+   19 secondary_modifier: FINAL •
 
-    $default  reduce using rule 19 (return_type)
-
-
-State 42
-
-   15 method_declaration: modifier secondary_modifier return_type • IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
-
-    IDENT  shift, and go to state 46
+    $default  reduce using rule 19 (secondary_modifier)
 
 
-State 43
+State 26
 
-    9 variable_declaration: modifier DATATYPE IDENT SEMICOLON •
+   20 secondary_modifier: NATIVE •
 
-    $default  reduce using rule 9 (variable_declaration)
+    $default  reduce using rule 20 (secondary_modifier)
 
 
-State 44
+State 27
 
-   11 variable_declaration: modifier CLASS_NAME IDENT SEMICOLON •
+   21 secondary_modifier: SYNCHRONIZED •
+
+    $default  reduce using rule 21 (secondary_modifier)
+
+
+State 28
+
+   11 variable_declaration: modifier type_or_return_type • IDENT SEMICOLON
+   13 method_declaration: modifier type_or_return_type • IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
+
+    IDENT  shift, and go to state 31
+
+
+State 29
+
+   12 method_declaration: modifier secondary_modifier • type_or_return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
+
+    DATATYPE    shift, and go to state 18
+    VOID        shift, and go to state 19
+    CLASS_NAME  shift, and go to state 20
+
+    type_or_return_type  go to state 32
+
+
+State 30
+
+   11 variable_declaration: modifier type_or_return_type IDENT • SEMICOLON
+
+    SEMICOLON  shift, and go to state 33
+
+
+State 31
+
+   11 variable_declaration: modifier type_or_return_type IDENT • SEMICOLON
+   13 method_declaration: modifier type_or_return_type IDENT • LPAR parameter_list RPAR LCURLY method_body RCURLY
+
+    LPAR       shift, and go to state 34
+    SEMICOLON  shift, and go to state 33
+
+
+State 32
+
+   12 method_declaration: modifier secondary_modifier type_or_return_type • IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
+
+    IDENT  shift, and go to state 35
+
+
+State 33
+
+   11 variable_declaration: modifier type_or_return_type IDENT SEMICOLON •
 
     $default  reduce using rule 11 (variable_declaration)
 
 
+State 34
+
+   13 method_declaration: modifier type_or_return_type IDENT LPAR • parameter_list RPAR LCURLY method_body RCURLY
+
+    DATATYPE  shift, and go to state 36
+
+    $default  reduce using rule 22 (parameter_list)
+
+    parameter_list  go to state 37
+
+
+State 35
+
+   12 method_declaration: modifier secondary_modifier type_or_return_type IDENT • LPAR parameter_list RPAR LCURLY method_body RCURLY
+
+    LPAR  shift, and go to state 38
+
+
+State 36
+
+   23 parameter_list: DATATYPE • IDENT
+
+    IDENT  shift, and go to state 39
+
+
+State 37
+
+   13 method_declaration: modifier type_or_return_type IDENT LPAR parameter_list • RPAR LCURLY method_body RCURLY
+   24 parameter_list: parameter_list • COMMA DATATYPE IDENT
+
+    RPAR   shift, and go to state 40
+    COMMA  shift, and go to state 41
+
+
+State 38
+
+   12 method_declaration: modifier secondary_modifier type_or_return_type IDENT LPAR • parameter_list RPAR LCURLY method_body RCURLY
+
+    DATATYPE  shift, and go to state 36
+
+    $default  reduce using rule 22 (parameter_list)
+
+    parameter_list  go to state 42
+
+
+State 39
+
+   23 parameter_list: DATATYPE IDENT •
+
+    $default  reduce using rule 23 (parameter_list)
+
+
+State 40
+
+   13 method_declaration: modifier type_or_return_type IDENT LPAR parameter_list RPAR • LCURLY method_body RCURLY
+
+    LCURLY  shift, and go to state 43
+
+
+State 41
+
+   24 parameter_list: parameter_list COMMA • DATATYPE IDENT
+
+    DATATYPE  shift, and go to state 44
+
+
+State 42
+
+   12 method_declaration: modifier secondary_modifier type_or_return_type IDENT LPAR parameter_list • RPAR LCURLY method_body RCURLY
+   24 parameter_list: parameter_list • COMMA DATATYPE IDENT
+
+    RPAR   shift, and go to state 45
+    COMMA  shift, and go to state 41
+
+
+State 43
+
+   13 method_declaration: modifier type_or_return_type IDENT LPAR parameter_list RPAR LCURLY • method_body RCURLY
+
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
+
+    $default  reduce using rule 27 (commands)
+
+    variable_declaration_list  go to state 46
+    variable_declaration       go to state 12
+    modifier                   go to state 13
+    method_body                go to state 47
+    commands                   go to state 48
+
+
+State 44
+
+   24 parameter_list: parameter_list COMMA DATATYPE • IDENT
+
+    IDENT  shift, and go to state 49
+
+
 State 45
 
-   16 method_declaration: modifier return_type IDENT LPAR • parameter_list RPAR LCURLY method_body RCURLY
+   12 method_declaration: modifier secondary_modifier type_or_return_type IDENT LPAR parameter_list RPAR • LCURLY method_body RCURLY
 
-    DATATYPE  shift, and go to state 47
-
-    $default  reduce using rule 26 (parameter_list)
-
-    parameter_list  go to state 48
+    LCURLY  shift, and go to state 50
 
 
 State 46
 
-   15 method_declaration: modifier secondary_modifier return_type IDENT • LPAR parameter_list RPAR LCURLY method_body RCURLY
+    7 variable_declaration_list: variable_declaration_list • variable_declaration
+   25 method_body: variable_declaration_list • commands
 
-    LPAR  shift, and go to state 49
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
+
+    $default  reduce using rule 27 (commands)
+
+    variable_declaration  go to state 15
+    modifier              go to state 13
+    commands              go to state 51
 
 
 State 47
 
-   27 parameter_list: DATATYPE • IDENT
+   13 method_declaration: modifier type_or_return_type IDENT LPAR parameter_list RPAR LCURLY method_body • RCURLY
 
-    IDENT  shift, and go to state 50
+    RCURLY  shift, and go to state 52
 
 
 State 48
 
-   16 method_declaration: modifier return_type IDENT LPAR parameter_list • RPAR LCURLY method_body RCURLY
-   28 parameter_list: parameter_list • COMMA DATATYPE IDENT
+   26 method_body: commands •
+   28 commands: commands • assignment
+   29         | commands • loop
+   30         | commands • control
+   31         | commands • print
+   32         | commands • return
+   33         | commands • break
 
-    RPAR   shift, and go to state 51
-    COMMA  shift, and go to state 52
+    RETURN    shift, and go to state 53
+    IF        shift, and go to state 54
+    DO        shift, and go to state 55
+    FOR       shift, and go to state 56
+    SWITCH    shift, and go to state 57
+    BREAK     shift, and go to state 58
+    OUTPRINT  shift, and go to state 59
+    IDENT     shift, and go to state 60
+
+    $default  reduce using rule 26 (method_body)
+
+    assignment        go to state 61
+    loop              go to state 62
+    while             go to state 63
+    for               go to state 64
+    control           go to state 65
+    if                go to state 66
+    switch_statement  go to state 67
+    print             go to state 68
+    return            go to state 69
+    break             go to state 70
 
 
 State 49
 
-   15 method_declaration: modifier secondary_modifier return_type IDENT LPAR • parameter_list RPAR LCURLY method_body RCURLY
+   24 parameter_list: parameter_list COMMA DATATYPE IDENT •
 
-    DATATYPE  shift, and go to state 47
-
-    $default  reduce using rule 26 (parameter_list)
-
-    parameter_list  go to state 53
+    $default  reduce using rule 24 (parameter_list)
 
 
 State 50
 
-   27 parameter_list: DATATYPE IDENT •
+   12 method_declaration: modifier secondary_modifier type_or_return_type IDENT LPAR parameter_list RPAR LCURLY • method_body RCURLY
 
-    $default  reduce using rule 27 (parameter_list)
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
+
+    $default  reduce using rule 27 (commands)
+
+    variable_declaration_list  go to state 46
+    variable_declaration       go to state 12
+    modifier                   go to state 13
+    method_body                go to state 71
+    commands                   go to state 48
 
 
 State 51
 
-   16 method_declaration: modifier return_type IDENT LPAR parameter_list RPAR • LCURLY method_body RCURLY
+   25 method_body: variable_declaration_list commands •
+   28 commands: commands • assignment
+   29         | commands • loop
+   30         | commands • control
+   31         | commands • print
+   32         | commands • return
+   33         | commands • break
 
-    LCURLY  shift, and go to state 54
+    RETURN    shift, and go to state 53
+    IF        shift, and go to state 54
+    DO        shift, and go to state 55
+    FOR       shift, and go to state 56
+    SWITCH    shift, and go to state 57
+    BREAK     shift, and go to state 58
+    OUTPRINT  shift, and go to state 59
+    IDENT     shift, and go to state 60
+
+    $default  reduce using rule 25 (method_body)
+
+    assignment        go to state 61
+    loop              go to state 62
+    while             go to state 63
+    for               go to state 64
+    control           go to state 65
+    if                go to state 66
+    switch_statement  go to state 67
+    print             go to state 68
+    return            go to state 69
+    break             go to state 70
 
 
 State 52
 
-   28 parameter_list: parameter_list COMMA • DATATYPE IDENT
+   13 method_declaration: modifier type_or_return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY •
 
-    DATATYPE  shift, and go to state 55
+    $default  reduce using rule 13 (method_declaration)
 
 
 State 53
 
-   15 method_declaration: modifier secondary_modifier return_type IDENT LPAR parameter_list • RPAR LCURLY method_body RCURLY
-   28 parameter_list: parameter_list • COMMA DATATYPE IDENT
+   96 return: RETURN • expression SEMICOLON
 
-    RPAR   shift, and go to state 56
-    COMMA  shift, and go to state 52
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
+
+    method_access       go to state 79
+    literal             go to state 80
+    expression          go to state 81
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
 
 
 State 54
 
-   16 method_declaration: modifier return_type IDENT LPAR parameter_list RPAR LCURLY • method_body RCURLY
+   82 if: IF • LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY elseif else
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
-
-    $default  reduce using rule 31 (commands)
-
-    variable_declaration_list  go to state 57
-    variable_declaration       go to state 14
-    modifier                   go to state 15
-    method_body                go to state 58
-    commands                   go to state 59
+    LPAR  shift, and go to state 88
 
 
 State 55
 
-   28 parameter_list: parameter_list COMMA DATATYPE • IDENT
+   64 while: DO • LCURLY variable_declaration_list commands RCURLY WHILE LPAR condition RPAR SEMICOLON
 
-    IDENT  shift, and go to state 60
+    LCURLY  shift, and go to state 89
 
 
 State 56
 
-   15 method_declaration: modifier secondary_modifier return_type IDENT LPAR parameter_list RPAR • LCURLY method_body RCURLY
+   72 for: FOR • LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY
 
-    LCURLY  shift, and go to state 61
+    LPAR  shift, and go to state 90
 
 
 State 57
 
-    7 variable_declaration_list: variable_declaration_list • variable_declaration
-   29 method_body: variable_declaration_list • commands
+   87 switch_statement: SWITCH • LPAR IDENT RPAR LCURLY case default_opt RCURLY
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
-
-    $default  reduce using rule 31 (commands)
-
-    variable_declaration  go to state 19
-    modifier              go to state 15
-    commands              go to state 62
+    LPAR  shift, and go to state 91
 
 
 State 58
 
-   16 method_declaration: modifier return_type IDENT LPAR parameter_list RPAR LCURLY method_body • RCURLY
+   97 break: BREAK • SEMICOLON
 
-    RCURLY  shift, and go to state 63
+    SEMICOLON  shift, and go to state 92
 
 
 State 59
 
-   30 method_body: commands •
-   32 commands: commands • assignment
-   33         | commands • loop
-   34         | commands • control
-   35         | commands • print
-   36         | commands • return
-   37         | commands • break
+   92 print: OUTPRINT • LPAR STRING RPAR SEMICOLON
+   93      | OUTPRINT • LPAR STRING ident_list RPAR SEMICOLON
 
-    RETURN    shift, and go to state 64
-    IF        shift, and go to state 65
-    DO        shift, and go to state 66
-    FOR       shift, and go to state 67
-    SWITCH    shift, and go to state 68
-    BREAK     shift, and go to state 69
-    OUTPRINT  shift, and go to state 70
-    IDENT     shift, and go to state 71
-
-    $default  reduce using rule 30 (method_body)
-
-    assignment        go to state 72
-    loop              go to state 73
-    while             go to state 74
-    for               go to state 75
-    control           go to state 76
-    if                go to state 77
-    switch_statement  go to state 78
-    print             go to state 79
-    return            go to state 80
-    break             go to state 81
+    LPAR  shift, and go to state 93
 
 
 State 60
 
-   28 parameter_list: parameter_list COMMA DATATYPE IDENT •
+   34 assignment: IDENT • EQUALS expression SEMICOLON
+   35           | IDENT • EQUALS object_creation SEMICOLON
 
-    $default  reduce using rule 28 (parameter_list)
+    EQUALS  shift, and go to state 94
 
 
 State 61
 
-   15 method_declaration: modifier secondary_modifier return_type IDENT LPAR parameter_list RPAR LCURLY • method_body RCURLY
+   28 commands: commands assignment •
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
-
-    $default  reduce using rule 31 (commands)
-
-    variable_declaration_list  go to state 57
-    variable_declaration       go to state 14
-    modifier                   go to state 15
-    method_body                go to state 82
-    commands                   go to state 59
+    $default  reduce using rule 28 (commands)
 
 
 State 62
 
-   29 method_body: variable_declaration_list commands •
-   32 commands: commands • assignment
-   33         | commands • loop
-   34         | commands • control
-   35         | commands • print
-   36         | commands • return
-   37         | commands • break
+   29 commands: commands loop •
 
-    RETURN    shift, and go to state 64
-    IF        shift, and go to state 65
-    DO        shift, and go to state 66
-    FOR       shift, and go to state 67
-    SWITCH    shift, and go to state 68
-    BREAK     shift, and go to state 69
-    OUTPRINT  shift, and go to state 70
-    IDENT     shift, and go to state 71
-
-    $default  reduce using rule 29 (method_body)
-
-    assignment        go to state 72
-    loop              go to state 73
-    while             go to state 74
-    for               go to state 75
-    control           go to state 76
-    if                go to state 77
-    switch_statement  go to state 78
-    print             go to state 79
-    return            go to state 80
-    break             go to state 81
+    $default  reduce using rule 29 (commands)
 
 
 State 63
 
-   16 method_declaration: modifier return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY •
+   62 loop: while •
 
-    $default  reduce using rule 16 (method_declaration)
+    $default  reduce using rule 62 (loop)
 
 
 State 64
 
-  100 return: RETURN • expression SEMICOLON
+   63 loop: for •
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
-
-    method_access       go to state 90
-    literal             go to state 91
-    expression          go to state 92
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
+    $default  reduce using rule 63 (loop)
 
 
 State 65
 
-   86 if: IF • LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY elseif else
+   30 commands: commands control •
 
-    LPAR  shift, and go to state 99
+    $default  reduce using rule 30 (commands)
 
 
 State 66
 
-   68 while: DO • LCURLY variable_declaration_list commands RCURLY WHILE LPAR condition RPAR SEMICOLON
+   80 control: if •
 
-    LCURLY  shift, and go to state 100
+    $default  reduce using rule 80 (control)
 
 
 State 67
 
-   76 for: FOR • LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY
+   81 control: switch_statement •
 
-    LPAR  shift, and go to state 101
+    $default  reduce using rule 81 (control)
 
 
 State 68
 
-   91 switch_statement: SWITCH • LPAR IDENT RPAR LCURLY case default_opt RCURLY
+   31 commands: commands print •
 
-    LPAR  shift, and go to state 102
+    $default  reduce using rule 31 (commands)
 
 
 State 69
 
-  101 break: BREAK • SEMICOLON
-
-    SEMICOLON  shift, and go to state 103
-
-
-State 70
-
-   96 print: OUTPRINT • LPAR STRING RPAR SEMICOLON
-   97      | OUTPRINT • LPAR STRING ident_list RPAR SEMICOLON
-
-    LPAR  shift, and go to state 104
-
-
-State 71
-
-   38 assignment: IDENT • EQUALS expression SEMICOLON
-   39           | IDENT • EQUALS object_creation SEMICOLON
-
-    EQUALS  shift, and go to state 105
-
-
-State 72
-
-   32 commands: commands assignment •
+   32 commands: commands return •
 
     $default  reduce using rule 32 (commands)
 
 
-State 73
+State 70
 
-   33 commands: commands loop •
+   33 commands: commands break •
 
     $default  reduce using rule 33 (commands)
 
 
+State 71
+
+   12 method_declaration: modifier secondary_modifier type_or_return_type IDENT LPAR parameter_list RPAR LCURLY method_body • RCURLY
+
+    RCURLY  shift, and go to state 95
+
+
+State 72
+
+   37 literal: INT •
+
+    $default  reduce using rule 37 (literal)
+
+
+State 73
+
+   38 literal: CHAR •
+
+    $default  reduce using rule 38 (literal)
+
+
 State 74
 
-   66 loop: while •
+   40 literal: BOOL •
 
-    $default  reduce using rule 66 (loop)
+    $default  reduce using rule 40 (literal)
 
 
 State 75
 
-   67 loop: for •
+   39 literal: STRING •
 
-    $default  reduce using rule 67 (loop)
+    $default  reduce using rule 39 (literal)
 
 
 State 76
 
-   34 commands: commands control •
-
-    $default  reduce using rule 34 (commands)
-
-
-State 77
-
-   84 control: if •
-
-    $default  reduce using rule 84 (control)
-
-
-State 78
-
-   85 control: switch_statement •
-
-    $default  reduce using rule 85 (control)
-
-
-State 79
-
-   35 commands: commands print •
-
-    $default  reduce using rule 35 (commands)
-
-
-State 80
-
-   36 commands: commands return •
-
-    $default  reduce using rule 36 (commands)
-
-
-State 81
-
-   37 commands: commands break •
-
-    $default  reduce using rule 37 (commands)
-
-
-State 82
-
-   15 method_declaration: modifier secondary_modifier return_type IDENT LPAR parameter_list RPAR LCURLY method_body • RCURLY
-
-    RCURLY  shift, and go to state 106
-
-
-State 83
-
-   41 literal: INT •
+   41 literal: DOUBLE •
 
     $default  reduce using rule 41 (literal)
 
 
-State 84
+State 77
 
-   42 literal: CHAR •
+   16 method_access: IDENT • DOT IDENT
+   45 suntheti_parastash: IDENT •
+   56 call_method: IDENT • LPAR arguement_list RPAR
+   57            | IDENT • LPAR RPAR
 
-    $default  reduce using rule 42 (literal)
+    LPAR  shift, and go to state 96
+    DOT   shift, and go to state 97
 
-
-State 85
-
-   44 literal: BOOL •
-
-    $default  reduce using rule 44 (literal)
-
-
-State 86
-
-   43 literal: STRING •
-
-    $default  reduce using rule 43 (literal)
+    $default  reduce using rule 45 (suntheti_parastash)
 
 
-State 87
+State 78
 
-   45 literal: DOUBLE •
+   49 suntheti_parastash: LPAR • expression RPAR
 
-    $default  reduce using rule 45 (literal)
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
 
-
-State 88
-
-   14 method_access: IDENT • DOT IDENT
-   49 suntheti_parastash: IDENT •
-   60 call_method: IDENT • LPAR arguement_list RPAR
-   61            | IDENT • LPAR RPAR
-
-    LPAR  shift, and go to state 107
-    DOT   shift, and go to state 108
-
-    $default  reduce using rule 49 (suntheti_parastash)
-
-
-State 89
-
-   53 suntheti_parastash: LPAR • expression RPAR
-
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
-
-    method_access       go to state 90
-    literal             go to state 91
-    expression          go to state 109
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
+    method_access       go to state 79
+    literal             go to state 80
+    expression          go to state 98
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
 
 
-State 90
+State 79
 
-   55 suntheti_parastash: method_access •
-
-    $default  reduce using rule 55 (suntheti_parastash)
-
-
-State 91
-
-   46 expression: literal •
-
-    $default  reduce using rule 46 (expression)
-
-
-State 92
-
-   56 addition: expression • PLUS expression
-   57 multiplication: expression • TIMES expression
-   58 division: expression • DIV expression
-   59 subtraction: expression • MINUS expression
-  100 return: RETURN expression • SEMICOLON
-
-    SEMICOLON  shift, and go to state 110
-    PLUS       shift, and go to state 111
-    MINUS      shift, and go to state 112
-    DIV        shift, and go to state 113
-    TIMES      shift, and go to state 114
-
-
-State 93
-
-   47 expression: suntheti_parastash •
-
-    $default  reduce using rule 47 (expression)
-
-
-State 94
-
-   48 suntheti_parastash: addition •
-
-    $default  reduce using rule 48 (suntheti_parastash)
-
-
-State 95
-
-   50 suntheti_parastash: multiplication •
-
-    $default  reduce using rule 50 (suntheti_parastash)
-
-
-State 96
-
-   51 suntheti_parastash: division •
+   51 suntheti_parastash: method_access •
 
     $default  reduce using rule 51 (suntheti_parastash)
 
 
+State 80
+
+   42 expression: literal •
+
+    $default  reduce using rule 42 (expression)
+
+
+State 81
+
+   52 addition: expression • PLUS expression
+   53 multiplication: expression • TIMES expression
+   54 division: expression • DIV expression
+   55 subtraction: expression • MINUS expression
+   96 return: RETURN expression • SEMICOLON
+
+    SEMICOLON  shift, and go to state 99
+    PLUS       shift, and go to state 100
+    MINUS      shift, and go to state 101
+    DIV        shift, and go to state 102
+    TIMES      shift, and go to state 103
+
+
+State 82
+
+   43 expression: suntheti_parastash •
+
+    $default  reduce using rule 43 (expression)
+
+
+State 83
+
+   44 suntheti_parastash: addition •
+
+    $default  reduce using rule 44 (suntheti_parastash)
+
+
+State 84
+
+   46 suntheti_parastash: multiplication •
+
+    $default  reduce using rule 46 (suntheti_parastash)
+
+
+State 85
+
+   47 suntheti_parastash: division •
+
+    $default  reduce using rule 47 (suntheti_parastash)
+
+
+State 86
+
+   48 suntheti_parastash: subtraction •
+
+    $default  reduce using rule 48 (suntheti_parastash)
+
+
+State 87
+
+   50 suntheti_parastash: call_method •
+
+    $default  reduce using rule 50 (suntheti_parastash)
+
+
+State 88
+
+   82 if: IF LPAR • condition RPAR LCURLY variable_declaration_list commands RCURLY elseif else
+
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
+
+    method_access       go to state 79
+    literal             go to state 80
+    expression          go to state 104
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
+    condition           go to state 105
+
+
+State 89
+
+   64 while: DO LCURLY • variable_declaration_list commands RCURLY WHILE LPAR condition RPAR SEMICOLON
+
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
+
+    variable_declaration_list  go to state 106
+    variable_declaration       go to state 12
+    modifier                   go to state 13
+
+
+State 90
+
+   72 for: FOR LPAR • exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY
+
+    DATATYPE  shift, and go to state 107
+    IDENT     shift, and go to state 108
+
+    exp1  go to state 109
+
+
+State 91
+
+   87 switch_statement: SWITCH LPAR • IDENT RPAR LCURLY case default_opt RCURLY
+
+    IDENT  shift, and go to state 110
+
+
+State 92
+
+   97 break: BREAK SEMICOLON •
+
+    $default  reduce using rule 97 (break)
+
+
+State 93
+
+   92 print: OUTPRINT LPAR • STRING RPAR SEMICOLON
+   93      | OUTPRINT LPAR • STRING ident_list RPAR SEMICOLON
+
+    STRING  shift, and go to state 111
+
+
+State 94
+
+   34 assignment: IDENT EQUALS • expression SEMICOLON
+   35           | IDENT EQUALS • object_creation SEMICOLON
+
+    NEW     shift, and go to state 112
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
+
+    method_access       go to state 79
+    object_creation     go to state 113
+    literal             go to state 80
+    expression          go to state 114
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
+
+
+State 95
+
+   12 method_declaration: modifier secondary_modifier type_or_return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY •
+
+    $default  reduce using rule 12 (method_declaration)
+
+
+State 96
+
+   56 call_method: IDENT LPAR • arguement_list RPAR
+   57            | IDENT LPAR • RPAR
+
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 115
+    RPAR    shift, and go to state 116
+
+    literal         go to state 117
+    arguement_list  go to state 118
+
+
 State 97
 
-   52 suntheti_parastash: subtraction •
+   16 method_access: IDENT DOT • IDENT
 
-    $default  reduce using rule 52 (suntheti_parastash)
+    IDENT  shift, and go to state 119
 
 
 State 98
 
-   54 suntheti_parastash: call_method •
+   49 suntheti_parastash: LPAR expression • RPAR
+   52 addition: expression • PLUS expression
+   53 multiplication: expression • TIMES expression
+   54 division: expression • DIV expression
+   55 subtraction: expression • MINUS expression
 
-    $default  reduce using rule 54 (suntheti_parastash)
+    RPAR   shift, and go to state 120
+    PLUS   shift, and go to state 100
+    MINUS  shift, and go to state 101
+    DIV    shift, and go to state 102
+    TIMES  shift, and go to state 103
 
 
 State 99
 
-   86 if: IF LPAR • condition RPAR LCURLY variable_declaration_list commands RCURLY elseif else
+   96 return: RETURN expression SEMICOLON •
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
-
-    method_access       go to state 90
-    literal             go to state 91
-    expression          go to state 115
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
-    condition           go to state 116
+    $default  reduce using rule 96 (return)
 
 
 State 100
 
-   68 while: DO LCURLY • variable_declaration_list commands RCURLY WHILE LPAR condition RPAR SEMICOLON
+   52 addition: expression PLUS • expression
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
 
-    variable_declaration_list  go to state 117
-    variable_declaration       go to state 14
-    modifier                   go to state 15
+    method_access       go to state 79
+    literal             go to state 80
+    expression          go to state 121
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
 
 
 State 101
 
-   76 for: FOR LPAR • exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY
+   55 subtraction: expression MINUS • expression
 
-    DATATYPE  shift, and go to state 118
-    IDENT     shift, and go to state 119
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
 
-    exp1  go to state 120
+    method_access       go to state 79
+    literal             go to state 80
+    expression          go to state 122
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
 
 
 State 102
 
-   91 switch_statement: SWITCH LPAR • IDENT RPAR LCURLY case default_opt RCURLY
+   54 division: expression DIV • expression
 
-    IDENT  shift, and go to state 121
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
+
+    method_access       go to state 79
+    literal             go to state 80
+    expression          go to state 123
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
 
 
 State 103
 
-  101 break: BREAK SEMICOLON •
+   53 multiplication: expression TIMES • expression
 
-    $default  reduce using rule 101 (break)
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
+
+    method_access       go to state 79
+    literal             go to state 80
+    expression          go to state 124
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
 
 
 State 104
 
-   96 print: OUTPRINT LPAR • STRING RPAR SEMICOLON
-   97      | OUTPRINT LPAR • STRING ident_list RPAR SEMICOLON
+   52 addition: expression • PLUS expression
+   53 multiplication: expression • TIMES expression
+   54 division: expression • DIV expression
+   55 subtraction: expression • MINUS expression
+   65 condition: expression • conop expression
+   66          | expression •
 
-    STRING  shift, and go to state 122
+    OROP   shift, and go to state 125
+    ANDOP  shift, and go to state 126
+    EQUOP  shift, and go to state 127
+    NOTOP  shift, and go to state 128
+    RELOP  shift, and go to state 129
+    PLUS   shift, and go to state 100
+    MINUS  shift, and go to state 101
+    DIV    shift, and go to state 102
+    TIMES  shift, and go to state 103
+
+    $default  reduce using rule 66 (condition)
+
+    conop  go to state 130
 
 
 State 105
 
-   38 assignment: IDENT EQUALS • expression SEMICOLON
-   39           | IDENT EQUALS • object_creation SEMICOLON
+   82 if: IF LPAR condition • RPAR LCURLY variable_declaration_list commands RCURLY elseif else
 
-    NEW     shift, and go to state 123
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
-
-    method_access       go to state 90
-    object_creation     go to state 124
-    literal             go to state 91
-    expression          go to state 125
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
+    RPAR  shift, and go to state 131
 
 
 State 106
 
-   15 method_declaration: modifier secondary_modifier return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY •
+    7 variable_declaration_list: variable_declaration_list • variable_declaration
+   64 while: DO LCURLY variable_declaration_list • commands RCURLY WHILE LPAR condition RPAR SEMICOLON
 
-    $default  reduce using rule 15 (method_declaration)
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
+
+    $default  reduce using rule 27 (commands)
+
+    variable_declaration  go to state 15
+    modifier              go to state 13
+    commands              go to state 132
 
 
 State 107
 
-   60 call_method: IDENT LPAR • arguement_list RPAR
-   61            | IDENT LPAR • RPAR
+   73 exp1: DATATYPE • IDENT EQUALS literal
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 126
-    RPAR    shift, and go to state 127
-
-    literal         go to state 128
-    arguement_list  go to state 129
+    IDENT  shift, and go to state 133
 
 
 State 108
 
-   14 method_access: IDENT DOT • IDENT
+   74 exp1: IDENT • EQUALS literal
 
-    IDENT  shift, and go to state 130
+    EQUALS  shift, and go to state 134
 
 
 State 109
 
-   53 suntheti_parastash: LPAR expression • RPAR
-   56 addition: expression • PLUS expression
-   57 multiplication: expression • TIMES expression
-   58 division: expression • DIV expression
-   59 subtraction: expression • MINUS expression
+   72 for: FOR LPAR exp1 • SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY
 
-    RPAR   shift, and go to state 131
-    PLUS   shift, and go to state 111
-    MINUS  shift, and go to state 112
-    DIV    shift, and go to state 113
-    TIMES  shift, and go to state 114
+    SEMICOLON  shift, and go to state 135
 
 
 State 110
 
-  100 return: RETURN expression SEMICOLON •
+   87 switch_statement: SWITCH LPAR IDENT • RPAR LCURLY case default_opt RCURLY
 
-    $default  reduce using rule 100 (return)
+    RPAR  shift, and go to state 136
 
 
 State 111
 
-   56 addition: expression PLUS • expression
+   92 print: OUTPRINT LPAR STRING • RPAR SEMICOLON
+   93      | OUTPRINT LPAR STRING • ident_list RPAR SEMICOLON
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
+    RPAR   shift, and go to state 137
+    COMMA  shift, and go to state 138
 
-    method_access       go to state 90
-    literal             go to state 91
-    expression          go to state 132
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
+    ident_list  go to state 139
 
 
 State 112
 
-   59 subtraction: expression MINUS • expression
+   36 object_creation: NEW • CLASS_NAME LPAR RPAR
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
-
-    method_access       go to state 90
-    literal             go to state 91
-    expression          go to state 133
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
+    CLASS_NAME  shift, and go to state 140
 
 
 State 113
 
-   58 division: expression DIV • expression
+   35 assignment: IDENT EQUALS object_creation • SEMICOLON
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
-
-    method_access       go to state 90
-    literal             go to state 91
-    expression          go to state 134
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
+    SEMICOLON  shift, and go to state 141
 
 
 State 114
 
-   57 multiplication: expression TIMES • expression
+   34 assignment: IDENT EQUALS expression • SEMICOLON
+   52 addition: expression • PLUS expression
+   53 multiplication: expression • TIMES expression
+   54 division: expression • DIV expression
+   55 subtraction: expression • MINUS expression
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
-
-    method_access       go to state 90
-    literal             go to state 91
-    expression          go to state 135
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
+    SEMICOLON  shift, and go to state 142
+    PLUS       shift, and go to state 100
+    MINUS      shift, and go to state 101
+    DIV        shift, and go to state 102
+    TIMES      shift, and go to state 103
 
 
 State 115
 
-   56 addition: expression • PLUS expression
-   57 multiplication: expression • TIMES expression
-   58 division: expression • DIV expression
-   59 subtraction: expression • MINUS expression
-   69 condition: expression • conop expression
-   70          | expression •
+   58 arguement_list: IDENT •
 
-    OROP   shift, and go to state 136
-    ANDOP  shift, and go to state 137
-    EQUOP  shift, and go to state 138
-    NOTOP  shift, and go to state 139
-    RELOP  shift, and go to state 140
-    PLUS   shift, and go to state 111
-    MINUS  shift, and go to state 112
-    DIV    shift, and go to state 113
-    TIMES  shift, and go to state 114
-
-    $default  reduce using rule 70 (condition)
-
-    conop  go to state 141
+    $default  reduce using rule 58 (arguement_list)
 
 
 State 116
 
-   86 if: IF LPAR condition • RPAR LCURLY variable_declaration_list commands RCURLY elseif else
+   57 call_method: IDENT LPAR RPAR •
 
-    RPAR  shift, and go to state 142
+    $default  reduce using rule 57 (call_method)
 
 
 State 117
 
-    7 variable_declaration_list: variable_declaration_list • variable_declaration
-   68 while: DO LCURLY variable_declaration_list • commands RCURLY WHILE LPAR condition RPAR SEMICOLON
+   61 arguement_list: literal •
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
-
-    $default  reduce using rule 31 (commands)
-
-    variable_declaration  go to state 19
-    modifier              go to state 15
-    commands              go to state 143
+    $default  reduce using rule 61 (arguement_list)
 
 
 State 118
 
-   77 exp1: DATATYPE • IDENT EQUALS literal
+   56 call_method: IDENT LPAR arguement_list • RPAR
+   59 arguement_list: arguement_list • COMMA literal
+   60               | arguement_list • COMMA IDENT
 
-    IDENT  shift, and go to state 144
+    RPAR   shift, and go to state 143
+    COMMA  shift, and go to state 144
 
 
 State 119
 
-   78 exp1: IDENT • EQUALS literal
+   16 method_access: IDENT DOT IDENT •
 
-    EQUALS  shift, and go to state 145
+    $default  reduce using rule 16 (method_access)
 
 
 State 120
 
-   76 for: FOR LPAR exp1 • SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY
+   49 suntheti_parastash: LPAR expression RPAR •
 
-    SEMICOLON  shift, and go to state 146
+    $default  reduce using rule 49 (suntheti_parastash)
 
 
 State 121
 
-   91 switch_statement: SWITCH LPAR IDENT • RPAR LCURLY case default_opt RCURLY
+   52 addition: expression • PLUS expression
+   52         | expression PLUS expression •
+   53 multiplication: expression • TIMES expression
+   54 division: expression • DIV expression
+   55 subtraction: expression • MINUS expression
 
-    RPAR  shift, and go to state 147
+    $default  reduce using rule 52 (addition)
 
 
 State 122
 
-   96 print: OUTPRINT LPAR STRING • RPAR SEMICOLON
-   97      | OUTPRINT LPAR STRING • ident_list RPAR SEMICOLON
+   52 addition: expression • PLUS expression
+   53 multiplication: expression • TIMES expression
+   54 division: expression • DIV expression
+   55 subtraction: expression • MINUS expression
+   55            | expression MINUS expression •
 
-    RPAR   shift, and go to state 148
-    COMMA  shift, and go to state 149
-
-    ident_list  go to state 150
+    $default  reduce using rule 55 (subtraction)
 
 
 State 123
 
-   40 object_creation: NEW • CLASS_NAME LPAR RPAR
+   52 addition: expression • PLUS expression
+   53 multiplication: expression • TIMES expression
+   54 division: expression • DIV expression
+   54         | expression DIV expression •
+   55 subtraction: expression • MINUS expression
 
-    CLASS_NAME  shift, and go to state 151
+    $default  reduce using rule 54 (division)
 
 
 State 124
 
-   39 assignment: IDENT EQUALS object_creation • SEMICOLON
+   52 addition: expression • PLUS expression
+   53 multiplication: expression • TIMES expression
+   53               | expression TIMES expression •
+   54 division: expression • DIV expression
+   55 subtraction: expression • MINUS expression
 
-    SEMICOLON  shift, and go to state 152
+    $default  reduce using rule 53 (multiplication)
 
 
 State 125
 
-   38 assignment: IDENT EQUALS expression • SEMICOLON
-   56 addition: expression • PLUS expression
-   57 multiplication: expression • TIMES expression
-   58 division: expression • DIV expression
-   59 subtraction: expression • MINUS expression
-
-    SEMICOLON  shift, and go to state 153
-    PLUS       shift, and go to state 111
-    MINUS      shift, and go to state 112
-    DIV        shift, and go to state 113
-    TIMES      shift, and go to state 114
-
-
-State 126
-
-   62 arguement_list: IDENT •
-
-    $default  reduce using rule 62 (arguement_list)
-
-
-State 127
-
-   61 call_method: IDENT LPAR RPAR •
-
-    $default  reduce using rule 61 (call_method)
-
-
-State 128
-
-   65 arguement_list: literal •
-
-    $default  reduce using rule 65 (arguement_list)
-
-
-State 129
-
-   60 call_method: IDENT LPAR arguement_list • RPAR
-   63 arguement_list: arguement_list • COMMA literal
-   64               | arguement_list • COMMA IDENT
-
-    RPAR   shift, and go to state 154
-    COMMA  shift, and go to state 155
-
-
-State 130
-
-   14 method_access: IDENT DOT IDENT •
-
-    $default  reduce using rule 14 (method_access)
-
-
-State 131
-
-   53 suntheti_parastash: LPAR expression RPAR •
-
-    $default  reduce using rule 53 (suntheti_parastash)
-
-
-State 132
-
-   56 addition: expression • PLUS expression
-   56         | expression PLUS expression •
-   57 multiplication: expression • TIMES expression
-   58 division: expression • DIV expression
-   59 subtraction: expression • MINUS expression
-
-    $default  reduce using rule 56 (addition)
-
-
-State 133
-
-   56 addition: expression • PLUS expression
-   57 multiplication: expression • TIMES expression
-   58 division: expression • DIV expression
-   59 subtraction: expression • MINUS expression
-   59            | expression MINUS expression •
-
-    $default  reduce using rule 59 (subtraction)
-
-
-State 134
-
-   56 addition: expression • PLUS expression
-   57 multiplication: expression • TIMES expression
-   58 division: expression • DIV expression
-   58         | expression DIV expression •
-   59 subtraction: expression • MINUS expression
-
-    $default  reduce using rule 58 (division)
-
-
-State 135
-
-   56 addition: expression • PLUS expression
-   57 multiplication: expression • TIMES expression
-   57               | expression TIMES expression •
-   58 division: expression • DIV expression
-   59 subtraction: expression • MINUS expression
-
-    $default  reduce using rule 57 (multiplication)
-
-
-State 136
-
-   75 conop: OROP •
-
-    $default  reduce using rule 75 (conop)
-
-
-State 137
-
-   74 conop: ANDOP •
-
-    $default  reduce using rule 74 (conop)
-
-
-State 138
-
-   72 conop: EQUOP •
-
-    $default  reduce using rule 72 (conop)
-
-
-State 139
-
-   73 conop: NOTOP •
-
-    $default  reduce using rule 73 (conop)
-
-
-State 140
-
-   71 conop: RELOP •
+   71 conop: OROP •
 
     $default  reduce using rule 71 (conop)
 
 
+State 126
+
+   70 conop: ANDOP •
+
+    $default  reduce using rule 70 (conop)
+
+
+State 127
+
+   68 conop: EQUOP •
+
+    $default  reduce using rule 68 (conop)
+
+
+State 128
+
+   69 conop: NOTOP •
+
+    $default  reduce using rule 69 (conop)
+
+
+State 129
+
+   67 conop: RELOP •
+
+    $default  reduce using rule 67 (conop)
+
+
+State 130
+
+   65 condition: expression conop • expression
+
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
+
+    method_access       go to state 79
+    literal             go to state 80
+    expression          go to state 145
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
+
+
+State 131
+
+   82 if: IF LPAR condition RPAR • LCURLY variable_declaration_list commands RCURLY elseif else
+
+    LCURLY  shift, and go to state 146
+
+
+State 132
+
+   28 commands: commands • assignment
+   29         | commands • loop
+   30         | commands • control
+   31         | commands • print
+   32         | commands • return
+   33         | commands • break
+   64 while: DO LCURLY variable_declaration_list commands • RCURLY WHILE LPAR condition RPAR SEMICOLON
+
+    RETURN    shift, and go to state 53
+    IF        shift, and go to state 54
+    DO        shift, and go to state 55
+    FOR       shift, and go to state 56
+    SWITCH    shift, and go to state 57
+    BREAK     shift, and go to state 58
+    OUTPRINT  shift, and go to state 59
+    IDENT     shift, and go to state 60
+    RCURLY    shift, and go to state 147
+
+    assignment        go to state 61
+    loop              go to state 62
+    while             go to state 63
+    for               go to state 64
+    control           go to state 65
+    if                go to state 66
+    switch_statement  go to state 67
+    print             go to state 68
+    return            go to state 69
+    break             go to state 70
+
+
+State 133
+
+   73 exp1: DATATYPE IDENT • EQUALS literal
+
+    EQUALS  shift, and go to state 148
+
+
+State 134
+
+   74 exp1: IDENT EQUALS • literal
+
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+
+    literal  go to state 149
+
+
+State 135
+
+   72 for: FOR LPAR exp1 SEMICOLON • exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY
+
+    IDENT  shift, and go to state 150
+
+    exp2  go to state 151
+
+
+State 136
+
+   87 switch_statement: SWITCH LPAR IDENT RPAR • LCURLY case default_opt RCURLY
+
+    LCURLY  shift, and go to state 152
+
+
+State 137
+
+   92 print: OUTPRINT LPAR STRING RPAR • SEMICOLON
+
+    SEMICOLON  shift, and go to state 153
+
+
+State 138
+
+   94 ident_list: COMMA • IDENT
+
+    IDENT  shift, and go to state 154
+
+
+State 139
+
+   93 print: OUTPRINT LPAR STRING ident_list • RPAR SEMICOLON
+   95 ident_list: ident_list • COMMA IDENT
+
+    RPAR   shift, and go to state 155
+    COMMA  shift, and go to state 156
+
+
+State 140
+
+   36 object_creation: NEW CLASS_NAME • LPAR RPAR
+
+    LPAR  shift, and go to state 157
+
+
 State 141
 
-   69 condition: expression conop • expression
+   35 assignment: IDENT EQUALS object_creation SEMICOLON •
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
-
-    method_access       go to state 90
-    literal             go to state 91
-    expression          go to state 156
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
+    $default  reduce using rule 35 (assignment)
 
 
 State 142
 
-   86 if: IF LPAR condition RPAR • LCURLY variable_declaration_list commands RCURLY elseif else
+   34 assignment: IDENT EQUALS expression SEMICOLON •
 
-    LCURLY  shift, and go to state 157
+    $default  reduce using rule 34 (assignment)
 
 
 State 143
 
-   32 commands: commands • assignment
-   33         | commands • loop
-   34         | commands • control
-   35         | commands • print
-   36         | commands • return
-   37         | commands • break
-   68 while: DO LCURLY variable_declaration_list commands • RCURLY WHILE LPAR condition RPAR SEMICOLON
+   56 call_method: IDENT LPAR arguement_list RPAR •
 
-    RETURN    shift, and go to state 64
-    IF        shift, and go to state 65
-    DO        shift, and go to state 66
-    FOR       shift, and go to state 67
-    SWITCH    shift, and go to state 68
-    BREAK     shift, and go to state 69
-    OUTPRINT  shift, and go to state 70
-    IDENT     shift, and go to state 71
-    RCURLY    shift, and go to state 158
-
-    assignment        go to state 72
-    loop              go to state 73
-    while             go to state 74
-    for               go to state 75
-    control           go to state 76
-    if                go to state 77
-    switch_statement  go to state 78
-    print             go to state 79
-    return            go to state 80
-    break             go to state 81
+    $default  reduce using rule 56 (call_method)
 
 
 State 144
 
-   77 exp1: DATATYPE IDENT • EQUALS literal
+   59 arguement_list: arguement_list COMMA • literal
+   60               | arguement_list COMMA • IDENT
 
-    EQUALS  shift, and go to state 159
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 158
+
+    literal  go to state 159
 
 
 State 145
 
-   78 exp1: IDENT EQUALS • literal
+   52 addition: expression • PLUS expression
+   53 multiplication: expression • TIMES expression
+   54 division: expression • DIV expression
+   55 subtraction: expression • MINUS expression
+   65 condition: expression conop expression •
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
+    PLUS   shift, and go to state 100
+    MINUS  shift, and go to state 101
+    DIV    shift, and go to state 102
+    TIMES  shift, and go to state 103
 
-    literal  go to state 160
+    $default  reduce using rule 65 (condition)
 
 
 State 146
 
-   76 for: FOR LPAR exp1 SEMICOLON • exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY
+   82 if: IF LPAR condition RPAR LCURLY • variable_declaration_list commands RCURLY elseif else
 
-    IDENT  shift, and go to state 161
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
 
-    exp2  go to state 162
+    variable_declaration_list  go to state 160
+    variable_declaration       go to state 12
+    modifier                   go to state 13
 
 
 State 147
 
-   91 switch_statement: SWITCH LPAR IDENT RPAR • LCURLY case default_opt RCURLY
+   64 while: DO LCURLY variable_declaration_list commands RCURLY • WHILE LPAR condition RPAR SEMICOLON
 
-    LCURLY  shift, and go to state 163
+    WHILE  shift, and go to state 161
 
 
 State 148
 
-   96 print: OUTPRINT LPAR STRING RPAR • SEMICOLON
+   73 exp1: DATATYPE IDENT EQUALS • literal
 
-    SEMICOLON  shift, and go to state 164
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+
+    literal  go to state 162
 
 
 State 149
 
-   98 ident_list: COMMA • IDENT
+   74 exp1: IDENT EQUALS literal •
 
-    IDENT  shift, and go to state 165
+    $default  reduce using rule 74 (exp1)
 
 
 State 150
 
-   97 print: OUTPRINT LPAR STRING ident_list • RPAR SEMICOLON
-   99 ident_list: ident_list • COMMA IDENT
+   75 exp2: IDENT • conop literal
 
-    RPAR   shift, and go to state 166
-    COMMA  shift, and go to state 167
+    OROP   shift, and go to state 125
+    ANDOP  shift, and go to state 126
+    EQUOP  shift, and go to state 127
+    NOTOP  shift, and go to state 128
+    RELOP  shift, and go to state 129
+
+    conop  go to state 163
 
 
 State 151
 
-   40 object_creation: NEW CLASS_NAME • LPAR RPAR
+   72 for: FOR LPAR exp1 SEMICOLON exp2 • SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY
 
-    LPAR  shift, and go to state 168
+    SEMICOLON  shift, and go to state 164
 
 
 State 152
 
-   39 assignment: IDENT EQUALS object_creation SEMICOLON •
+   87 switch_statement: SWITCH LPAR IDENT RPAR LCURLY • case default_opt RCURLY
 
-    $default  reduce using rule 39 (assignment)
+    $default  reduce using rule 88 (case)
+
+    case  go to state 165
 
 
 State 153
 
-   38 assignment: IDENT EQUALS expression SEMICOLON •
+   92 print: OUTPRINT LPAR STRING RPAR SEMICOLON •
 
-    $default  reduce using rule 38 (assignment)
+    $default  reduce using rule 92 (print)
 
 
 State 154
 
-   60 call_method: IDENT LPAR arguement_list RPAR •
+   94 ident_list: COMMA IDENT •
 
-    $default  reduce using rule 60 (call_method)
+    $default  reduce using rule 94 (ident_list)
 
 
 State 155
 
-   63 arguement_list: arguement_list COMMA • literal
-   64               | arguement_list COMMA • IDENT
+   93 print: OUTPRINT LPAR STRING ident_list RPAR • SEMICOLON
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 169
-
-    literal  go to state 170
+    SEMICOLON  shift, and go to state 166
 
 
 State 156
 
-   56 addition: expression • PLUS expression
-   57 multiplication: expression • TIMES expression
-   58 division: expression • DIV expression
-   59 subtraction: expression • MINUS expression
-   69 condition: expression conop expression •
+   95 ident_list: ident_list COMMA • IDENT
 
-    PLUS   shift, and go to state 111
-    MINUS  shift, and go to state 112
-    DIV    shift, and go to state 113
-    TIMES  shift, and go to state 114
-
-    $default  reduce using rule 69 (condition)
+    IDENT  shift, and go to state 167
 
 
 State 157
 
-   86 if: IF LPAR condition RPAR LCURLY • variable_declaration_list commands RCURLY elseif else
+   36 object_creation: NEW CLASS_NAME LPAR • RPAR
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
-
-    variable_declaration_list  go to state 171
-    variable_declaration       go to state 14
-    modifier                   go to state 15
+    RPAR  shift, and go to state 168
 
 
 State 158
 
-   68 while: DO LCURLY variable_declaration_list commands RCURLY • WHILE LPAR condition RPAR SEMICOLON
+   60 arguement_list: arguement_list COMMA IDENT •
 
-    WHILE  shift, and go to state 172
+    $default  reduce using rule 60 (arguement_list)
 
 
 State 159
 
-   77 exp1: DATATYPE IDENT EQUALS • literal
+   59 arguement_list: arguement_list COMMA literal •
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-
-    literal  go to state 173
+    $default  reduce using rule 59 (arguement_list)
 
 
 State 160
 
-   78 exp1: IDENT EQUALS literal •
+    7 variable_declaration_list: variable_declaration_list • variable_declaration
+   82 if: IF LPAR condition RPAR LCURLY variable_declaration_list • commands RCURLY elseif else
 
-    $default  reduce using rule 78 (exp1)
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
+
+    $default  reduce using rule 27 (commands)
+
+    variable_declaration  go to state 15
+    modifier              go to state 13
+    commands              go to state 169
 
 
 State 161
 
-   79 exp2: IDENT • conop literal
+   64 while: DO LCURLY variable_declaration_list commands RCURLY WHILE • LPAR condition RPAR SEMICOLON
 
-    OROP   shift, and go to state 136
-    ANDOP  shift, and go to state 137
-    EQUOP  shift, and go to state 138
-    NOTOP  shift, and go to state 139
-    RELOP  shift, and go to state 140
-
-    conop  go to state 174
+    LPAR  shift, and go to state 170
 
 
 State 162
 
-   76 for: FOR LPAR exp1 SEMICOLON exp2 • SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY
+   73 exp1: DATATYPE IDENT EQUALS literal •
 
-    SEMICOLON  shift, and go to state 175
+    $default  reduce using rule 73 (exp1)
 
 
 State 163
 
-   91 switch_statement: SWITCH LPAR IDENT RPAR LCURLY • case default_opt RCURLY
+   75 exp2: IDENT conop • literal
 
-    $default  reduce using rule 92 (case)
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
 
-    case  go to state 176
+    literal  go to state 171
 
 
 State 164
 
-   96 print: OUTPRINT LPAR STRING RPAR SEMICOLON •
+   72 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON • exp3 RPAR LCURLY variable_declaration_list commands RCURLY
 
-    $default  reduce using rule 96 (print)
+    IDENT  shift, and go to state 172
+
+    exp3  go to state 173
 
 
 State 165
 
-   98 ident_list: COMMA IDENT •
+   87 switch_statement: SWITCH LPAR IDENT RPAR LCURLY case • default_opt RCURLY
+   89 case: case • CASE literal COLON LCURLY variable_declaration_list commands RCURLY
 
-    $default  reduce using rule 98 (ident_list)
+    CASE     shift, and go to state 174
+    DEFAULT  shift, and go to state 175
+
+    $default  reduce using rule 90 (default_opt)
+
+    default_opt  go to state 176
 
 
 State 166
 
-   97 print: OUTPRINT LPAR STRING ident_list RPAR • SEMICOLON
+   93 print: OUTPRINT LPAR STRING ident_list RPAR SEMICOLON •
 
-    SEMICOLON  shift, and go to state 177
+    $default  reduce using rule 93 (print)
 
 
 State 167
 
-   99 ident_list: ident_list COMMA • IDENT
+   95 ident_list: ident_list COMMA IDENT •
 
-    IDENT  shift, and go to state 178
+    $default  reduce using rule 95 (ident_list)
 
 
 State 168
 
-   40 object_creation: NEW CLASS_NAME LPAR • RPAR
+   36 object_creation: NEW CLASS_NAME LPAR RPAR •
 
-    RPAR  shift, and go to state 179
+    $default  reduce using rule 36 (object_creation)
 
 
 State 169
 
-   64 arguement_list: arguement_list COMMA IDENT •
+   28 commands: commands • assignment
+   29         | commands • loop
+   30         | commands • control
+   31         | commands • print
+   32         | commands • return
+   33         | commands • break
+   82 if: IF LPAR condition RPAR LCURLY variable_declaration_list commands • RCURLY elseif else
 
-    $default  reduce using rule 64 (arguement_list)
+    RETURN    shift, and go to state 53
+    IF        shift, and go to state 54
+    DO        shift, and go to state 55
+    FOR       shift, and go to state 56
+    SWITCH    shift, and go to state 57
+    BREAK     shift, and go to state 58
+    OUTPRINT  shift, and go to state 59
+    IDENT     shift, and go to state 60
+    RCURLY    shift, and go to state 177
+
+    assignment        go to state 61
+    loop              go to state 62
+    while             go to state 63
+    for               go to state 64
+    control           go to state 65
+    if                go to state 66
+    switch_statement  go to state 67
+    print             go to state 68
+    return            go to state 69
+    break             go to state 70
 
 
 State 170
 
-   63 arguement_list: arguement_list COMMA literal •
+   64 while: DO LCURLY variable_declaration_list commands RCURLY WHILE LPAR • condition RPAR SEMICOLON
 
-    $default  reduce using rule 63 (arguement_list)
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
+
+    method_access       go to state 79
+    literal             go to state 80
+    expression          go to state 104
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
+    condition           go to state 178
 
 
 State 171
 
-    7 variable_declaration_list: variable_declaration_list • variable_declaration
-   86 if: IF LPAR condition RPAR LCURLY variable_declaration_list • commands RCURLY elseif else
+   75 exp2: IDENT conop literal •
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
-
-    $default  reduce using rule 31 (commands)
-
-    variable_declaration  go to state 19
-    modifier              go to state 15
-    commands              go to state 180
+    $default  reduce using rule 75 (exp2)
 
 
 State 172
 
-   68 while: DO LCURLY variable_declaration_list commands RCURLY WHILE • LPAR condition RPAR SEMICOLON
+   76 exp3: IDENT • PLUS expression
+   77     | IDENT • MINUS expression
+   78     | IDENT • DIV expression
+   79     | IDENT • TIMES expression
 
-    LPAR  shift, and go to state 181
+    PLUS   shift, and go to state 179
+    MINUS  shift, and go to state 180
+    DIV    shift, and go to state 181
+    TIMES  shift, and go to state 182
 
 
 State 173
 
-   77 exp1: DATATYPE IDENT EQUALS literal •
+   72 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 • RPAR LCURLY variable_declaration_list commands RCURLY
 
-    $default  reduce using rule 77 (exp1)
+    RPAR  shift, and go to state 183
 
 
 State 174
 
-   79 exp2: IDENT conop • literal
+   89 case: case CASE • literal COLON LCURLY variable_declaration_list commands RCURLY
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
 
-    literal  go to state 182
+    literal  go to state 184
 
 
 State 175
 
-   76 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON • exp3 RPAR LCURLY variable_declaration_list commands RCURLY
+   91 default_opt: DEFAULT • COLON LCURLY variable_declaration_list commands RCURLY
 
-    IDENT  shift, and go to state 183
-
-    exp3  go to state 184
+    COLON  shift, and go to state 185
 
 
 State 176
 
-   91 switch_statement: SWITCH LPAR IDENT RPAR LCURLY case • default_opt RCURLY
-   93 case: case • CASE literal COLON LCURLY variable_declaration_list commands RCURLY
+   87 switch_statement: SWITCH LPAR IDENT RPAR LCURLY case default_opt • RCURLY
 
-    CASE     shift, and go to state 185
-    DEFAULT  shift, and go to state 186
-
-    $default  reduce using rule 94 (default_opt)
-
-    default_opt  go to state 187
+    RCURLY  shift, and go to state 186
 
 
 State 177
 
-   97 print: OUTPRINT LPAR STRING ident_list RPAR SEMICOLON •
+   82 if: IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY • elseif else
 
-    $default  reduce using rule 97 (print)
+    $default  reduce using rule 83 (elseif)
+
+    elseif  go to state 187
 
 
 State 178
 
-   99 ident_list: ident_list COMMA IDENT •
+   64 while: DO LCURLY variable_declaration_list commands RCURLY WHILE LPAR condition • RPAR SEMICOLON
 
-    $default  reduce using rule 99 (ident_list)
+    RPAR  shift, and go to state 188
 
 
 State 179
 
-   40 object_creation: NEW CLASS_NAME LPAR RPAR •
+   76 exp3: IDENT PLUS • expression
 
-    $default  reduce using rule 40 (object_creation)
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
+
+    method_access       go to state 79
+    literal             go to state 80
+    expression          go to state 189
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
 
 
 State 180
 
-   32 commands: commands • assignment
-   33         | commands • loop
-   34         | commands • control
-   35         | commands • print
-   36         | commands • return
-   37         | commands • break
-   86 if: IF LPAR condition RPAR LCURLY variable_declaration_list commands • RCURLY elseif else
+   77 exp3: IDENT MINUS • expression
 
-    RETURN    shift, and go to state 64
-    IF        shift, and go to state 65
-    DO        shift, and go to state 66
-    FOR       shift, and go to state 67
-    SWITCH    shift, and go to state 68
-    BREAK     shift, and go to state 69
-    OUTPRINT  shift, and go to state 70
-    IDENT     shift, and go to state 71
-    RCURLY    shift, and go to state 188
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
 
-    assignment        go to state 72
-    loop              go to state 73
-    while             go to state 74
-    for               go to state 75
-    control           go to state 76
-    if                go to state 77
-    switch_statement  go to state 78
-    print             go to state 79
-    return            go to state 80
-    break             go to state 81
+    method_access       go to state 79
+    literal             go to state 80
+    expression          go to state 190
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
 
 
 State 181
 
-   68 while: DO LCURLY variable_declaration_list commands RCURLY WHILE LPAR • condition RPAR SEMICOLON
+   78 exp3: IDENT DIV • expression
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
 
-    method_access       go to state 90
-    literal             go to state 91
-    expression          go to state 115
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
-    condition           go to state 189
+    method_access       go to state 79
+    literal             go to state 80
+    expression          go to state 191
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
 
 
 State 182
 
-   79 exp2: IDENT conop literal •
+   79 exp3: IDENT TIMES • expression
 
-    $default  reduce using rule 79 (exp2)
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
+
+    method_access       go to state 79
+    literal             go to state 80
+    expression          go to state 192
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
 
 
 State 183
 
-   80 exp3: IDENT • PLUS expression
-   81     | IDENT • MINUS expression
-   82     | IDENT • DIV expression
-   83     | IDENT • TIMES expression
+   72 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR • LCURLY variable_declaration_list commands RCURLY
 
-    PLUS   shift, and go to state 190
-    MINUS  shift, and go to state 191
-    DIV    shift, and go to state 192
-    TIMES  shift, and go to state 193
+    LCURLY  shift, and go to state 193
 
 
 State 184
 
-   76 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 • RPAR LCURLY variable_declaration_list commands RCURLY
+   89 case: case CASE literal • COLON LCURLY variable_declaration_list commands RCURLY
 
-    RPAR  shift, and go to state 194
+    COLON  shift, and go to state 194
 
 
 State 185
 
-   93 case: case CASE • literal COLON LCURLY variable_declaration_list commands RCURLY
+   91 default_opt: DEFAULT COLON • LCURLY variable_declaration_list commands RCURLY
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-
-    literal  go to state 195
+    LCURLY  shift, and go to state 195
 
 
 State 186
 
-   95 default_opt: DEFAULT • COLON LCURLY variable_declaration_list commands RCURLY
+   87 switch_statement: SWITCH LPAR IDENT RPAR LCURLY case default_opt RCURLY •
 
-    COLON  shift, and go to state 196
+    $default  reduce using rule 87 (switch_statement)
 
 
 State 187
 
-   91 switch_statement: SWITCH LPAR IDENT RPAR LCURLY case default_opt • RCURLY
+   82 if: IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY elseif • else
+   84 elseif: elseif • ELSE IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY
 
-    RCURLY  shift, and go to state 197
+    ELSE  shift, and go to state 196
+
+    $default  reduce using rule 85 (else)
+
+    else  go to state 197
 
 
 State 188
 
-   86 if: IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY • elseif else
+   64 while: DO LCURLY variable_declaration_list commands RCURLY WHILE LPAR condition RPAR • SEMICOLON
 
-    $default  reduce using rule 87 (elseif)
-
-    elseif  go to state 198
+    SEMICOLON  shift, and go to state 198
 
 
 State 189
 
-   68 while: DO LCURLY variable_declaration_list commands RCURLY WHILE LPAR condition • RPAR SEMICOLON
+   52 addition: expression • PLUS expression
+   53 multiplication: expression • TIMES expression
+   54 division: expression • DIV expression
+   55 subtraction: expression • MINUS expression
+   76 exp3: IDENT PLUS expression •
 
-    RPAR  shift, and go to state 199
+    PLUS   shift, and go to state 100
+    MINUS  shift, and go to state 101
+    DIV    shift, and go to state 102
+    TIMES  shift, and go to state 103
+
+    $default  reduce using rule 76 (exp3)
 
 
 State 190
 
-   80 exp3: IDENT PLUS • expression
+   52 addition: expression • PLUS expression
+   53 multiplication: expression • TIMES expression
+   54 division: expression • DIV expression
+   55 subtraction: expression • MINUS expression
+   77 exp3: IDENT MINUS expression •
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
+    PLUS   shift, and go to state 100
+    MINUS  shift, and go to state 101
+    DIV    shift, and go to state 102
+    TIMES  shift, and go to state 103
 
-    method_access       go to state 90
-    literal             go to state 91
-    expression          go to state 200
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
+    $default  reduce using rule 77 (exp3)
 
 
 State 191
 
-   81 exp3: IDENT MINUS • expression
+   52 addition: expression • PLUS expression
+   53 multiplication: expression • TIMES expression
+   54 division: expression • DIV expression
+   55 subtraction: expression • MINUS expression
+   78 exp3: IDENT DIV expression •
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
+    PLUS   shift, and go to state 100
+    MINUS  shift, and go to state 101
+    DIV    shift, and go to state 102
+    TIMES  shift, and go to state 103
 
-    method_access       go to state 90
-    literal             go to state 91
-    expression          go to state 201
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
+    $default  reduce using rule 78 (exp3)
 
 
 State 192
 
-   82 exp3: IDENT DIV • expression
+   52 addition: expression • PLUS expression
+   53 multiplication: expression • TIMES expression
+   54 division: expression • DIV expression
+   55 subtraction: expression • MINUS expression
+   79 exp3: IDENT TIMES expression •
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
+    PLUS   shift, and go to state 100
+    MINUS  shift, and go to state 101
+    DIV    shift, and go to state 102
+    TIMES  shift, and go to state 103
 
-    method_access       go to state 90
-    literal             go to state 91
-    expression          go to state 202
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
+    $default  reduce using rule 79 (exp3)
 
 
 State 193
 
-   83 exp3: IDENT TIMES • expression
+   72 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY • variable_declaration_list commands RCURLY
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
 
-    method_access       go to state 90
-    literal             go to state 91
-    expression          go to state 203
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
+    variable_declaration_list  go to state 199
+    variable_declaration       go to state 12
+    modifier                   go to state 13
 
 
 State 194
 
-   76 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR • LCURLY variable_declaration_list commands RCURLY
+   89 case: case CASE literal COLON • LCURLY variable_declaration_list commands RCURLY
 
-    LCURLY  shift, and go to state 204
+    LCURLY  shift, and go to state 200
 
 
 State 195
 
-   93 case: case CASE literal • COLON LCURLY variable_declaration_list commands RCURLY
+   91 default_opt: DEFAULT COLON LCURLY • variable_declaration_list commands RCURLY
 
-    COLON  shift, and go to state 205
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
+
+    variable_declaration_list  go to state 201
+    variable_declaration       go to state 12
+    modifier                   go to state 13
 
 
 State 196
 
-   95 default_opt: DEFAULT COLON • LCURLY variable_declaration_list commands RCURLY
+   84 elseif: elseif ELSE • IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY
+   86 else: ELSE • LCURLY variable_declaration_list commands RCURLY
 
-    LCURLY  shift, and go to state 206
+    IF      shift, and go to state 202
+    LCURLY  shift, and go to state 203
 
 
 State 197
 
-   91 switch_statement: SWITCH LPAR IDENT RPAR LCURLY case default_opt RCURLY •
+   82 if: IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY elseif else •
 
-    $default  reduce using rule 91 (switch_statement)
+    $default  reduce using rule 82 (if)
 
 
 State 198
 
-   86 if: IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY elseif • else
-   88 elseif: elseif • ELSE IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY
+   64 while: DO LCURLY variable_declaration_list commands RCURLY WHILE LPAR condition RPAR SEMICOLON •
 
-    ELSE  shift, and go to state 207
-
-    $default  reduce using rule 89 (else)
-
-    else  go to state 208
+    $default  reduce using rule 64 (while)
 
 
 State 199
 
-   68 while: DO LCURLY variable_declaration_list commands RCURLY WHILE LPAR condition RPAR • SEMICOLON
+    7 variable_declaration_list: variable_declaration_list • variable_declaration
+   72 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list • commands RCURLY
 
-    SEMICOLON  shift, and go to state 209
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
+
+    $default  reduce using rule 27 (commands)
+
+    variable_declaration  go to state 15
+    modifier              go to state 13
+    commands              go to state 204
 
 
 State 200
 
-   56 addition: expression • PLUS expression
-   57 multiplication: expression • TIMES expression
-   58 division: expression • DIV expression
-   59 subtraction: expression • MINUS expression
-   80 exp3: IDENT PLUS expression •
+   89 case: case CASE literal COLON LCURLY • variable_declaration_list commands RCURLY
 
-    PLUS   shift, and go to state 111
-    MINUS  shift, and go to state 112
-    DIV    shift, and go to state 113
-    TIMES  shift, and go to state 114
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
 
-    $default  reduce using rule 80 (exp3)
+    variable_declaration_list  go to state 205
+    variable_declaration       go to state 12
+    modifier                   go to state 13
 
 
 State 201
 
-   56 addition: expression • PLUS expression
-   57 multiplication: expression • TIMES expression
-   58 division: expression • DIV expression
-   59 subtraction: expression • MINUS expression
-   81 exp3: IDENT MINUS expression •
+    7 variable_declaration_list: variable_declaration_list • variable_declaration
+   91 default_opt: DEFAULT COLON LCURLY variable_declaration_list • commands RCURLY
 
-    PLUS   shift, and go to state 111
-    MINUS  shift, and go to state 112
-    DIV    shift, and go to state 113
-    TIMES  shift, and go to state 114
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
 
-    $default  reduce using rule 81 (exp3)
+    $default  reduce using rule 27 (commands)
+
+    variable_declaration  go to state 15
+    modifier              go to state 13
+    commands              go to state 206
 
 
 State 202
 
-   56 addition: expression • PLUS expression
-   57 multiplication: expression • TIMES expression
-   58 division: expression • DIV expression
-   59 subtraction: expression • MINUS expression
-   82 exp3: IDENT DIV expression •
+   84 elseif: elseif ELSE IF • LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY
 
-    PLUS   shift, and go to state 111
-    MINUS  shift, and go to state 112
-    DIV    shift, and go to state 113
-    TIMES  shift, and go to state 114
-
-    $default  reduce using rule 82 (exp3)
+    LPAR  shift, and go to state 207
 
 
 State 203
 
-   56 addition: expression • PLUS expression
-   57 multiplication: expression • TIMES expression
-   58 division: expression • DIV expression
-   59 subtraction: expression • MINUS expression
-   83 exp3: IDENT TIMES expression •
+   86 else: ELSE LCURLY • variable_declaration_list commands RCURLY
 
-    PLUS   shift, and go to state 111
-    MINUS  shift, and go to state 112
-    DIV    shift, and go to state 113
-    TIMES  shift, and go to state 114
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
 
-    $default  reduce using rule 83 (exp3)
+    variable_declaration_list  go to state 208
+    variable_declaration       go to state 12
+    modifier                   go to state 13
 
 
 State 204
 
-   76 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY • variable_declaration_list commands RCURLY
+   28 commands: commands • assignment
+   29         | commands • loop
+   30         | commands • control
+   31         | commands • print
+   32         | commands • return
+   33         | commands • break
+   72 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands • RCURLY
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
+    RETURN    shift, and go to state 53
+    IF        shift, and go to state 54
+    DO        shift, and go to state 55
+    FOR       shift, and go to state 56
+    SWITCH    shift, and go to state 57
+    BREAK     shift, and go to state 58
+    OUTPRINT  shift, and go to state 59
+    IDENT     shift, and go to state 60
+    RCURLY    shift, and go to state 209
 
-    variable_declaration_list  go to state 210
-    variable_declaration       go to state 14
-    modifier                   go to state 15
+    assignment        go to state 61
+    loop              go to state 62
+    while             go to state 63
+    for               go to state 64
+    control           go to state 65
+    if                go to state 66
+    switch_statement  go to state 67
+    print             go to state 68
+    return            go to state 69
+    break             go to state 70
 
 
 State 205
 
-   93 case: case CASE literal COLON • LCURLY variable_declaration_list commands RCURLY
+    7 variable_declaration_list: variable_declaration_list • variable_declaration
+   89 case: case CASE literal COLON LCURLY variable_declaration_list • commands RCURLY
 
-    LCURLY  shift, and go to state 211
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
+
+    $default  reduce using rule 27 (commands)
+
+    variable_declaration  go to state 15
+    modifier              go to state 13
+    commands              go to state 210
 
 
 State 206
 
-   95 default_opt: DEFAULT COLON LCURLY • variable_declaration_list commands RCURLY
+   28 commands: commands • assignment
+   29         | commands • loop
+   30         | commands • control
+   31         | commands • print
+   32         | commands • return
+   33         | commands • break
+   91 default_opt: DEFAULT COLON LCURLY variable_declaration_list commands • RCURLY
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
+    RETURN    shift, and go to state 53
+    IF        shift, and go to state 54
+    DO        shift, and go to state 55
+    FOR       shift, and go to state 56
+    SWITCH    shift, and go to state 57
+    BREAK     shift, and go to state 58
+    OUTPRINT  shift, and go to state 59
+    IDENT     shift, and go to state 60
+    RCURLY    shift, and go to state 211
 
-    variable_declaration_list  go to state 212
-    variable_declaration       go to state 14
-    modifier                   go to state 15
+    assignment        go to state 61
+    loop              go to state 62
+    while             go to state 63
+    for               go to state 64
+    control           go to state 65
+    if                go to state 66
+    switch_statement  go to state 67
+    print             go to state 68
+    return            go to state 69
+    break             go to state 70
 
 
 State 207
 
-   88 elseif: elseif ELSE • IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY
-   90 else: ELSE • LCURLY variable_declaration_list commands RCURLY
+   84 elseif: elseif ELSE IF LPAR • condition RPAR LCURLY variable_declaration_list commands RCURLY
 
-    IF      shift, and go to state 213
-    LCURLY  shift, and go to state 214
+    INT     shift, and go to state 72
+    CHAR    shift, and go to state 73
+    BOOL    shift, and go to state 74
+    STRING  shift, and go to state 75
+    DOUBLE  shift, and go to state 76
+    IDENT   shift, and go to state 77
+    LPAR    shift, and go to state 78
+
+    method_access       go to state 79
+    literal             go to state 80
+    expression          go to state 104
+    suntheti_parastash  go to state 82
+    addition            go to state 83
+    multiplication      go to state 84
+    division            go to state 85
+    subtraction         go to state 86
+    call_method         go to state 87
+    condition           go to state 212
 
 
 State 208
 
-   86 if: IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY elseif else •
+    7 variable_declaration_list: variable_declaration_list • variable_declaration
+   86 else: ELSE LCURLY variable_declaration_list • commands RCURLY
 
-    $default  reduce using rule 86 (if)
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
+
+    $default  reduce using rule 27 (commands)
+
+    variable_declaration  go to state 15
+    modifier              go to state 13
+    commands              go to state 213
 
 
 State 209
 
-   68 while: DO LCURLY variable_declaration_list commands RCURLY WHILE LPAR condition RPAR SEMICOLON •
+   72 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY •
 
-    $default  reduce using rule 68 (while)
+    $default  reduce using rule 72 (for)
 
 
 State 210
 
-    7 variable_declaration_list: variable_declaration_list • variable_declaration
-   76 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list • commands RCURLY
+   28 commands: commands • assignment
+   29         | commands • loop
+   30         | commands • control
+   31         | commands • print
+   32         | commands • return
+   33         | commands • break
+   89 case: case CASE literal COLON LCURLY variable_declaration_list commands • RCURLY
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
+    RETURN    shift, and go to state 53
+    IF        shift, and go to state 54
+    DO        shift, and go to state 55
+    FOR       shift, and go to state 56
+    SWITCH    shift, and go to state 57
+    BREAK     shift, and go to state 58
+    OUTPRINT  shift, and go to state 59
+    IDENT     shift, and go to state 60
+    RCURLY    shift, and go to state 214
 
-    $default  reduce using rule 31 (commands)
-
-    variable_declaration  go to state 19
-    modifier              go to state 15
-    commands              go to state 215
+    assignment        go to state 61
+    loop              go to state 62
+    while             go to state 63
+    for               go to state 64
+    control           go to state 65
+    if                go to state 66
+    switch_statement  go to state 67
+    print             go to state 68
+    return            go to state 69
+    break             go to state 70
 
 
 State 211
 
-   93 case: case CASE literal COLON LCURLY • variable_declaration_list commands RCURLY
+   91 default_opt: DEFAULT COLON LCURLY variable_declaration_list commands RCURLY •
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
-
-    variable_declaration_list  go to state 216
-    variable_declaration       go to state 14
-    modifier                   go to state 15
+    $default  reduce using rule 91 (default_opt)
 
 
 State 212
 
-    7 variable_declaration_list: variable_declaration_list • variable_declaration
-   95 default_opt: DEFAULT COLON LCURLY variable_declaration_list • commands RCURLY
+   84 elseif: elseif ELSE IF LPAR condition • RPAR LCURLY variable_declaration_list commands RCURLY
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
-
-    $default  reduce using rule 31 (commands)
-
-    variable_declaration  go to state 19
-    modifier              go to state 15
-    commands              go to state 217
+    RPAR  shift, and go to state 215
 
 
 State 213
 
-   88 elseif: elseif ELSE IF • LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY
+   28 commands: commands • assignment
+   29         | commands • loop
+   30         | commands • control
+   31         | commands • print
+   32         | commands • return
+   33         | commands • break
+   86 else: ELSE LCURLY variable_declaration_list commands • RCURLY
 
-    LPAR  shift, and go to state 218
+    RETURN    shift, and go to state 53
+    IF        shift, and go to state 54
+    DO        shift, and go to state 55
+    FOR       shift, and go to state 56
+    SWITCH    shift, and go to state 57
+    BREAK     shift, and go to state 58
+    OUTPRINT  shift, and go to state 59
+    IDENT     shift, and go to state 60
+    RCURLY    shift, and go to state 216
+
+    assignment        go to state 61
+    loop              go to state 62
+    while             go to state 63
+    for               go to state 64
+    control           go to state 65
+    if                go to state 66
+    switch_statement  go to state 67
+    print             go to state 68
+    return            go to state 69
+    break             go to state 70
 
 
 State 214
 
-   90 else: ELSE LCURLY • variable_declaration_list commands RCURLY
+   89 case: case CASE literal COLON LCURLY variable_declaration_list commands RCURLY •
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
-
-    variable_declaration_list  go to state 219
-    variable_declaration       go to state 14
-    modifier                   go to state 15
+    $default  reduce using rule 89 (case)
 
 
 State 215
 
-   32 commands: commands • assignment
-   33         | commands • loop
-   34         | commands • control
-   35         | commands • print
-   36         | commands • return
-   37         | commands • break
-   76 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands • RCURLY
+   84 elseif: elseif ELSE IF LPAR condition RPAR • LCURLY variable_declaration_list commands RCURLY
 
-    RETURN    shift, and go to state 64
-    IF        shift, and go to state 65
-    DO        shift, and go to state 66
-    FOR       shift, and go to state 67
-    SWITCH    shift, and go to state 68
-    BREAK     shift, and go to state 69
-    OUTPRINT  shift, and go to state 70
-    IDENT     shift, and go to state 71
-    RCURLY    shift, and go to state 220
-
-    assignment        go to state 72
-    loop              go to state 73
-    while             go to state 74
-    for               go to state 75
-    control           go to state 76
-    if                go to state 77
-    switch_statement  go to state 78
-    print             go to state 79
-    return            go to state 80
-    break             go to state 81
+    LCURLY  shift, and go to state 217
 
 
 State 216
 
-    7 variable_declaration_list: variable_declaration_list • variable_declaration
-   93 case: case CASE literal COLON LCURLY variable_declaration_list • commands RCURLY
+   86 else: ELSE LCURLY variable_declaration_list commands RCURLY •
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
-
-    $default  reduce using rule 31 (commands)
-
-    variable_declaration  go to state 19
-    modifier              go to state 15
-    commands              go to state 221
+    $default  reduce using rule 86 (else)
 
 
 State 217
 
-   32 commands: commands • assignment
-   33         | commands • loop
-   34         | commands • control
-   35         | commands • print
-   36         | commands • return
-   37         | commands • break
-   95 default_opt: DEFAULT COLON LCURLY variable_declaration_list commands • RCURLY
+   84 elseif: elseif ELSE IF LPAR condition RPAR LCURLY • variable_declaration_list commands RCURLY
 
-    RETURN    shift, and go to state 64
-    IF        shift, and go to state 65
-    DO        shift, and go to state 66
-    FOR       shift, and go to state 67
-    SWITCH    shift, and go to state 68
-    BREAK     shift, and go to state 69
-    OUTPRINT  shift, and go to state 70
-    IDENT     shift, and go to state 71
-    RCURLY    shift, and go to state 222
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
 
-    assignment        go to state 72
-    loop              go to state 73
-    while             go to state 74
-    for               go to state 75
-    control           go to state 76
-    if                go to state 77
-    switch_statement  go to state 78
-    print             go to state 79
-    return            go to state 80
-    break             go to state 81
+    variable_declaration_list  go to state 218
+    variable_declaration       go to state 12
+    modifier                   go to state 13
 
 
 State 218
 
-   88 elseif: elseif ELSE IF LPAR • condition RPAR LCURLY variable_declaration_list commands RCURLY
+    7 variable_declaration_list: variable_declaration_list • variable_declaration
+   84 elseif: elseif ELSE IF LPAR condition RPAR LCURLY variable_declaration_list • commands RCURLY
 
-    INT     shift, and go to state 83
-    CHAR    shift, and go to state 84
-    BOOL    shift, and go to state 85
-    STRING  shift, and go to state 86
-    DOUBLE  shift, and go to state 87
-    IDENT   shift, and go to state 88
-    LPAR    shift, and go to state 89
+    PRIVATE  shift, and go to state 8
+    PUBLIC   shift, and go to state 9
 
-    method_access       go to state 90
-    literal             go to state 91
-    expression          go to state 115
-    suntheti_parastash  go to state 93
-    addition            go to state 94
-    multiplication      go to state 95
-    division            go to state 96
-    subtraction         go to state 97
-    call_method         go to state 98
-    condition           go to state 223
+    $default  reduce using rule 27 (commands)
+
+    variable_declaration  go to state 15
+    modifier              go to state 13
+    commands              go to state 219
 
 
 State 219
 
-    7 variable_declaration_list: variable_declaration_list • variable_declaration
-   90 else: ELSE LCURLY variable_declaration_list • commands RCURLY
+   28 commands: commands • assignment
+   29         | commands • loop
+   30         | commands • control
+   31         | commands • print
+   32         | commands • return
+   33         | commands • break
+   84 elseif: elseif ELSE IF LPAR condition RPAR LCURLY variable_declaration_list commands • RCURLY
 
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
+    RETURN    shift, and go to state 53
+    IF        shift, and go to state 54
+    DO        shift, and go to state 55
+    FOR       shift, and go to state 56
+    SWITCH    shift, and go to state 57
+    BREAK     shift, and go to state 58
+    OUTPRINT  shift, and go to state 59
+    IDENT     shift, and go to state 60
+    RCURLY    shift, and go to state 220
 
-    $default  reduce using rule 31 (commands)
-
-    variable_declaration  go to state 19
-    modifier              go to state 15
-    commands              go to state 224
+    assignment        go to state 61
+    loop              go to state 62
+    while             go to state 63
+    for               go to state 64
+    control           go to state 65
+    if                go to state 66
+    switch_statement  go to state 67
+    print             go to state 68
+    return            go to state 69
+    break             go to state 70
 
 
 State 220
 
-   76 for: FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY •
+   84 elseif: elseif ELSE IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY •
 
-    $default  reduce using rule 76 (for)
-
-
-State 221
-
-   32 commands: commands • assignment
-   33         | commands • loop
-   34         | commands • control
-   35         | commands • print
-   36         | commands • return
-   37         | commands • break
-   93 case: case CASE literal COLON LCURLY variable_declaration_list commands • RCURLY
-
-    RETURN    shift, and go to state 64
-    IF        shift, and go to state 65
-    DO        shift, and go to state 66
-    FOR       shift, and go to state 67
-    SWITCH    shift, and go to state 68
-    BREAK     shift, and go to state 69
-    OUTPRINT  shift, and go to state 70
-    IDENT     shift, and go to state 71
-    RCURLY    shift, and go to state 225
-
-    assignment        go to state 72
-    loop              go to state 73
-    while             go to state 74
-    for               go to state 75
-    control           go to state 76
-    if                go to state 77
-    switch_statement  go to state 78
-    print             go to state 79
-    return            go to state 80
-    break             go to state 81
-
-
-State 222
-
-   95 default_opt: DEFAULT COLON LCURLY variable_declaration_list commands RCURLY •
-
-    $default  reduce using rule 95 (default_opt)
-
-
-State 223
-
-   88 elseif: elseif ELSE IF LPAR condition • RPAR LCURLY variable_declaration_list commands RCURLY
-
-    RPAR  shift, and go to state 226
-
-
-State 224
-
-   32 commands: commands • assignment
-   33         | commands • loop
-   34         | commands • control
-   35         | commands • print
-   36         | commands • return
-   37         | commands • break
-   90 else: ELSE LCURLY variable_declaration_list commands • RCURLY
-
-    RETURN    shift, and go to state 64
-    IF        shift, and go to state 65
-    DO        shift, and go to state 66
-    FOR       shift, and go to state 67
-    SWITCH    shift, and go to state 68
-    BREAK     shift, and go to state 69
-    OUTPRINT  shift, and go to state 70
-    IDENT     shift, and go to state 71
-    RCURLY    shift, and go to state 227
-
-    assignment        go to state 72
-    loop              go to state 73
-    while             go to state 74
-    for               go to state 75
-    control           go to state 76
-    if                go to state 77
-    switch_statement  go to state 78
-    print             go to state 79
-    return            go to state 80
-    break             go to state 81
-
-
-State 225
-
-   93 case: case CASE literal COLON LCURLY variable_declaration_list commands RCURLY •
-
-    $default  reduce using rule 93 (case)
-
-
-State 226
-
-   88 elseif: elseif ELSE IF LPAR condition RPAR • LCURLY variable_declaration_list commands RCURLY
-
-    LCURLY  shift, and go to state 228
-
-
-State 227
-
-   90 else: ELSE LCURLY variable_declaration_list commands RCURLY •
-
-    $default  reduce using rule 90 (else)
-
-
-State 228
-
-   88 elseif: elseif ELSE IF LPAR condition RPAR LCURLY • variable_declaration_list commands RCURLY
-
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
-
-    variable_declaration_list  go to state 229
-    variable_declaration       go to state 14
-    modifier                   go to state 15
-
-
-State 229
-
-    7 variable_declaration_list: variable_declaration_list • variable_declaration
-   88 elseif: elseif ELSE IF LPAR condition RPAR LCURLY variable_declaration_list • commands RCURLY
-
-    DATATYPE    shift, and go to state 8
-    PRIVATE     shift, and go to state 9
-    PUBLIC      shift, and go to state 10
-    CLASS_NAME  shift, and go to state 12
-
-    $default  reduce using rule 31 (commands)
-
-    variable_declaration  go to state 19
-    modifier              go to state 15
-    commands              go to state 230
-
-
-State 230
-
-   32 commands: commands • assignment
-   33         | commands • loop
-   34         | commands • control
-   35         | commands • print
-   36         | commands • return
-   37         | commands • break
-   88 elseif: elseif ELSE IF LPAR condition RPAR LCURLY variable_declaration_list commands • RCURLY
-
-    RETURN    shift, and go to state 64
-    IF        shift, and go to state 65
-    DO        shift, and go to state 66
-    FOR       shift, and go to state 67
-    SWITCH    shift, and go to state 68
-    BREAK     shift, and go to state 69
-    OUTPRINT  shift, and go to state 70
-    IDENT     shift, and go to state 71
-    RCURLY    shift, and go to state 231
-
-    assignment        go to state 72
-    loop              go to state 73
-    while             go to state 74
-    for               go to state 75
-    control           go to state 76
-    if                go to state 77
-    switch_statement  go to state 78
-    print             go to state 79
-    return            go to state 80
-    break             go to state 81
-
-
-State 231
-
-   88 elseif: elseif ELSE IF LPAR condition RPAR LCURLY variable_declaration_list commands RCURLY •
-
-    $default  reduce using rule 88 (elseif)
+    $default  reduce using rule 84 (elseif)

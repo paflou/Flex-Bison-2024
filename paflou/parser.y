@@ -26,6 +26,8 @@
 %token IDENT LCURLY RCURLY CLASS CLASS_NAME LPAR RPAR COLON DOT SEMICOLON EQUALS
 %left PLUS MINUS DIV TIMES
 %token COMMA
+%precedence RETURN_TYPE_PREC
+%precedence TYPE_PREC
 
 %%
 
@@ -38,19 +40,21 @@ class:
         | PUBLIC CLASS CLASS_NAME LCURLY RCURLY                                         
         | PUBLIC CLASS CLASS_NAME LCURLY variable_declaration_list RCURLY                    
 
-
-
 variable_declaration_list:
           variable_declaration                                 
         | variable_declaration_list variable_declaration       
 
+type_or_return_type:
+    DATATYPE
+    | CLASS_NAME
+    | VOID;
 
+variable_declaration:
+    modifier type_or_return_type IDENT SEMICOLON;
 
-variable_declaration: 
-                     DATATYPE IDENT SEMICOLON             
-                    | modifier DATATYPE IDENT SEMICOLON     
-                    | CLASS_NAME IDENT SEMICOLON
-                    |   modifier CLASS_NAME IDENT SEMICOLON
+method_declaration:
+    modifier secondary_modifier type_or_return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
+    | modifier type_or_return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY;
 
 modifier:
          PUBLIC
@@ -59,16 +63,6 @@ modifier:
 
 method_access:
                     IDENT DOT IDENT 
-
-
-method_declaration:
-                      modifier secondary_modifier return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
-                    |  modifier return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
-
-return_type:
-                    | DATATYPE
-                    | CLASS_NAME
-                    | VOID
 
 secondary_modifier:
                          STATIC
