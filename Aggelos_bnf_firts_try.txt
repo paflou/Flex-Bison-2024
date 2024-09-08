@@ -1,4 +1,4 @@
-<program> ::= <class> {<class>}
+<program> ::= <program> class | e
 
 <identifier> ::= (<letter> | "_") { <letter> | <digit> | "_" } 
 <letter> ::= "A" | "B" | "C" | ... | "Z" | "a" | "b" | "c" | ... | "z"

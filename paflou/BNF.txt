@@ -1,0 +1,129 @@
+<small_letter> ::= "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" 
+                 | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+<capital_letter> ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" 
+                   | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+
+<letter> ::= <small_letter> | <capital_letter>
+<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+
+<special_character> ::= "!" | "#" | "$" | "%" | "&" | "(" | ")" | "*" | "+" | "," | "-" | "." | "/" | ":" | ";" | "<" | "=" | ">" | "?" | "@" | "[" | "]" | "^" | "_" | "`" | "{" | "|" | "}" | "~"
+<escape_sequence> ::= "\n" | "\t" | "\r" | "\b" | "\f" | "\"" | "\'" | "\\"
+
+
+<int> ::= <digit> <int> | <digit>
+<char> ::= "'" (<letter> | <special_character> | <escape_sequence> ) "'"
+<double> ::= <int> "." <int> "d"
+<boolean> ::= "true" | "false"
+
+<string> ::= '"' <string_characters> '"'
+<string_characters> ::= <string_character> <string_characters> | e
+<string_character> ::= <letter> | <digit> | <special_character> | <escape_sequence> | " "
+
+
+<program> ::= <class> <program> | e
+
+<class> ::= 'public' 'class' <class_name> '{' <variable_declaration_list> <method_declaration> '}'
+         | 'public' 'class' <class_name> '{' '}'
+         | 'public' 'class' <class_name> '{' <variable_declaration_list> '}'
+
+<class_name> ::= <capital_letter> <class_identity>
+
+<class_identity> ::= <letter> <class_identity> | <digit> <class_identity> | '_' <class_identity> | e
+
+<variable_declaration_list> ::= <variable_declaration> | <variable_declaration_list> <variable_declaration> | e
+
+<variable_declaration> ::= <data_type> <identifier> ';'
+                        |  <modifier> <data_type> <identifier> ';'
+                        |  <class_name> <identifier> ';'
+                        |  <modifier> <class_name> <identifier> ';'
+
+
+<data_type> ::= "int" | "char" | "String" | "double" | "boolean"
+<modifier> ::= "public" | "private"
+<secondary_modifier> ::= "static" | "abstract" |  "final" |  "native" | "synchronized"
+
+<identifier> ::= <letter_or_underscore> <identifier_body>
+
+<letter_or_underscore> ::= <letter> | "_"
+
+<identifier_body> ::= (<letter> | <digit> | "_" ) <identifier_body> | e
+
+
+<method_access> ::= <identifier> "." <identifier>
+
+
+<method_declaration> ::= <modifier> <secondary_modifier> <return_type> <identifier> "(" "{" <parameter_list> ")" <method_body> "}"
+
+<return_type> ::= <data_type> | <class_name> | "void" | e
+
+<parameter_list> ::= <data_type> <identifier> | <parameter_list> "," <data_type> <identifier> | e
+
+<method_body> ::= <variable_declaration_list> <commands> | <commands>
+
+<commands> ::= <commands> <command> | e 
+
+<command> ::= <assignment> | <loop> | <control> | <print> | <return> | <break>
+
+<assignment>::= <identifier> '=' <expression> ';' |  <identifier> '=' <object_creation> ';'
+
+<object_creation>::= "new" class_name "()"
+
+<literal>::= <int> | <char> | <String> | <boolean> | <double>
+
+<expression> ::= <literal> | <suntheti_parastash>
+
+<suntheti_parastash> ::= <addition> | <identifier> | <multiplication> | <division> | <subtraction> | '(' <expression> ')' | <call_method> | <method_access>
+
+
+<addition> ::= <expression> '+' <expression>
+
+<multiplication> ::= <expression> '*' <expression>
+
+<division> ::= <expression> '/' <expression>
+
+<subtraction> ::= <expression> '-' <expression>
+
+<call_method> ::= <identifier> '(' <arguement_list> ')' | <identifier> "()"
+
+<arguement_list> ::= <identifier> | <arguement_list> ',' <literal> | <arguement_list> ',' <identifier> | <literal>
+
+<loop> ::= <while> | <for>
+
+<while> ::= "do" '{' <variable_declaration_list> <commands> '}' "while" '(' <condition> ')' ';'
+
+<condition> ::= <expression> <conop> <expression> | <expression>
+
+<conop> ::= "||" | "&&" | "==" | "!=" | ">" | ">=" | "<" | "<="
+
+<for> ::= "for" '(' <exp1> ';' <exp2> ';' <exp3> ')' '{' <variable_declaration_list> <commands> '}'
+
+<exp1> ::= <data_type> <identifier> '=' <literal> | <identifier> '=' <literal>
+
+<exp2> ::= <identifier> <conop> <literal>
+
+<exp3> ::= <identifier> '+' <expression>
+        |  <identifier> '-' <expression>
+        |  <identifier> '/' <expression>
+        |  <identifier> '*' <expression>
+
+<control> ::= <if> | <switch_statement>
+
+<if> ::= "if" '(' <condition> ')' '{' <variable_declaration_list> <commands> '}' <elseif> <else>
+
+<esleif> ::= <elseif> "else if" '(' <condition> ')' '{' <variable_declaration_list> <commands> '}' | e
+
+<else> ::= "else" '{' <variable_declaration_list> <commands> '}'
+
+<switch_statement> ::= "switch" '(' <identifier> ')' '{' <case> <default_opt> '}'
+
+<case> ::= <case> "case" <literal> ':' '{' <variable_declaration_list> <commands> '}' | e
+
+<default_opt> ::= "default" ':' '{' <variable_declaration_list> <commands> '}'
+
+<print> ::= "out.print" '(' <String> ')' ';' | "out.print" '(' <String>  <ident_list>')' ';' 
+
+<ident_list> ::= ',' <identifier> | <ident_list> ',' <identifier>
+
+<return> ::= "return" <expression> ';'
+
+<break> ::= "break" ';'

@@ -3,6 +3,9 @@ public class K1c {
 	int x;
 	Myclass z;
 
+	public void kiman(){
+		
+	}
 	public static void main(String args) {
 		private int y;
 		int x;

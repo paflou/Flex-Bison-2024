@@ -76,6 +76,7 @@ IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 "="                             { return EQUALS; }
 "("                             { return LPAR; }
 ")"                             { return RPAR; }
+
 "||"                            { return OROP; }
 "&&"                            { return ANDOP; }
 "=="|"!="                       { return EQUOP; }

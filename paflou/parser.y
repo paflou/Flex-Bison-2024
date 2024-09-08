@@ -57,12 +57,13 @@ modifier:
         | PRIVATE
 
 
-object_access:
+method_access:
                     IDENT DOT IDENT 
 
 
 method_declaration:
                       modifier secondary_modifier return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
+                    |  modifier return_type IDENT LPAR parameter_list RPAR LCURLY method_body RCURLY
 
 return_type:
                     | DATATYPE
@@ -70,7 +71,7 @@ return_type:
                     | VOID
 
 secondary_modifier:
-                        STATIC
+                         STATIC
                         | ABSTRACT
                         | FINAL
                         | NATIVE
@@ -121,7 +122,7 @@ suntheti_parastash:
                 | subtraction
                 | LPAR expression RPAR
                 | call_method
-                | object_access
+                | method_access
 
 addition:
         expression PLUS expression

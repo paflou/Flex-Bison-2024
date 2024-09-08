@@ -1132,47 +1132,47 @@ YY_RULE_SETUP
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 79 "lexer.l"
+#line 80 "lexer.l"
 { return OROP; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 80 "lexer.l"
+#line 81 "lexer.l"
 { return ANDOP; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 81 "lexer.l"
+#line 82 "lexer.l"
 { return EQUOP; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 82 "lexer.l"
+#line 83 "lexer.l"
 { return RELOP; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 84 "lexer.l"
+#line 85 "lexer.l"
 { return OUTPRINT; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 85 "lexer.l"
+#line 86 "lexer.l"
 { return IDENT; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 87 "lexer.l"
+#line 88 "lexer.l"
 { /* Ignore whitespace */ }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 88 "lexer.l"
+#line 89 "lexer.l"
 { fprintf(stderr, "Unexpected character: %s at line %d\n", yytext, yylineno); }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 89 "lexer.l"
+#line 90 "lexer.l"
 ECHO;
 	YY_BREAK
 #line 1178 "lex.yy.c"
@@ -2180,4 +2180,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 89 "lexer.l"
+#line 90 "lexer.l"
