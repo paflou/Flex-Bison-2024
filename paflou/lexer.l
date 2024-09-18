@@ -25,6 +25,7 @@ IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 "."         { return DOT; }
 ","         { return COMMA; }
 ":"         { return COLON; }
+
 "int"       { return DATATYPE; }
 "char"      { return DATATYPE; }
 "double"    { return DATATYPE; }
@@ -53,10 +54,10 @@ IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 "native"    { return NATIVE; }
 "synchronized" { return SYNCHRONIZED; }
 
-"//".*                  { /* Ignore single-line comments */ }
-"/*"([^*]|\*+[^*/])*"*"+"/"  { /* Ignore multi-line comments */ }
+"//".*                          {}
+"/*"([^*]|\*+[^*/])*"*"+"/"     {}
 
-[A-Z][a-zA-Z0-9_]*              { return CLASS_NAME; }
+[A-Z][a-zA-Z0-9_]+              { return CLASS_NAME; }
 
 "class"                         { return CLASS; }
 "{"                             { return LCURLY; }
@@ -85,5 +86,5 @@ IDENT           ({LETTER}|_)({LETTER}|{INT}|_)*
 "out.print"                     { return OUTPRINT; }
 {IDENT}                         { return IDENT; }
 
-[ \t]+                        { /* Ignore whitespace */ }
-.                               { fprintf(stderr, "Unexpected character: %s at line %d\n", yytext, yylineno); }
+[ \t]+                          {}
+.                               {}

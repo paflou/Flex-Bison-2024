@@ -54,14 +54,14 @@ variable_declaration_list:
           variable_declaration                                 
         | variable_declaration_list variable_declaration       
 
+variable_declaration:
+    modifier return_type IDENT SEMICOLON
+    | return_type IDENT SEMICOLON
+
 return_type:
     DATATYPE
     | CLASS_NAME
     | VOID;
-
-variable_declaration:
-    modifier return_type IDENT SEMICOLON
-    | return_type IDENT SEMICOLON
 
 methods: 
                      method_declaration
@@ -178,19 +178,20 @@ for:
                           FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY variable_declaration_list commands RCURLY                 
                         | FOR LPAR exp1 SEMICOLON exp2 SEMICOLON exp3 RPAR LCURLY commands RCURLY                 
 
+//maybe literal?
 exp1:
-                        DATATYPE IDENT EQUALS literal
-                    |   IDENT EQUALS literal
+                        DATATYPE IDENT EQUALS expression
+                    |   IDENT EQUALS expression
 
 exp2:
-                        IDENT conop literal
+                         IDENT conop expression
+
 exp3:
                           IDENT PLUS expression
                         | IDENT MINUS expression
                         | IDENT DIV expression
                         | IDENT TIMES expression
                         
-
 
 control:
                         if
@@ -219,8 +220,7 @@ case:
 ;
 
 default_opt:
-    /* empty */
-    | DEFAULT COLON variable_declaration_list commands
+     DEFAULT COLON variable_declaration_list commands
     | DEFAULT COLON commands
 ;
 
@@ -250,6 +250,7 @@ void yyerror(const char *s) {
 
 int main(int argc, char* argv[]) {
 
+    char ch;
     int token; 
     yyin = fopen(argv[1], "r"); 
                                 
@@ -258,17 +259,16 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    char ch;
-    while ((ch = fgetc(yyin)) != EOF) {
-        putchar(ch);
-    }
-
-    rewind(yyin);
-
     yyparse();
-    fclose(yyin);
 
-    if(flag==0)
+    if(flag==0) {
+        rewind(yyin);
+
+        while ((ch = fgetc(yyin)) != EOF) {
+            putchar(ch);
+        }
         printf("\n\n\nProgram terminated successfully.\n");
+    }
+        fclose(yyin);
     return 0;
 }
